@@ -49,7 +49,7 @@ services:
     networks:
       - defender
     ports:
-      - 8081:88
+      - 8081:80
     links:
       - db
     environment:
