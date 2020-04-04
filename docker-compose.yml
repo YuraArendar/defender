@@ -65,6 +65,14 @@ services:
     working_dir: /code
     command: composer install
 
+  nodejs:
+    image: node:latest
+    networks:
+      - defender
+    volumes:
+      - ./:/code
+    working_dir: /code
+
 networks:
   defender:
     ipam:

@@ -17,6 +17,12 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment() !== 'production') {
             $this->app->register(IdeHelperServiceProvider::class);
         }
+
+        if (is_admin_path()) {
+            $this->app->register(AdminServiceProvider::class);
+        } else {
+            $this->app->register(SiteServiceProvider::class);
+        }
     }
 
     /**
