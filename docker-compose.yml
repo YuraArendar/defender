@@ -1,0 +1,73 @@
+version: '3'
+
+volumes:
+  bd-data:
+
+services:
+  web:
+    image: nginx:latest
+    networks:
+      - defender
+    ports:
+      - 80:80
+      - 8080:8080
+    volumes:
+      - ./:/code
+      - ./docker/web/conf.d:/etc/nginx/conf.d
+      - ./docker/web/logs/:/var/log/nginx/
+    links:
+      - php
+
+  php:
+    build: ./docker/web
+    networks:
+      - defender
+    working_dir: /code
+    volumes:
+      - ./:/code
+
+  db:
+    image: mariadb
+    restart: always
+    networks:
+      - defender
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_ALLOW_EMPTY_PASSWORD: null
+      MYSQL_RANDOM_ROOT_PASSWORD: null
+    volumes:
+      - bd-data:/var/lib/mysql
+
+  phpadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    networks:
+      - defender
+    ports:
+      - 8081:88
+    links:
+      - db
+    environment:
+      PMA_PASSWORD: ${DB_PASSWORD}
+      PMA_USER: ${DB_USERNAME}
+
+  composer:
+    image: composer:1.6
+    networks:
+      - defender
+    volumes:
+      - ./:/code
+    working_dir: /code
+    command: composer install
+
+networks:
+  defender:
+    ipam:
+      driver: default
+      config:
+        - subnet: "${DOCKER_SUBNET_IP}"
