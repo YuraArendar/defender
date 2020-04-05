@@ -1,8 +1,9 @@
 <?php
 
+Route::post('/login', 'AuthController@issueToken')->middleware('admin.login');
 
-Route::get('/', function () {
-    echo 123;
+Route::middleware('auth:api')->prefix('api')->group(function () {
+    Route::get('/user', 'Api\IndexController@getUser');
 });
 
 

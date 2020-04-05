@@ -77,8 +77,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebAdminRoutes(): void
     {
-        Route::middleware('web')
-            ->namespace($this->adminNamespace)
+        Route::namespace($this->adminNamespace)
             ->domain('admin.' . env('APP_HOST'))
             ->group(base_path('routes/admin.php'));
     }
