@@ -10,7 +10,6 @@ services:
       - defender
     ports:
       - 80:80
-      - 8080:8080
     volumes:
       - ./:/code
       - ./docker/web/conf.d:/etc/nginx/conf.d
