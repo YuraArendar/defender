@@ -4,8 +4,9 @@ import {SET_API_KEY} from "./mutations";
 import {LOGIN} from "./actions";
 
 export default {
+    namespaced: true,
     state: {
-        api_key: localStorage.getItem('api_key')
+        api_key: localStorage.getItem('api_key') || null
     },
     mutations: {
         [SET_API_KEY](state, key) {

@@ -2,7 +2,6 @@
     <div>
         <section class="section">
             <div class="columns is-centered">
-
                 <div class="column is-one-third">
                     <div class="card">
                         <header class="card-header">
@@ -32,7 +31,7 @@
 
                             <div class="field">
                                 <div class="control">
-                                    <button class="button is-fullwidth is-primary" @click="login">Login</button>
+                                    <button class="button is-fullwidth is-primary" @click="authorization">Login</button>
                                 </div>
                             </div>
                         </div>
@@ -44,10 +43,13 @@
 </template>
 
 <script>
-    import {LOGIN} from "../../../store/actions";
+    import auth from '../../../mixins/api/auth';
+    import user from '../../../mixins/api/user';
+    import {SER_USER_EMAIL, SET_USER_NAME} from "../../../store/user/mutations";
+    import {mapMutations} from "vuex";
 
     export default {
-        name: "login",
+        mixins: [auth, user],
         data() {
             return {
                 credentials: {
@@ -57,20 +59,29 @@
                 loginError: false
             }
         },
+        created() {
+            if (this.$store.state.app.api_key !== null) {
+                this.$router.push({name: 'main'});
+            }
+        },
         methods: {
-            login() {
-                this.$store.dispatch(LOGIN, this.credentials)
+            ...mapMutations('user', [SER_USER_EMAIL, SET_USER_NAME]),
+            authorization() {
+                this.login(this.credentials.username, this.credentials.password)
                 .then(data => {
                     this.loginError = false;
-                    console.log(data)
+                    this.getUserInfo()
+                        .then(response => {
+                            this[SET_USER_NAME](response.data.name);
+                            this[SER_USER_EMAIL](response.data.email);
+                            this.$router.push({name: 'main'});
+                        });
                 })
                 .catch(error => {
                     this.loginError = true;
-                    console.log(error);
                 })
             },
             closeAlert() {
-                console.log('fdfsd');
                 this.loginError = false;
             }
         }
