@@ -9,6 +9,6 @@
     </head>
     <body>
         <div id="app"></div>
-        <script async type="text/javascript" src="/js/admin/app.js"></script>
+        <script async type="text/javascript" src="{{url(mix('/js/admin/app.js'))}}"></script>
     </body>
 </html>
