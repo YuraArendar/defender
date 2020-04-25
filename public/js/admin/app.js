@@ -2429,6 +2429,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "edit-form"
 });
@@ -4137,7 +4140,7 @@ var render = function() {
     _c(
       "nav",
       {
-        staticClass: "navbar is-four-fifths has-background-white-bis",
+        staticClass: "navbar is-four-fifths has-background-white-ter",
         attrs: { role: "navigation", "aria-label": "main navigation" }
       },
       [
@@ -4316,6 +4319,10 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "panel" }, [
+      _c("div", { staticClass: "panel-heading" }, [
+        _vm._v("\n        Site structure\n    ")
+      ]),
+      _vm._v(" "),
       _c("div", { staticClass: "form-group" }, [
         _c("div", { staticClass: "field" }, [
           _c("label", { staticClass: "label" }, [_vm._v("Name")]),

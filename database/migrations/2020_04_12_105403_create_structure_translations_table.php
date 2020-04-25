@@ -15,11 +15,12 @@ class CreateStructureTranslationsTable extends Migration
     {
         Schema::create('structure_translations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('structure_id')->index();
-            $table->string('language', 2)->index();
+            $table->integer('structure_id')->unsigned()->index();
+            $table->string('locale', 2)->index();
             $table->string('name');
             $table->text('content')->nullable();
-            $table->timestamps();
+
+            $table->unique(['structure_id','locale']);
             $table->foreign('structure_id')
                 ->references('id')
                 ->on('structures')

@@ -14,7 +14,7 @@ class CreateStructuresTable extends Migration
      */
     public function up()
     {
-        Schema::create('structures', function (Blueprint $table) {
+        Schema::create('structures', static function (Blueprint $table) {
             $table->id();
             $table->string('alias');
             $table->string('template', 12);
