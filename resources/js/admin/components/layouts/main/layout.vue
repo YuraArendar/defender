@@ -18,7 +18,7 @@
                 <div id="navbar" class="navbar-menu">
                     <div class="navbar-start">
                         <router-link class="navbar-item" :to="{name: 'dashboard'}">Dashboard</router-link>
-                        <router-link class="navbar-item" :to="{name: 'structure'}">Structure</router-link>
+                        <router-link class="navbar-item" :to="{name: 'index_structure'}">Structure</router-link>
 
 
                         <div class="navbar-item has-dropdown is-hoverable">

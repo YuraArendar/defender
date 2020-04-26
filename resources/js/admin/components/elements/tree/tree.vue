@@ -1,10 +1,10 @@
 <template>
     <aside class="panel">
         <p class="panel-heading">
-            {{tree.name}}
+            {{name}}
         </p>
         <ul class="menu-list">
-            <folder v-if="tree.children" v-for="child in tree.children" :key="child.id" :folder="child"/>
+            <folder v-for="item in tree" :key="item.id" :folder="item" @click="onClick"/>
         </ul>
     </aside>
 </template>
@@ -17,14 +17,19 @@
         props: {
             tree: {
                 required: true,
-                type: Object
             },
+            name: {
+                required: false,
+                type: String
+            }
         },
         components: {
             folder
         },
         methods: {
-
+            onClick(event) {
+                this.$emit('click', event)
+            }
         }
     }
 </script>

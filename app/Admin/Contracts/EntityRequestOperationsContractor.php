@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 interface EntityRequestOperationsContractor
 {
+    public const ALIAS_RULE = 'required|regex:/^[a-z0-9-]+$/|max:255|unique:structures';
+
     /**
      * Get data to be validated from the request.
      *

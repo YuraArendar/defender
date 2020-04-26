@@ -4,7 +4,7 @@
             <li>
                 <a href="#">
         <span class="icon is-small">
-          <i class="fa fa-home" aria-hidden="true"></i>
+            <font-awesome-icon icon="home"/>
         </span>
                     <span>Bulma</span>
                 </a>
@@ -12,7 +12,7 @@
             <li>
                 <a href="#">
         <span class="icon is-small">
-          <i class="fa fa-book" aria-hidden="true"></i>
+            <font-awesome-icon icon="book"/>
         </span>
                     <span>Documentation</span>
                 </a>
@@ -20,7 +20,7 @@
             <li>
                 <a href="#">
         <span class="icon is-small">
-          <i class="fa fa-puzzle-piece" aria-hidden="true"></i>
+            <font-awesome-icon icon="puzzle-piece"/>
         </span>
                     <span>Components</span>
                 </a>
@@ -28,7 +28,7 @@
             <li class="is-active">
                 <a href="#">
         <span class="icon is-small">
-          <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+            <font-awesome-icon icon="thumbs-up"/>
         </span>
                     <span>Breadcrumb</span>
                 </a>

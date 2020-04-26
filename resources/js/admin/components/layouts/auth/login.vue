@@ -61,7 +61,7 @@
         },
         created() {
             if (this.$store.state.app.api_key !== null) {
-                this.$router.push({name: 'main'});
+                this.$router.push({name: 'dashboard'});
             }
         },
         methods: {
@@ -74,7 +74,7 @@
                         .then(response => {
                             this[SET_USER_NAME](response.data.name);
                             this[SER_USER_EMAIL](response.data.email);
-                            this.$router.push({name: 'main'});
+                            this.$router.push({name: 'dashboard'});
                         });
                 })
                 .catch(error => {

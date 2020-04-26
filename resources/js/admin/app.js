@@ -4,7 +4,17 @@ import VueAxios from 'vue-axios';
 import axios from 'axios';
 import Vuex from 'vuex';
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
 import App  from './components/App';
+
+library.add(fas);
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+
+Vue.config.productionTip = false
 
 Vue.use(VueRouter);
 Vue.use(Vuex);

@@ -1,93 +1,49 @@
 <template>
     <div>
         <div class="columns">
-            <div class="column is-one-quarter">
-                <tree  :tree="tree"></tree>
+            <div v-if="structure !== null" class="column is-one-quarter">
+                <tree :tree="structure" :name="'Site structure'" @click="selectNode"></tree>
             </div>
 
             <div class="column">
-                <edit-form></edit-form>
+                <router-view></router-view>
             </div>
         </div>
-
     </div>
 </template>
 
 <script>
     import tree from '../elements/tree/tree';
     import EditForm from './edit-form';
+    import structure from "../../mixins/api/structure";
+    import {mapMutations} from "vuex";
+    import {SET_ACTIVE_STRUCTURE} from "../../store/app/mutations";
 
     export default {
+        mixins: [structure],
         data() {
             return {
-                tree: {
-                    name: 'Site menu',
-                    meta: {
+                structure: null
+            }
+        },
+        created() {
+            this.getStructureTree()
+                .then(response => {
+                    this.structure = response.data;
 
-                    },
-                    id: 1,
-                    children: [
-                        {
-                            name: 'Main',
-                            meta: {
-
-                            },
-                            id: 2,
-                        },
-                        {
-                            name: 'Blog',
-                            meta: {
-
-                            },
-                            id: 3,
-                            children: [
-                                {
-                                    name: 'Velo',
-                                    meta: {
-
-                                    },
-                                    id: 4
-                                },
-                                {
-                                    name: 'Moto',
-                                    meta: {
-
-                                    },
-                                    id: 5
-                                },
-                                {
-                                    name: 'Other',
-                                    meta: {
-
-                                    },
-                                    id: 6,
-                                    children: [
-                                        {
-                                            name: 'Test1',
-                                            meta: {
-
-                                            },
-                                            id: 7
-                                        },
-                                        {
-                                            name: 'Test 2',
-                                            meta: {
-
-                                            },
-                                            id: 8
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            name: 'About us',
-                            meta: {
-
-                            }
-                        }
-                    ]
-                }
+                    if (this.$route.name === 'edit_structure') {
+                        this[SET_ACTIVE_STRUCTURE](parseInt(this.$route.params.id));
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        },
+        methods: {
+            ...mapMutations('app', [SET_ACTIVE_STRUCTURE]),
+            selectNode(node) {
+                console.log(node);
+                this.$router.push({name: 'edit_structure', params: {id: node.id}})
             }
         },
         components: {

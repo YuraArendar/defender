@@ -50,7 +50,7 @@ class StructuresService implements EntitiesOperationsContractor
      */
     public function show(int $id): Structure
     {
-        return Structure::findOrFail($id)->withTranslation()->first();
+        return Structure::withTranslation()->findOrFail($id);
     }
 
     /**

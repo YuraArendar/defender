@@ -25,11 +25,12 @@ class StructureRequest extends FormRequest implements EntityRequestOperationsCon
     public function rules(): array
     {
         return [
-            'alias' => 'required|unique:structures|max:255',
+            'alias' => self::ALIAS_RULE,
             'name' => 'required|max:255',
             'template' => 'required|max:12',
             'controller' => 'required|max:12',
             'parent_id' => 'sometimes|integer',
+            'id' => 'sometimes|integer',
             'locale' => 'required|size:2',
         ];
     }
