@@ -1,0 +1,306 @@
+_type: export
+__export_format: 4
+__export_date: 2020-04-26T10:37:07.639Z
+__export_source: insomnia.desktop.app:v7.1.1
+resources:
+  - _id: req_5f99e6994c7941c2a890fca9da31f8fc
+    authentication:
+      token: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMDQzMDMxYzg4Y2Q4ZmU3MjVlMzc5NmIwMWU2MTQ0YTcyZTk4MDU5Y2Y1ZWFlZTRiMmQ4ZDQ3YjU0ZDk5Y2I3ZTE0NjZmNzMyZWI2ZDBiZDAiLCJpYXQiOjE1ODc4Mjk1NDcsIm5iZiI6MTU4NzgyOTU0NywiZXhwIjoxNjE5MzY1NTQ3LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.wnKUf72kLhRVHc9pljpuwP6W2dsJ6qMvuAdKHeOuLrNifOeu1LUi9BLO7n20v2IAvx7nTPXz_bNMtk9TeQ0-eEs3M_Kf1mw2VfiXl_P0_-dOaFROZlWNr-D1tnDo3YlYXMk1wiaqJUGKun0YhG7O696bNeEbCIBJWTjulOiyAQHKtpFTtBeD6W6iqheZw1Q_fXh5EqIfBP5zybjJjyicyJWBl6Q-HJQp82Z0fITtidC7KP4LnH1uy1K3ovOAr5k8c_iydG5ZN-He28WjGNRO37_AvqGh9HdncRQzVp9PkTpy_nb6sZQBQSxIaXiN4DGBkKCUQT30kX_yQl09MizHYpYVxKPdKXbcMJEI6jCW6GfZ7L929CE2JdA3ffoqXMqCmCav673ho9UbLzaFgVOtb9soviV2qhjHjWiOP0YAeL_HPa_KlsJo8PBBcSsPecm45DVYIrCFXK7MiS-rRyHBTylOpsGN8gE3h_29HPq2sXLj7P-fIHKPyFv5eZ7_x40uDCQGt_wsSFblP7HVHevWRXIo3SgpYM-I-XJFA41MRzexqcDaZkpKjTnX0wQQUhLq4wQc774R46o9tu59QFlXOYb9qZJ6cXPWWl32fLzQL_UwaUmU8CisiC8KfyoTTxziLDj-a1tfj8YFq5GWG5MhTDpOpkRY1pjK3T6fWccFirA
+      type: bearer
+    body: {}
+    created: 1587817706658
+    description: ""
+    headers:
+      - description: ""
+        id: pair_3dd369885f8d4c6d8d8b707412aef258
+        name: Accept
+        value: application/json
+    isPrivate: false
+    metaSortKey: -1586110806388
+    method: GET
+    modified: 1587897313783
+    name: Structures Index
+    parameters: []
+    parentId: fld_40718c26696f48aabd5e3f169c05b35b
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingFollowRedirects: global
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: http://admin.defender.local/api/structures
+    _type: request
+  - _id: fld_40718c26696f48aabd5e3f169c05b35b
+    created: 1587897264517
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1587897264518
+    modified: 1587897264517
+    name: Structure
+    parentId: wrk_ff692d3974af49c8a7d807404677a3d8
+    _type: request_group
+  - _id: wrk_ff692d3974af49c8a7d807404677a3d8
+    created: 1586018957066
+    description: ""
+    modified: 1586018957066
+    name: Adminka
+    parentId: null
+    _type: workspace
+  - _id: req_0c6b1e66c2e1462795c241170e58ef7c
+    authentication:
+      token: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMDQzMDMxYzg4Y2Q4ZmU3MjVlMzc5NmIwMWU2MTQ0YTcyZTk4MDU5Y2Y1ZWFlZTRiMmQ4ZDQ3YjU0ZDk5Y2I3ZTE0NjZmNzMyZWI2ZDBiZDAiLCJpYXQiOjE1ODc4Mjk1NDcsIm5iZiI6MTU4NzgyOTU0NywiZXhwIjoxNjE5MzY1NTQ3LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.wnKUf72kLhRVHc9pljpuwP6W2dsJ6qMvuAdKHeOuLrNifOeu1LUi9BLO7n20v2IAvx7nTPXz_bNMtk9TeQ0-eEs3M_Kf1mw2VfiXl_P0_-dOaFROZlWNr-D1tnDo3YlYXMk1wiaqJUGKun0YhG7O696bNeEbCIBJWTjulOiyAQHKtpFTtBeD6W6iqheZw1Q_fXh5EqIfBP5zybjJjyicyJWBl6Q-HJQp82Z0fITtidC7KP4LnH1uy1K3ovOAr5k8c_iydG5ZN-He28WjGNRO37_AvqGh9HdncRQzVp9PkTpy_nb6sZQBQSxIaXiN4DGBkKCUQT30kX_yQl09MizHYpYVxKPdKXbcMJEI6jCW6GfZ7L929CE2JdA3ffoqXMqCmCav673ho9UbLzaFgVOtb9soviV2qhjHjWiOP0YAeL_HPa_KlsJo8PBBcSsPecm45DVYIrCFXK7MiS-rRyHBTylOpsGN8gE3h_29HPq2sXLj7P-fIHKPyFv5eZ7_x40uDCQGt_wsSFblP7HVHevWRXIo3SgpYM-I-XJFA41MRzexqcDaZkpKjTnX0wQQUhLq4wQc774R46o9tu59QFlXOYb9qZJ6cXPWWl32fLzQL_UwaUmU8CisiC8KfyoTTxziLDj-a1tfj8YFq5GWG5MhTDpOpkRY1pjK3T6fWccFirA
+      type: bearer
+    body: {}
+    created: 1587886919224
+    description: ""
+    headers:
+      - description: ""
+        id: pair_2fcbfb778bad41cab4454ecddf0405ed
+        name: Accept
+        value: application/json
+    isPrivate: false
+    metaSortKey: -1586110806363
+    method: GET
+    modified: 1587897317239
+    name: GetStructure
+    parameters: []
+    parentId: fld_40718c26696f48aabd5e3f169c05b35b
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingFollowRedirects: global
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: http://admin.defender.local/api/structures/1
+    _type: request
+  - _id: req_6ea267373bab4a30a9d71b153284530a
+    authentication:
+      token: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMDQzMDMxYzg4Y2Q4ZmU3MjVlMzc5NmIwMWU2MTQ0YTcyZTk4MDU5Y2Y1ZWFlZTRiMmQ4ZDQ3YjU0ZDk5Y2I3ZTE0NjZmNzMyZWI2ZDBiZDAiLCJpYXQiOjE1ODc4Mjk1NDcsIm5iZiI6MTU4NzgyOTU0NywiZXhwIjoxNjE5MzY1NTQ3LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.wnKUf72kLhRVHc9pljpuwP6W2dsJ6qMvuAdKHeOuLrNifOeu1LUi9BLO7n20v2IAvx7nTPXz_bNMtk9TeQ0-eEs3M_Kf1mw2VfiXl_P0_-dOaFROZlWNr-D1tnDo3YlYXMk1wiaqJUGKun0YhG7O696bNeEbCIBJWTjulOiyAQHKtpFTtBeD6W6iqheZw1Q_fXh5EqIfBP5zybjJjyicyJWBl6Q-HJQp82Z0fITtidC7KP4LnH1uy1K3ovOAr5k8c_iydG5ZN-He28WjGNRO37_AvqGh9HdncRQzVp9PkTpy_nb6sZQBQSxIaXiN4DGBkKCUQT30kX_yQl09MizHYpYVxKPdKXbcMJEI6jCW6GfZ7L929CE2JdA3ffoqXMqCmCav673ho9UbLzaFgVOtb9soviV2qhjHjWiOP0YAeL_HPa_KlsJo8PBBcSsPecm45DVYIrCFXK7MiS-rRyHBTylOpsGN8gE3h_29HPq2sXLj7P-fIHKPyFv5eZ7_x40uDCQGt_wsSFblP7HVHevWRXIo3SgpYM-I-XJFA41MRzexqcDaZkpKjTnX0wQQUhLq4wQc774R46o9tu59QFlXOYb9qZJ6cXPWWl32fLzQL_UwaUmU8CisiC8KfyoTTxziLDj-a1tfj8YFq5GWG5MhTDpOpkRY1pjK3T6fWccFirA
+      type: bearer
+    body:
+      mimeType: multipart/form-data
+      params:
+        - description: ""
+          id: pair_31f37cb12e094f158596fa14a0258ae5
+          name: locale
+          value: en
+        - description: ""
+          id: pair_5cdd309e28cd4197aeebb80ed3fab753
+          name: alias
+          value: request-test
+        - description: ""
+          id: pair_fd42f5fdd14b4444a70a7ae205694adb
+          name: template
+          value: default
+        - description: ""
+          id: pair_4e14bfcde545409594871c29273fc081
+          name: controller
+          value: gallery
+        - description: ""
+          id: pair_e34b4a844631411fa785086ef0761c8a
+          name: name
+          value: 444 en
+        - description: ""
+          id: pair_e64a0c8f684b4a99a581b814fbd89121
+          name: content
+          value: 444 en
+        - description: ""
+          id: pair_41cfc0705834400d817c5052ff2c44b6
+          name: parent_id
+          value: "2"
+    created: 1587886461146
+    description: ""
+    headers:
+      - id: pair_0a03deb273594e839d8d5e4d96f271ec
+        name: Content-Type
+        value: application/json
+      - description: ""
+        id: pair_6f46d0ab0f1c4e0798a6d4dc75bddec0
+        name: X-Requested-With
+        value: XMLHttpRequest
+    isPrivate: false
+    metaSortKey: -1586110806338
+    method: POST
+    modified: 1587897307508
+    name: Create new Structure item
+    parameters: []
+    parentId: fld_40718c26696f48aabd5e3f169c05b35b
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingFollowRedirects: global
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: http://admin.defender.local/api/structures
+    _type: request
+  - _id: req_5b858a1c5d94408db7a61d5935ab35a6
+    authentication:
+      token: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMDQzMDMxYzg4Y2Q4ZmU3MjVlMzc5NmIwMWU2MTQ0YTcyZTk4MDU5Y2Y1ZWFlZTRiMmQ4ZDQ3YjU0ZDk5Y2I3ZTE0NjZmNzMyZWI2ZDBiZDAiLCJpYXQiOjE1ODc4Mjk1NDcsIm5iZiI6MTU4NzgyOTU0NywiZXhwIjoxNjE5MzY1NTQ3LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.wnKUf72kLhRVHc9pljpuwP6W2dsJ6qMvuAdKHeOuLrNifOeu1LUi9BLO7n20v2IAvx7nTPXz_bNMtk9TeQ0-eEs3M_Kf1mw2VfiXl_P0_-dOaFROZlWNr-D1tnDo3YlYXMk1wiaqJUGKun0YhG7O696bNeEbCIBJWTjulOiyAQHKtpFTtBeD6W6iqheZw1Q_fXh5EqIfBP5zybjJjyicyJWBl6Q-HJQp82Z0fITtidC7KP4LnH1uy1K3ovOAr5k8c_iydG5ZN-He28WjGNRO37_AvqGh9HdncRQzVp9PkTpy_nb6sZQBQSxIaXiN4DGBkKCUQT30kX_yQl09MizHYpYVxKPdKXbcMJEI6jCW6GfZ7L929CE2JdA3ffoqXMqCmCav673ho9UbLzaFgVOtb9soviV2qhjHjWiOP0YAeL_HPa_KlsJo8PBBcSsPecm45DVYIrCFXK7MiS-rRyHBTylOpsGN8gE3h_29HPq2sXLj7P-fIHKPyFv5eZ7_x40uDCQGt_wsSFblP7HVHevWRXIo3SgpYM-I-XJFA41MRzexqcDaZkpKjTnX0wQQUhLq4wQc774R46o9tu59QFlXOYb9qZJ6cXPWWl32fLzQL_UwaUmU8CisiC8KfyoTTxziLDj-a1tfj8YFq5GWG5MhTDpOpkRY1pjK3T6fWccFirA
+      type: bearer
+    body:
+      mimeType: application/x-www-form-urlencoded
+      params:
+        - description: ""
+          id: pair_31f37cb12e094f158596fa14a0258ae5
+          name: locale
+          value: uk
+        - description: ""
+          disabled: false
+          id: pair_5cdd309e28cd4197aeebb80ed3fab753
+          name: alias
+          value: "234234"
+        - description: ""
+          disabled: false
+          id: pair_fd42f5fdd14b4444a70a7ae205694adb
+          name: template
+          value: default
+        - description: ""
+          disabled: false
+          id: pair_4e14bfcde545409594871c29273fc081
+          name: controller
+          value: gallery
+        - description: ""
+          disabled: false
+          id: pair_e34b4a844631411fa785086ef0761c8a
+          name: name
+          value: test uk
+        - description: ""
+          id: pair_e64a0c8f684b4a99a581b814fbd89121
+          name: content
+          value: test uk
+    created: 1587888407444
+    description: ""
+    headers:
+      - disabled: false
+        id: pair_0a03deb273594e839d8d5e4d96f271ec
+        name: Content-Type
+        value: application/x-www-form-urlencoded
+      - description: ""
+        id: pair_1d1d6e76c1c84dda9d2d089d6fde0db1
+        name: X-Requested-With
+        value: XMLHttpRequest
+    isPrivate: false
+    metaSortKey: -1586110806288
+    method: PUT
+    modified: 1587897298095
+    name: update Structure item
+    parameters: []
+    parentId: fld_40718c26696f48aabd5e3f169c05b35b
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingFollowRedirects: global
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: http://admin.defender.local/api/structures/5
+    _type: request
+  - _id: req_339dccde5edd4b88b0bd8e1373e0e223
+    authentication:
+      token: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMDQzMDMxYzg4Y2Q4ZmU3MjVlMzc5NmIwMWU2MTQ0YTcyZTk4MDU5Y2Y1ZWFlZTRiMmQ4ZDQ3YjU0ZDk5Y2I3ZTE0NjZmNzMyZWI2ZDBiZDAiLCJpYXQiOjE1ODc4Mjk1NDcsIm5iZiI6MTU4NzgyOTU0NywiZXhwIjoxNjE5MzY1NTQ3LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.wnKUf72kLhRVHc9pljpuwP6W2dsJ6qMvuAdKHeOuLrNifOeu1LUi9BLO7n20v2IAvx7nTPXz_bNMtk9TeQ0-eEs3M_Kf1mw2VfiXl_P0_-dOaFROZlWNr-D1tnDo3YlYXMk1wiaqJUGKun0YhG7O696bNeEbCIBJWTjulOiyAQHKtpFTtBeD6W6iqheZw1Q_fXh5EqIfBP5zybjJjyicyJWBl6Q-HJQp82Z0fITtidC7KP4LnH1uy1K3ovOAr5k8c_iydG5ZN-He28WjGNRO37_AvqGh9HdncRQzVp9PkTpy_nb6sZQBQSxIaXiN4DGBkKCUQT30kX_yQl09MizHYpYVxKPdKXbcMJEI6jCW6GfZ7L929CE2JdA3ffoqXMqCmCav673ho9UbLzaFgVOtb9soviV2qhjHjWiOP0YAeL_HPa_KlsJo8PBBcSsPecm45DVYIrCFXK7MiS-rRyHBTylOpsGN8gE3h_29HPq2sXLj7P-fIHKPyFv5eZ7_x40uDCQGt_wsSFblP7HVHevWRXIo3SgpYM-I-XJFA41MRzexqcDaZkpKjTnX0wQQUhLq4wQc774R46o9tu59QFlXOYb9qZJ6cXPWWl32fLzQL_UwaUmU8CisiC8KfyoTTxziLDj-a1tfj8YFq5GWG5MhTDpOpkRY1pjK3T6fWccFirA
+      type: bearer
+    body: {}
+    created: 1587889513785
+    description: ""
+    headers: []
+    isPrivate: false
+    metaSortKey: -1586110806238
+    method: DELETE
+    modified: 1587897320874
+    name: delete structure
+    parameters: []
+    parentId: fld_40718c26696f48aabd5e3f169c05b35b
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingFollowRedirects: global
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: http://admin.defender.local/api/structures/1
+    _type: request
+  - _id: req_508a4acbc44942c492c24b085245208b
+    authentication: {}
+    body:
+      mimeType: multipart/form-data
+      params:
+        - description: ""
+          disabled: false
+          id: pair_e3bc413dd9cf4c39a6a1dbad8d154194
+          name: username
+          value: yuriy.arendar@gmail.com
+        - description: ""
+          disabled: false
+          id: pair_d32398e410b446bb8baf553ca3e50926
+          name: password
+          value: password
+    created: 1586018998438
+    description: ""
+    headers:
+      - disabled: true
+        id: pair_d8ca7f7fc6d04eeda4dd229de97ef378
+        name: Content-Type
+        value: multipart/form-data
+      - description: ""
+        id: pair_1a3af939027c49e6aeb6655985255453
+        name: ""
+        value: ""
+    isPrivate: false
+    metaSortKey: -1586110806463
+    method: POST
+    modified: 1587817654844
+    name: Login
+    parameters: []
+    parentId: wrk_ff692d3974af49c8a7d807404677a3d8
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingFollowRedirects: global
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: http://admin.defender.local/login
+    _type: request
+  - _id: req_19c70203098c44c8a940564e2b94c2d5
+    authentication:
+      token: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMDQzMDMxYzg4Y2Q4ZmU3MjVlMzc5NmIwMWU2MTQ0YTcyZTk4MDU5Y2Y1ZWFlZTRiMmQ4ZDQ3YjU0ZDk5Y2I3ZTE0NjZmNzMyZWI2ZDBiZDAiLCJpYXQiOjE1ODc4Mjk1NDcsIm5iZiI6MTU4NzgyOTU0NywiZXhwIjoxNjE5MzY1NTQ3LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.wnKUf72kLhRVHc9pljpuwP6W2dsJ6qMvuAdKHeOuLrNifOeu1LUi9BLO7n20v2IAvx7nTPXz_bNMtk9TeQ0-eEs3M_Kf1mw2VfiXl_P0_-dOaFROZlWNr-D1tnDo3YlYXMk1wiaqJUGKun0YhG7O696bNeEbCIBJWTjulOiyAQHKtpFTtBeD6W6iqheZw1Q_fXh5EqIfBP5zybjJjyicyJWBl6Q-HJQp82Z0fITtidC7KP4LnH1uy1K3ovOAr5k8c_iydG5ZN-He28WjGNRO37_AvqGh9HdncRQzVp9PkTpy_nb6sZQBQSxIaXiN4DGBkKCUQT30kX_yQl09MizHYpYVxKPdKXbcMJEI6jCW6GfZ7L929CE2JdA3ffoqXMqCmCav673ho9UbLzaFgVOtb9soviV2qhjHjWiOP0YAeL_HPa_KlsJo8PBBcSsPecm45DVYIrCFXK7MiS-rRyHBTylOpsGN8gE3h_29HPq2sXLj7P-fIHKPyFv5eZ7_x40uDCQGt_wsSFblP7HVHevWRXIo3SgpYM-I-XJFA41MRzexqcDaZkpKjTnX0wQQUhLq4wQc774R46o9tu59QFlXOYb9qZJ6cXPWWl32fLzQL_UwaUmU8CisiC8KfyoTTxziLDj-a1tfj8YFq5GWG5MhTDpOpkRY1pjK3T6fWccFirA
+      type: bearer
+    body: {}
+    created: 1586110806413
+    description: ""
+    headers:
+      - description: ""
+        id: pair_fef6f26d526f4e438fd3664b088b86a0
+        name: Accept
+        value: application/json
+    isPrivate: false
+    metaSortKey: -1586110806413
+    method: GET
+    modified: 1587829555926
+    name: Get User
+    parameters: []
+    parentId: wrk_ff692d3974af49c8a7d807404677a3d8
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingFollowRedirects: global
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: http://admin.defender.local/api/user
+    _type: request
+  - _id: env_8f14061212b3fcf63aac541d46faef6b478bb48f
+    color: null
+    created: 1586018957105
+    data: {}
+    dataPropertyOrder: null
+    isPrivate: false
+    metaSortKey: 1586018957105
+    modified: 1586018957105
+    name: Base Environment
+    parentId: wrk_ff692d3974af49c8a7d807404677a3d8
+    _type: environment
+  - _id: jar_8f14061212b3fcf63aac541d46faef6b478bb48f
+    cookies: []
+    created: 1586018957112
+    modified: 1586018957112
+    name: Default Jar
+    parentId: wrk_ff692d3974af49c8a7d807404677a3d8
+    _type: cookie_jar
