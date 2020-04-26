@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Admin\Contracts\EntitiesOperationsInterface;
+use App\Admin\Contracts\EntitiesOperationsContractor;
+use App\Admin\Contracts\EntityRequestOperationsContractor;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 /**
  * Class BaseOperationsController
@@ -13,15 +13,15 @@ use Illuminate\Http\Request;
 abstract class BaseOperationsController extends Controller
 {
     /**
-     * @var EntitiesOperationsInterface
+     * @var EntitiesOperationsContractor
      */
     private $entitiesOperations;
 
     /**
      * BaseOperationsController constructor.
-     * @param EntitiesOperationsInterface $entitiesOperations
+     * @param EntitiesOperationsContractor $entitiesOperations
      */
-    public function __construct(EntitiesOperationsInterface $entitiesOperations)
+    public function __construct(EntitiesOperationsContractor $entitiesOperations)
     {
 
         $this->entitiesOperations = $entitiesOperations;
@@ -40,10 +40,10 @@ abstract class BaseOperationsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param EntityRequestOperationsContractor $request
      * @return JsonResponse
      */
-    public function store(Request $request): JsonResponse
+    public function store(EntityRequestOperationsContractor $request): JsonResponse
     {
         return response()->json($this->entitiesOperations->store($request->all()));
     }
@@ -62,11 +62,11 @@ abstract class BaseOperationsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param EntityRequestOperationsContractor $request
      * @param int $id
      * @return JsonResponse
      */
-    public function update(Request $request, int $id): JsonResponse
+    public function update(EntityRequestOperationsContractor $request, int $id): JsonResponse
     {
         return response()->json($this->entitiesOperations->update($id, $request->all()));
     }

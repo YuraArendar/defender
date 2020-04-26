@@ -12,7 +12,7 @@ class CreateAdminUser extends Command
      *
      * @var string
      */
-    protected $signature = 'crete:user {--name=} {--email=} {--password=}';
+    protected $signature = 'create:user {--name=} {--email=} {--password=}';
 
     /**
      * The console command description.
@@ -36,10 +36,10 @@ class CreateAdminUser extends Command
             $this->error('Required all parameters');
         }
 
-        $user =  new AdminUser();
+        $user = new AdminUser();
         $user->name = $name;
         $user->email = $email;
-        $user->password =\Hash::make($password);
+        $user->password = \Hash::make($password);
 
         $user->save();
 

@@ -29,4 +29,6 @@ use Illuminate\Database\Eloquent\Model;
 class StructureTranslation extends Model
 {
     public $timestamps = false;
+
+    protected $fillable =  ['name', 'content', 'parent_id'];
 }

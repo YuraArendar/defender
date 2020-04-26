@@ -15,7 +15,7 @@ class CreateStructureTranslationsTable extends Migration
     {
         Schema::create('structure_translations', function (Blueprint $table) {
             $table->id();
-            $table->integer('structure_id')->unsigned()->index();
+            $table->unsignedBigInteger('structure_id')->index();
             $table->string('locale', 2)->index();
             $table->string('name');
             $table->text('content')->nullable();

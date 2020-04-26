@@ -10,6 +10,8 @@
     export default {
         mixins: [user],
         created() {
+            this.$http.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
             console.log('app');
             if (this.$store.state.app.api_key === null) {
                 if (this.$route.name !== 'login') {

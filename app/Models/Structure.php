@@ -53,6 +53,6 @@ class Structure extends Model
 {
     use NodeTrait, Translatable;
 
-    protected $fillable = ['alias', 'template', 'controller'];
+    protected $fillable = ['alias', 'template', 'controller', 'parent_id'];
     public $translatedAttributes = ['name', 'content'];
 }

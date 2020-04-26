@@ -2,9 +2,15 @@
 
 namespace App\Providers;
 
-use App\Admin\Contracts\EntitiesOperationsInterface;
+use App\Admin\Contracts\EntitiesOperationsContractor;
+use App\Admin\Contracts\EntityRequestOperationsContractor;
+use App\Http\Requests\StructureRequest;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class AdminServiceProvider
+ * @package App\Providers
+ */
 class AdminServiceProvider extends ServiceProvider
 {
     /**
@@ -14,11 +20,8 @@ class AdminServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        foreach (config('admin.controllers_contracts_binding') as $controller => $service) {
-            $this->app->when($controller)
-                ->needs(EntitiesOperationsInterface::class)
-                ->give($service);
-        }
+        $this->prepareControllerBindings();
+        $this->prepareControllerRequestBindings();
     }
 
     /**
@@ -29,5 +32,29 @@ class AdminServiceProvider extends ServiceProvider
     public function boot(): void
     {
         config(['guards.api.provider' => 'admin_users']);
+    }
+
+    private function prepareControllerBindings(): void
+    {
+        foreach (config('admin.controllers_contracts_binding') as $controller => $service) {
+            $this->app->when($controller)
+                ->needs(EntitiesOperationsContractor::class)
+                ->give($service);
+        }
+    }
+
+    private function prepareControllerRequestBindings(): void
+    {
+        $parts = $this->app->request->segments();
+
+        if (empty($parts[1])) {
+            return;
+        }
+
+        foreach (config('admin.controllers_request_binding') as $part => $request) {
+            if ($parts[1] === $part) {
+                $this->app->bind(EntityRequestOperationsContractor::class, $request);
+            }
+        }
     }
 }

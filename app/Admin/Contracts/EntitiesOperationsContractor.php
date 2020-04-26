@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 /**
- * Interface EntitiesOperationsInterface
+ * Interface EntitiesOperationsContractor
  * @package App\Admin\Contracts
  */
-interface EntitiesOperationsInterface
+interface EntitiesOperationsContractor
 {
     /**
      * @return Collection
@@ -18,16 +18,16 @@ interface EntitiesOperationsInterface
 
     /**
      * @param array $parameters
-     * @return Model
+     * @return Collection
      */
-    public function store(array $parameters);
+    public function store(array $parameters): Collection;
 
     /**
      * @param int $id
      * @param array $parameters
-     * @return Model
+     * @return Collection
      */
-    public function update(int $id, array $parameters);
+    public function update(int $id, array $parameters): Collection;
 
     /**
      * @param int $id
@@ -37,7 +37,7 @@ interface EntitiesOperationsInterface
 
     /**
      * @param int $id
-     * @return bool
+     * @return Collection
      */
-    public function destroy(int $id): bool;
+    public function destroy(int $id): Collection;
 }

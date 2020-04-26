@@ -2,7 +2,7 @@
 
 namespace App\Admin\Services;
 
-use App\Admin\Contracts\EntitiesOperationsInterface;
+use App\Admin\Contracts\EntitiesOperationsContractor;
 use App\Models\Structure;
 use Illuminate\Support\Collection;
 
@@ -10,41 +10,38 @@ use Illuminate\Support\Collection;
  * Class StructuresService
  * @package App\Admin\Services
  */
-class StructuresService implements EntitiesOperationsInterface
+class StructuresService implements EntitiesOperationsContractor
 {
     /**
      * @return Collection
      */
     public function all(): Collection
     {
-        return Structure::all();
+        return Structure::all()->toTree();
     }
 
     /**
      * @param array $parameters
-     * @return Structure
+     * @return Collection
      */
-    public function store(array $parameters): Structure
+    public function store(array $parameters): Collection
     {
-        $parameters[$parameters['locale']]['content'] = $parameters['content'];
-        $parameters[$parameters['locale']]['name'] = $parameters['name'];
-        return Structure::create($parameters);
+        Structure::create($parameters);
+
+        return $this->all();
     }
 
     /**
      * @param int $id
      * @param array $parameters
-     * @return Structure
+     * @return Collection
      */
-    public function update(int $id, array $parameters): Structure
+    public function update(int $id, array $parameters): Collection
     {
         $structure = Structure::findOrFail($id);
         $structure->update($parameters);
 
-        $structure->translate($parameters['locale'])->name = $parameters['name'];
-        $structure->translate($parameters['locale'])->content = $parameters['content'];
-
-        return $structure;
+        return $this->all();
     }
 
     /**
@@ -53,15 +50,17 @@ class StructuresService implements EntitiesOperationsInterface
      */
     public function show(int $id): Structure
     {
-        return Structure::findOrFail($id)->withTranslation();
+        return Structure::findOrFail($id)->withTranslation()->first();
     }
 
     /**
      * @param int $id
-     * @return bool
+     * @return Collection
      */
-    public function destroy(int $id): bool
+    public function destroy(int $id): Collection
     {
-        return (bool)Structure::destroy($id);
+        Structure::destroy($id);
+
+        return $this->all();
     }
 }
