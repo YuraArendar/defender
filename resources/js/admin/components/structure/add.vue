@@ -5,18 +5,37 @@
                 Add new item
             </div>
 
-            <edit-form></edit-form>
+            <edit-form :values="form" @save="save"></edit-form>
         </div>
     </div>
 </template>
 
 <script>
     import EditForm from './edit-form';
+    import structure from "../../mixins/api/structure";
 
     export default {
+        mixins: [structure],
         name: "add",
+        data() {
+            return {
+                form: null
+            }
+        },
         components: {
             EditForm
+        },
+        methods: {
+            save(form) {
+                this.createNewItem(form)
+                    .then(response => {
+                        this.$router.push({name: 'edit_structure', params: {id: response.data.id}})
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        console.log(error.response.data);
+                    })
+            }
         }
     }
 </script>

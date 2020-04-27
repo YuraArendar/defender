@@ -18,16 +18,16 @@ interface EntitiesOperationsContractor
 
     /**
      * @param array $parameters
-     * @return Collection
+     * @return Model
      */
-    public function store(array $parameters): Collection;
+    public function store(array $parameters);
 
     /**
      * @param int $id
      * @param array $parameters
-     * @return Collection
+     * @return Model
      */
-    public function update(int $id, array $parameters): Collection;
+    public function update(int $id, array $parameters);
 
     /**
      * @param int $id

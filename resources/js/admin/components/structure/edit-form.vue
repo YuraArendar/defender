@@ -1,16 +1,11 @@
 <template>
     <div class="form-group">
-        <div class="field">
-            <label class="label">Name</label>
-            <div class="control is-fullwidth">
-                <input class="input" type="text" v-model="form.name">
-            </div>
-            <p class="help is-danger">This is a help text</p>
-        </div>
+        <a-input v-model="form.name" :name="'Name'" :error="errors.errorName"></a-input>
+        <a-input v-model="form.alias" :name="'Alias'" :error="errors.errorName"></a-input>
 
         <div class="columns">
             <div class="column">
-                <a-select v-model="form.controller" :error="errors.errorName" :name="'Controller'"
+                <a-select v-model="form.controller" :name="'Controller'"
                           :options="controller_options"></a-select>
             </div>
 
@@ -19,7 +14,7 @@
             </div>
         </div>
 
-        <a-editor></a-editor>
+        <a-textarea v-model="form.content" name="Content"></a-textarea>
 
         <div class="field form-buttons">
             <button class="button is-primary is-pulled-right" @click="save">Save</button>
@@ -30,6 +25,8 @@
 <script>
     import ASelect from '../elements/inputs/a-select'
     import AEditor from '../elements/inputs/a-editor'
+    import AInput from '../elements/inputs/a-input';
+    import ATextarea from '../elements/inputs/a-textarea';
 
     const CONTROLLER_OPTIONS = [
         {name: 'Page', value: 'page'},
@@ -43,6 +40,7 @@
         data() {
             return {
                 form: {
+                    locale: 'en',
                     id: null,
                     controller: CONTROLLER_OPTIONS[0].value,
                     template: TEMPLATE_OPTIONS[0].value,
@@ -81,7 +79,9 @@
         },
         components: {
             ASelect,
-            AEditor
+            AEditor,
+            AInput,
+            ATextarea
         }
     }
 </script>

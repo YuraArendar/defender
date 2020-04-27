@@ -22,26 +22,24 @@ class StructuresService implements EntitiesOperationsContractor
 
     /**
      * @param array $parameters
-     * @return Collection
+     * @return Structure
      */
-    public function store(array $parameters): Collection
+    public function store(array $parameters): Structure
     {
-        Structure::create($parameters);
-
-        return $this->all();
+        return Structure::create($parameters);
     }
 
     /**
      * @param int $id
      * @param array $parameters
-     * @return Collection
+     * @return Structure
      */
-    public function update(int $id, array $parameters): Collection
+    public function update(int $id, array $parameters): Structure
     {
         $structure = Structure::findOrFail($id);
         $structure->update($parameters);
 
-        return $this->all();
+        return $structure;
     }
 
     /**

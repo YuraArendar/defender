@@ -18,7 +18,8 @@
         data() {
             return {
                 name: null,
-                form: null
+                form: null,
+                id: 0
             }
         },
         mixins: [structure],
@@ -31,7 +32,8 @@
             next();
         },
         created() {
-            this.loadData(this.$route.params.id)
+            this.id = this.$route.params.id;
+            this.loadData(this.id);
         },
         methods: {
             loadData(id) {
@@ -44,6 +46,14 @@
             },
             save(form) {
                 console.log(form);
+                this.updateStructure(this.id, form)
+                 .then(response => {
+                     console.log(response)
+                 })
+                .catch(error => {
+                    console.log(error);
+                    console.log(error.response.data);
+                })
             }
         }
     }

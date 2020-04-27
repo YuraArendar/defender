@@ -1,12 +1,8 @@
 <template>
     <div class="field">
         <label class="label">{{name}}</label>
-        <div class="select" @change.prevent="onSelect" @focusin="errorText = ''">
-            <select>
-                <option v-for="option in options" :selected="value === option.value" :value="option.value">
-                    {{option.name}}
-                </option>
-            </select>
+        <div class="control is-fullwidth">
+            <input class="input" :type="type" v-model="text" @change="onChange" @focusin="errorText = ''">
         </div>
         <p v-if="errorText.length > 0" class="help is-danger">{{errorText}}</p>
     </div>
@@ -14,20 +10,22 @@
 
 <script>
     export default {
-        name: "a-select",
+        name: "a-input",
         data() {
             return {
-                errorText: ''
+                errorText: '',
+                text: this.value,
             }
         },
         props: {
+            type: {
+                type: String,
+                required: false,
+                default: 'text'
+            },
             name: {
                 required: true,
                 type: String
-            },
-            options: {
-                required: true,
-                type: Array
             },
             error: {
                 required: false,
@@ -42,14 +40,18 @@
             event: 'change'
         },
         methods: {
-            onSelect(event) {
-                this.$emit('change', event.target.value)
+            onChange() {
+                this.$emit('change', this.text)
             }
         },
         watch: {
             error(text) {
                 this.errorText = text;
-            }
+            },
         }
     }
 </script>
+
+<style scoped>
+
+</style>

@@ -24,13 +24,14 @@ class StructureRequest extends FormRequest implements EntityRequestOperationsCon
      */
     public function rules(): array
     {
+        $id = $this->route()->parameter('structure');
+        $aliasRule = self::ALIAS_RULE . ($id === null ? '' : ',id,:structure');
+
         return [
-            'alias' => self::ALIAS_RULE,
+            'alias' => $aliasRule,
             'name' => 'required|max:255',
             'template' => 'required|max:12',
             'controller' => 'required|max:12',
-            'parent_id' => 'sometimes|integer',
-            'id' => 'sometimes|integer',
             'locale' => 'required|size:2',
         ];
     }
