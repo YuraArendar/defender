@@ -19,7 +19,6 @@ export default {
             return new Promise((resolve, reject) => {
                 this.$http.post('/api/logout')
                     .then(response => {
-                        console.log(response);
                         this.$store.commit('app/' + SET_API_KEY, null);
                         resolve(response);
                     })

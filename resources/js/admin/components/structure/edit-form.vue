@@ -69,11 +69,9 @@
         },
         methods: {
             save() {
-                console.log(this.form);
                 this.$emit('save', this.form)
             },
             init() {
-                console.log(this.values);
                 for (let name in this.values) {
                     if (this.form[name] !== undefined) {
                         this.form[name] = this.values[name];

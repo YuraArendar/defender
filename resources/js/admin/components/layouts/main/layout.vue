@@ -74,13 +74,11 @@
         methods: {
             initBurger() {
                 const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
-                console.log($navbarBurgers);
+
                 if ($navbarBurgers.length > 0) {
                     $navbarBurgers.forEach(el => {
-                        console.log(el);
                         el.addEventListener('click', () => {
                             const target = el.dataset.target;
-                            console.log(target);
                             const $target = document.getElementById(target);
 
                             el.classList.toggle('is-active');

@@ -42,7 +42,6 @@
         methods: {
             ...mapMutations('app', [SET_ACTIVE_STRUCTURE]),
             selectNode(node) {
-                console.log(node);
                 this.$router.push({name: 'edit_structure', params: {id: node.id}})
             }
         },

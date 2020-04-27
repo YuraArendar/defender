@@ -23,16 +23,7 @@
             ...mapMutations('app', [SET_ACTIVE_STRUCTURE]),
             onClick() {
                 this[SET_ACTIVE_STRUCTURE](this.folder.id);
-                while (true) {
-                    let el = this.$parent;
-
-                    // if (el.tree === undefined) {
-                    //     el = el.$parent;
-                    // } else {
-                    //     el.$emit('click', this.folder)
-                    //     break;
-                    // }
-                }
+                this.$root.$emit('selectTreeFolder', this.folder);
             },
             onFolderClick(event) {
                 this.$emit('onFolderClick', event);

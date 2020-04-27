@@ -11,7 +11,6 @@
     export default {
         mixins: [auth],
         created() {
-            console.log('logout');
             this.logout()
                 .then(response => {
                     this.clearUserInfo();

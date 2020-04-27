@@ -38,7 +38,6 @@
                 this.form = null;
                 this.getStructure(id)
                 .then(response => {
-                    console.log(response);
                     this.name = response.data.name;
                     this.form = response.data;
                 })

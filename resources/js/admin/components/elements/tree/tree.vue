@@ -4,7 +4,7 @@
             {{name}}
         </p>
         <ul class="menu-list">
-            <folder v-for="item in tree" :key="item.id" :folder="item" @click="onClick"/>
+            <folder v-for="item in tree" :key="item.id" :folder="item"/>
         </ul>
     </aside>
 </template>
@@ -26,10 +26,13 @@
         components: {
             folder
         },
+        created() {
+            this.$root.$on('selectTreeFolder', selected => {
+                this.$emit('click', selected);
+            })
+        },
         methods: {
-            onClick(event) {
-                this.$emit('click', event)
-            }
+
         }
     }
 </script>

@@ -12347,7 +12347,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var _this = this;
 
     this.$http.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-    console.log('app');
 
     if (this.$store.state.app.api_key === null) {
       if (this.$route.name !== 'login') {
@@ -12580,15 +12579,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])('app', [_store_app_mutations__WEBPACK_IMPORTED_MODULE_1__["SET_ACTIVE_STRUCTURE"]]), {
     onClick: function onClick() {
       this[_store_app_mutations__WEBPACK_IMPORTED_MODULE_1__["SET_ACTIVE_STRUCTURE"]](this.folder.id);
-
-      while (true) {
-        var el = this.$parent; // if (el.tree === undefined) {
-        //     el = el.$parent;
-        // } else {
-        //     el.$emit('click', this.folder)
-        //     break;
-        // }
-      }
+      this.$root.$emit('selectTreeFolder', this.folder);
     },
     onFolderClick: function onFolderClick(event) {
       this.$emit('onFolderClick', event);
@@ -12639,11 +12630,14 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     folder: _folder__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  methods: {
-    onClick: function onClick(event) {
-      this.$emit('click', event);
-    }
-  }
+  created: function created() {
+    var _this = this;
+
+    this.$root.$on('selectTreeFolder', function (selected) {
+      _this.$emit('click', selected);
+    });
+  },
+  methods: {}
 });
 
 /***/ }),
@@ -12793,7 +12787,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   created: function created() {
     var _this = this;
 
-    console.log('logout');
     this.logout().then(function (response) {
       _this.clearUserInfo();
     })["catch"](function (error) {
@@ -12899,14 +12892,11 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     initBurger: function initBurger() {
       var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
-      console.log($navbarBurgers);
 
       if ($navbarBurgers.length > 0) {
         $navbarBurgers.forEach(function (el) {
-          console.log(el);
           el.addEventListener('click', function () {
             var target = el.dataset.target;
-            console.log(target);
             var $target = document.getElementById(target);
             el.classList.toggle('is-active');
             $target.classList.toggle('is-active');
@@ -13041,12 +13031,9 @@ var TEMPLATE_OPTIONS = [{
   },
   methods: {
     save: function save() {
-      console.log(this.form);
       this.$emit('save', this.form);
     },
     init: function init() {
-      console.log(this.values);
-
       for (var name in this.values) {
         if (this.form[name] !== undefined) {
           this.form[name] = this.values[name];
@@ -13112,7 +13099,6 @@ __webpack_require__.r(__webpack_exports__);
 
       this.form = null;
       this.getStructure(id).then(function (response) {
-        console.log(response);
         _this.name = response.data.name;
         _this.form = response.data;
       });
@@ -13186,7 +13172,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapMutations"])('app', [_store_app_mutations__WEBPACK_IMPORTED_MODULE_4__["SET_ACTIVE_STRUCTURE"]]), {
     selectNode: function selectNode(node) {
-      console.log(node);
       this.$router.push({
         name: 'edit_structure',
         params: {
@@ -14749,11 +14734,7 @@ var render = function() {
       "ul",
       { staticClass: "menu-list" },
       _vm._l(_vm.tree, function(item) {
-        return _c("folder", {
-          key: item.id,
-          attrs: { folder: item },
-          on: { click: _vm.onClick }
-        })
+        return _c("folder", { key: item.id, attrs: { folder: item } })
       }),
       1
     )
@@ -32524,8 +32505,6 @@ __webpack_require__.r(__webpack_exports__);
 
       return new Promise(function (resolve, reject) {
         _this2.$http.post('/api/logout').then(function (response) {
-          console.log(response);
-
           _this2.$store.commit('app/' + _store_app_mutations__WEBPACK_IMPORTED_MODULE_0__["SET_API_KEY"], null);
 
           resolve(response);
@@ -32588,14 +32567,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                console.log('mixin id = ', "/api/structures/".concat(id));
-                _context2.next = 3;
+                _context2.next = 2;
                 return _this2.$http.get("/api/structures/".concat(id));
 
-              case 3:
+              case 2:
                 return _context2.abrupt("return", _context2.sent);
 
-              case 4:
+              case 3:
               case "end":
                 return _context2.stop();
             }
