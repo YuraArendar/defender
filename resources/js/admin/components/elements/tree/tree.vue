@@ -27,12 +27,14 @@
             folder
         },
         created() {
-            this.$root.$on('selectTreeFolder', selected => {
-                this.$emit('click', selected);
-            })
+            this.initClickEvent();
         },
         methods: {
-
+            initClickEvent() {
+                this.$root.$on('selectTreeFolder', selected => {
+                    this.$emit('click', selected);
+                })
+            }
         }
     }
 </script>
