@@ -1,13 +1,14 @@
 import axios from 'axios';
 
-import {SET_ACTIVE_STRUCTURE, SET_API_KEY} from "./mutations";
+import {SET_ACTIVE_STRUCTURE, SET_API_KEY, SET_SITE_STRUCTURE} from "./mutations";
 import {LOGIN} from "./actions";
 
 export default {
     namespaced: true,
     state: {
         api_key: localStorage.getItem('api_key') || null,
-        active_structure: null
+        active_structure: null,
+        site_structure: null,
     },
     mutations: {
         [SET_API_KEY](state, key) {
@@ -16,6 +17,9 @@ export default {
         },
         [SET_ACTIVE_STRUCTURE](state, id) {
             state.active_structure = id;
+        },
+        [SET_SITE_STRUCTURE](state, tree) {
+            state.site_structure = tree;
         }
     },
     actions: {

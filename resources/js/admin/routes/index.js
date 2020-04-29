@@ -28,7 +28,6 @@ export const routes = [
             },
             {
                 path: 'structure',
-                name: 'structure',
                 component: Structure,
                 children: [
                     {

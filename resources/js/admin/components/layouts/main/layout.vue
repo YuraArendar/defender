@@ -47,7 +47,7 @@
                     <div class="navbar-end">
                         <div class="navbar-item">
                             <div class="buttons">
-                                <router-link class="button is-light" :to="{name: 'logout'}">Logout</router-link>
+                                <router-link class="button is-warning" :to="{name: 'logout'}">Logout</router-link>
                             </div>
                         </div>
                     </div>

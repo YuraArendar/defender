@@ -2,7 +2,12 @@
     <div>
         <div class="columns">
             <div v-if="structure !== null" class="column is-one-quarter">
-                <tree :tree="structure" :name="'Site structure'" @click="selectNode"></tree>
+                <aside class="panel">
+                    <p class="panel-heading">
+                        Site structure
+                    </p>
+                    <tree :tree="structure" @click="selectNode"></tree>
+                </aside>
             </div>
 
             <div class="column">
@@ -16,23 +21,17 @@
     import tree from '../elements/tree/tree';
     import EditForm from './edit-form';
     import structure from "../../mixins/api/structure";
-    import {mapMutations} from "vuex";
-    import {SET_ACTIVE_STRUCTURE} from "../../store/app/mutations";
+    import site_structure from "../../mixins/app/site_structure";
 
     export default {
-        mixins: [structure],
-        data() {
-            return {
-                structure: null
-            }
-        },
+        mixins: [structure, site_structure],
         created() {
             this.getStructureTree()
                 .then(response => {
-                    this.structure = response.data;
+                    this.setSiteStructure(response.data);
 
                     if (this.$route.name === 'edit_structure') {
-                        this[SET_ACTIVE_STRUCTURE](parseInt(this.$route.params.id));
+                        this.setActiveStructure(this.$route.params.id);
                     }
                 })
                 .catch(error => {
@@ -40,8 +39,8 @@
                 })
         },
         methods: {
-            ...mapMutations('app', [SET_ACTIVE_STRUCTURE]),
             selectNode(node) {
+                this.setActiveStructure(node.id);
                 this.$router.push({name: 'edit_structure', params: {id: node.id}})
             }
         },

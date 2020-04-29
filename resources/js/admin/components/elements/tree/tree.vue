@@ -1,12 +1,7 @@
 <template>
-    <aside class="panel">
-        <p class="panel-heading">
-            {{name}}
-        </p>
-        <ul class="menu-list">
-            <folder v-for="item in tree" :key="item.id" :folder="item"/>
-        </ul>
-    </aside>
+    <ul class="menu-list">
+        <folder v-for="item in for_render" :key="item.id" :folder="item"/>
+    </ul>
 </template>
 
 <script>
@@ -14,14 +9,15 @@
 
     export default {
         name: 'tree',
+        data() {
+            return {
+                for_render: this.tree
+            }
+        },
         props: {
             tree: {
                 required: true,
             },
-            name: {
-                required: false,
-                type: String
-            }
         },
         components: {
             folder
@@ -30,10 +26,15 @@
             this.initClickEvent();
         },
         methods: {
-            initClickEvent() {
+            initClickEvent(selected) {
                 this.$root.$on('selectTreeFolder', selected => {
                     this.$emit('click', selected);
                 })
+            }
+        },
+        watch: {
+            tree(tree) {
+                this.for_render = tree;
             }
         }
     }

@@ -5,6 +5,10 @@
 
         <div class="columns">
             <div class="column">
+                <a-tree-select :tree="structure"></a-tree-select>
+            </div>
+
+            <div class="column">
                 <a-select v-model="form.controller" :name="'Controller'"
                           :options="controller_options"></a-select>
             </div>
@@ -27,6 +31,9 @@
     import AEditor from '../elements/inputs/a-editor'
     import AInput from '../elements/inputs/a-input';
     import ATextarea from '../elements/inputs/a-textarea';
+    import ATreeSelect from '../elements/inputs/a-tree-select';
+
+    import site_structure from "../../mixins/app/site_structure";
 
     const CONTROLLER_OPTIONS = [
         {name: 'Page', value: 'page'},
@@ -36,6 +43,7 @@
     const TEMPLATE_OPTIONS = [{name: 'Default', value: 'default'}];
 
     export default {
+        mixins: [site_structure],
         name: "edit-form",
         data() {
             return {
@@ -81,11 +89,18 @@
             ASelect,
             AEditor,
             AInput,
-            ATextarea
+            ATextarea,
+            ATreeSelect
         }
     }
 </script>
 
-<style scoped>
+<style type="text/css">
+    .form-group {
+        padding: 15px;
+    }
 
+    .form-buttons {
+        min-height: 40px;
+    }
 </style>

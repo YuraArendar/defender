@@ -8,9 +8,6 @@
 </template>
 
 <script>
-    import {mapMutations} from "vuex";
-    import {SET_ACTIVE_STRUCTURE} from "../../../store/app/mutations";
-
     export default {
         name: 'folder',
         props: {
@@ -20,10 +17,17 @@
             },
         },
         methods: {
-            ...mapMutations('app', [SET_ACTIVE_STRUCTURE]),
             onClick() {
-                this[SET_ACTIVE_STRUCTURE](this.folder.id);
-                this.$root.$emit('selectTreeFolder', this.folder);
+                let element = this.$parent;
+
+                while (true) {
+                    if (element.$options._componentTag === 'tree') {
+                        element.$emit('click', this.folder);
+                        break;
+                    }
+
+                    element = element.$parent;
+                }
             },
         },
         computed: {

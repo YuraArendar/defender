@@ -13,9 +13,10 @@
 <script>
     import EditForm from './edit-form';
     import structure from "../../mixins/api/structure";
+    import site_structure from "../../mixins/app/site_structure";
 
     export default {
-        mixins: [structure],
+        mixins: [structure, site_structure],
         name: "add",
         data() {
             return {
@@ -29,6 +30,12 @@
             save(form) {
                 this.createNewItem(form)
                     .then(response => {
+                        this.getStructureTree()
+                            .then(tree => {
+                                this.setSiteStructure(tree.data);
+                                this.setActiveStructure(response.data.id);
+                            });
+
                         this.$router.push({name: 'edit_structure', params: {id: response.data.id}})
                     })
                     .catch(error => {
