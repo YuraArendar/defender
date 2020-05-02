@@ -12846,17 +12846,19 @@ __webpack_require__.r(__webpack_exports__);
       if (list) {
         for (var i in list) {
           if (list[i].children && list[i].children.length > 0) {
-            this.searchById(list[i].children, id);
+            if (this.searchById(list[i].children, id)) {
+              return true;
+            }
           }
 
           if (list[i].id === id) {
             this.selectedItem = list[i];
-            break;
-          } else {
-            this.selectedItem = null;
+            return true;
           }
         }
       }
+
+      this.selectedItem = null;
     }
   },
   watch: {
@@ -13331,6 +13333,9 @@ __webpack_require__.r(__webpack_exports__);
       form: null,
       errors: {}
     };
+  },
+  created: function created() {
+    this.setActiveStructure(null);
   },
   components: {
     EditForm: _edit_form__WEBPACK_IMPORTED_MODULE_0__["default"]

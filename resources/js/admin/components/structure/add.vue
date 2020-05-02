@@ -24,6 +24,9 @@
                 errors: {}
             }
         },
+        created() {
+            this.setActiveStructure(null);
+        },
         components: {
             EditForm
         },
