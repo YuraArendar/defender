@@ -5,7 +5,7 @@
                 Edit "{{name}}"
             </div>
 
-            <edit-form v-if="form !== null" :values="form" @save="save"></edit-form>
+            <edit-form v-if="form !== null" :values="form" @save="save" :errors="errors"></edit-form>
         </div>
     </div>
 </template>
@@ -19,7 +19,8 @@
             return {
                 name: null,
                 form: null,
-                id: 0
+                id: 0,
+                errors: {}
             }
         },
         mixins: [structure],
@@ -39,22 +40,20 @@
             loadData(id) {
                 this.form = null;
                 this.getStructure(id)
-                .then(response => {
-                    this.name = response.data.name;
-                    this.form = response.data;
-                })
+                    .then(response => {
+                        this.name = response.data.name;
+                        this.form = response.data;
+                    })
             },
             save(form) {
-                console.log(form);
                 this.updateStructure(this.id, form)
-                 .then(response => {
-                     console.log(response)
-                 })
-                .catch(error => {
-                    console.log(error);
-                    console.log(error.response.data);
-                })
-            }
+                    .then(response => {
+                        console.log(response)
+                    })
+                    .catch(error => {
+                        this.errors = error.response.data.errors;
+                    })
+            },
         }
     }
 </script>

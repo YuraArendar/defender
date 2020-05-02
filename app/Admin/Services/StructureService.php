@@ -7,17 +7,17 @@ use App\Models\Structure;
 use Illuminate\Support\Collection;
 
 /**
- * Class StructuresService
+ * Class StructureService
  * @package App\Admin\Services
  */
-class StructuresService implements EntitiesOperationsContractor
+class StructureService implements EntitiesOperationsContractor
 {
     /**
      * @return Collection
      */
     public function all(): Collection
     {
-        return Structure::all()->toTree();
+        return Structure::defaultOrder()->get()->toTree();
     }
 
     /**
@@ -26,7 +26,10 @@ class StructuresService implements EntitiesOperationsContractor
      */
     public function store(array $parameters): Structure
     {
-        return Structure::create($parameters);
+        $structure = Structure::create($parameters);
+        Structure::fixTree();
+
+        return $structure;
     }
 
     /**
@@ -38,6 +41,7 @@ class StructuresService implements EntitiesOperationsContractor
     {
         $structure = Structure::findOrFail($id);
         $structure->update($parameters);
+        Structure::fixTree();
 
         return $structure;
     }
@@ -58,7 +62,32 @@ class StructuresService implements EntitiesOperationsContractor
     public function destroy(int $id): Collection
     {
         Structure::destroy($id);
+        Structure::fixTree();
 
         return $this->all();
+    }
+
+    /**
+     * @param int $id
+     * @return bool
+     */
+    public function up(int $id): bool
+    {
+        Structure::findOrFail($id)->up();
+        Structure::fixTree();
+
+        return true;
+    }
+
+    /**
+     * @param int $id
+     * @return bool
+     */
+    public function down(int $id): bool
+    {
+        Structure::findOrFail($id)->down();
+        Structure::fixTree();
+
+        return true;
     }
 }

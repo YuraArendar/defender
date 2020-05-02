@@ -11,6 +11,12 @@ export default {
         },
         async createNewItem(request) {
             return await this.$http.post('/api/structures', request)
+        },
+        async moveUp(id) {
+            return await this.$http.patch(`/api/structures/up/${id}`)
+        },
+        async moveDown(id) {
+            return await this.$http.patch(`/api/structures/down/${id}`)
         }
     }
 }

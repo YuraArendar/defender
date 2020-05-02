@@ -2,7 +2,7 @@
     <div class="field">
         <label class="label">{{name}}</label>
         <div class="control is-fullwidth">
-            <textarea class="textarea" v-model="text" @change="onChange" @focusin="errorText = ''"></textarea>
+            <textarea class="textarea" v-model="text" @change="onChange" @focusin="onFocus"></textarea>
         </div>
         <p v-if="errorText.length > 0" class="help is-danger">{{errorText}}</p>
     </div>
@@ -42,6 +42,9 @@
         methods: {
             onChange() {
                 this.$emit('change', this.text)
+            },
+            onFocus(event) {
+                this.$emit('onfocus', event)
             }
         },
         watch: {

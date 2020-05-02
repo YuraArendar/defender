@@ -1,7 +1,7 @@
 <template>
     <div class="field">
         <label class="label">{{name}}</label>
-        <div class="select" @change.prevent="onSelect" @focusin="errorText = ''">
+        <div class="select" @change.prevent="onSelect" @focusin="onFocus">
             <select>
                 <option v-for="option in options" :selected="value === option.value" :value="option.value">
                     {{option.name}}
@@ -44,6 +44,9 @@
         methods: {
             onSelect(event) {
                 this.$emit('change', event.target.value)
+            },
+            onFocus(event) {
+                this.$emit('onfocus', event)
             }
         },
         watch: {

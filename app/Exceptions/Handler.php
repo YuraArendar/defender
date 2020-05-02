@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -53,6 +54,10 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof ModelNotFoundException && is_admin_path()) {
             return response()->json(['error' => 'No results'], 404);
+        }
+
+        if ($exception instanceof NotFoundHttpException) {
+            return response()->json(['error' => 'URI not found'], 404);
         }
 
         return parent::render($request, $exception);

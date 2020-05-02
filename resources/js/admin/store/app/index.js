@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import {SET_ACTIVE_STRUCTURE, SET_API_KEY, SET_SITE_STRUCTURE} from "./mutations";
 import {LOGIN} from "./actions";
+import {GET_ACTIVE_STRUCTURE, GET_STRUCTURE} from "./getters";
 
 export default {
     namespaced: true,
@@ -38,5 +39,13 @@ export default {
                     })
             })
         }
+    },
+    getters: {
+        [GET_ACTIVE_STRUCTURE]: state => {
+            return state.active_structure;
+        },
+        [GET_STRUCTURE]: state => {
+            return state.site_structure;
+        },
     }
 }

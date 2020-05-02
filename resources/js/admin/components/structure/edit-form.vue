@@ -1,24 +1,23 @@
 <template>
     <div class="form-group">
-        <a-input v-model="form.name" :name="'Name'" :error="errors.errorName"></a-input>
-        <a-input v-model="form.alias" :name="'Alias'" :error="errors.errorName"></a-input>
+        <a-input v-model="form.name" :name="'Name'" :error="inputErrors.name" @onfocus="inputErrors.name = ''"></a-input>
+        <a-input v-model="form.alias" :name="'Alias'" :error="inputErrors.alias" @onfocus="inputErrors.alias = ''"></a-input>
 
         <div class="columns">
             <div class="column">
-                <a-tree-select :tree="structure"></a-tree-select>
+                <a-tree-select :tree="structure" :name="'Parent id'" :error="inputErrors.parent_id" @onfocus="inputErrors.parent_id = ''"></a-tree-select>
             </div>
 
             <div class="column">
-                <a-select v-model="form.controller" :name="'Controller'"
-                          :options="controller_options"></a-select>
+                <a-select v-model="form.controller" :name="'Controller'" :options="controller_options" :error="inputErrors.controller" @onfocus="inputErrors.controller = ''"></a-select>
             </div>
 
             <div class="column">
-                <a-select v-model="form.template" :name="'Template'" :options="template_options"></a-select>
+                <a-select v-model="form.template" :name="'Template'" :options="template_options" :error="inputErrors.template" @onfocus="inputErrors.template = ''"></a-select>
             </div>
         </div>
 
-        <a-textarea v-model="form.content" name="Content"></a-textarea>
+        <a-textarea v-model="form.content" name="Content" :error="inputErrors.content" @onfocus="inputErrors.content = ''"></a-textarea>
 
         <div class="field form-buttons">
             <button class="button is-primary is-pulled-right" @click="save">Save</button>
@@ -57,8 +56,13 @@
                     content: null,
                     parent_id: null,
                 },
-                errors: {
-                    errorName: '',
+                inputErrors: {
+                    controller: null,
+                    template: null,
+                    alias: null,
+                    name: null,
+                    content: null,
+                    parent_id: null,
                 },
                 controller_options: CONTROLLER_OPTIONS,
                 template_options: TEMPLATE_OPTIONS
@@ -71,6 +75,10 @@
             values: {
                 required: false,
                 type: Object
+            },
+            errors: {
+                required: false,
+                type: Object
             }
         },
         methods: {
@@ -81,6 +89,15 @@
                 for (let name in this.values) {
                     if (this.form[name] !== undefined) {
                         this.form[name] = this.values[name];
+                    }
+                }
+            }
+        },
+        watch: {
+            errors(errorsList) {
+                for (let name in errorsList) {
+                    if (this.inputErrors[name] !== undefined) {
+                        this.inputErrors[name] = errorsList[name][0];
                     }
                 }
             }

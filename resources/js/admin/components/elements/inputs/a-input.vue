@@ -2,7 +2,7 @@
     <div class="field">
         <label class="label">{{name}}</label>
         <div class="control is-fullwidth">
-            <input class="input" :type="type" v-model="text" @change="onChange" @focusin="errorText = ''">
+            <input class="input" :type="type" v-model="text" @change="onChange" @focusin="onFocus">
         </div>
         <p v-if="errorText.length > 0" class="help is-danger">{{errorText}}</p>
     </div>
@@ -42,6 +42,9 @@
         methods: {
             onChange() {
                 this.$emit('change', this.text)
+            },
+            onFocus(event) {
+                this.$emit('onfocus', event)
             }
         },
         watch: {
