@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="columns">
-            <div v-if="structure !== null" class="column is-one-quarter">
+            <div v-if="showTreeSidebar" class="column is-one-quarter">
                 <aside class="panel">
                     <p class="panel-heading">
                         Site structure
@@ -72,8 +72,8 @@
             }
         },
         computed: {
-            activeStructure() {
-                return this[GET_ACTIVE_STRUCTURE];
+            showTreeSidebar() {
+                return this.structure && this.structure.length > 0
             }
         },
         components: {

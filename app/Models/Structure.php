@@ -13,6 +13,7 @@ use Kalnoy\Nestedset\NodeTrait;
  * @property string $alias
  * @property string $template
  * @property string $controller
+ * @property int $active
  * @property int $_lft
  * @property int $_rgt
  * @property int|null $parent_id
@@ -53,6 +54,6 @@ class Structure extends Model
 {
     use NodeTrait, Translatable;
 
-    protected $fillable = ['alias', 'template', 'controller', 'parent_id'];
+    protected $fillable = ['alias', 'template', 'controller', 'parent_id', 'active'];
     public $translatedAttributes = ['name', 'content'];
 }

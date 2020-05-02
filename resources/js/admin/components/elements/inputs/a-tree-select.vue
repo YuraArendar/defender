@@ -10,10 +10,13 @@
                          <font-awesome-icon icon="angle-down" id="dropdown-tree-arrow"/>
                     </span>
                 </button>
+                <span class="is-small clear-input" @click="clearSelection">
+                    <font-awesome-icon icon="times" size="lg"></font-awesome-icon>
+                </span>
             </div>
             <div class="dropdown-menu" id="dropdown-tree-menu">
                 <div class="dropdown-content dropdown-scrollable" id="dropdown-tree-scrollable">
-                    <tree ref="tree" :tree="tree" :selected="selected" @click="onSelect" id="dropdown-tree-element"></tree>
+                    <tree ref="tree" :tree="tree" :selected="selectedItemId" @click="onSelect" id="dropdown-tree-element"></tree>
                 </div>
             </div>
         </div>
@@ -34,6 +37,8 @@
                 for_render: null,
                 text: this.defaultText,
                 errorText: '',
+                selectedItemId: null,
+                selectedItem: null,
             }
         },
         props: {
@@ -55,16 +60,27 @@
                 required: false,
                 type: String
             },
+            value: {
+                required: false
+            }
+        },
+        model: {
+            prop: 'value',
+            event: 'change'
         },
         created() {
+            this.selectedItemId = this.value;
             this.closeByClickOutside()
         },
         methods: {
             triggerDropdown() {
                 this.isOpen = !this.isOpen
             },
-            onSelect() {
+            onSelect(item) {
+                this.selectedItemId = item.id;
+                this.text = item.name;
                 this.triggerDropdown();
+                this.$emit('change', item.id);
             },
             closeByClickOutside() {
                 document.addEventListener('click', e => {
@@ -76,7 +92,27 @@
             click(e) {
                 this.$emit('onfocus', e);
                 this.triggerDropdown();
-            }
+            },
+            clearSelection() {
+                this.text = this.defaultText;
+                this.$emit('change', null);
+            },
+            searchById(list, id) {
+                if (list) {
+                    for (let i in list) {
+                        if (list[i].children && list[i].children.length > 0) {
+                            this.searchById(list[i].children, id);
+                        }
+
+                        if (list[i].id === id) {
+                            this.selectedItem = list[i];
+                            break;
+                        } else {
+                            this.selectedItem = null;
+                        }
+                    }
+                }
+            },
         },
         watch: {
             tree(newValue) {
@@ -84,6 +120,15 @@
             },
             error(text) {
                 this.errorText = text;
+            },
+            value(newValue) {
+                this.selectedItemId = newValue;
+                this.searchById(this.tree, parseInt(newValue));
+                if (this.selectedItem === null) {
+                    this.text = this.defaultText;
+                } else {
+                    this.text = this.selectedItem.name;
+                }
             },
         },
         components: {
@@ -97,5 +142,12 @@
         overflow-x: hidden;
         overflow-y: auto;
         max-height: 250px;
+    }
+
+    .clear-input {
+        color: rgb(204, 84, 84);
+        display: inline-block;
+        margin: 7px 0 0 5px;
+        cursor: pointer;
     }
 </style>

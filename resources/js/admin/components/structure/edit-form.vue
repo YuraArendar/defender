@@ -1,23 +1,31 @@
 <template>
     <div class="form-group">
-        <a-input v-model="form.name" :name="'Name'" :error="inputErrors.name" @onfocus="inputErrors.name = ''"></a-input>
-        <a-input v-model="form.alias" :name="'Alias'" :error="inputErrors.alias" @onfocus="inputErrors.alias = ''"></a-input>
+        <a-switch :name="'Active'" v-model="form.active"/>
+
+        <a-input v-model="form.name" :name="'Name'" :error="inputErrors.name"
+                 @onfocus="inputErrors.name = ''"></a-input>
+        <a-input v-model="form.alias" :name="'Alias'" :error="inputErrors.alias"
+                 @onfocus="inputErrors.alias = ''"></a-input>
 
         <div class="columns">
             <div class="column">
-                <a-tree-select :tree="structure" :name="'Parent id'" :error="inputErrors.parent_id" @onfocus="inputErrors.parent_id = ''"></a-tree-select>
+                <a-tree-select :tree="structure" :name="'Parent id'" :error="inputErrors.parent_id"
+                               @onfocus="inputErrors.parent_id = ''" v-model="form.parent_id"></a-tree-select>
             </div>
 
             <div class="column">
-                <a-select v-model="form.controller" :name="'Controller'" :options="controller_options" :error="inputErrors.controller" @onfocus="inputErrors.controller = ''"></a-select>
+                <a-select v-model="form.controller" :name="'Controller'" :options="controller_options"
+                          :error="inputErrors.controller" @onfocus="inputErrors.controller = ''"></a-select>
             </div>
 
             <div class="column">
-                <a-select v-model="form.template" :name="'Template'" :options="template_options" :error="inputErrors.template" @onfocus="inputErrors.template = ''"></a-select>
+                <a-select v-model="form.template" :name="'Template'" :options="template_options"
+                          :error="inputErrors.template" @onfocus="inputErrors.template = ''"></a-select>
             </div>
         </div>
 
-        <a-textarea v-model="form.content" name="Content" :error="inputErrors.content" @onfocus="inputErrors.content = ''"></a-textarea>
+        <a-textarea v-model="form.content" name="Content" :error="inputErrors.content"
+                    @onfocus="inputErrors.content = ''"></a-textarea>
 
         <div class="field form-buttons">
             <button class="button is-primary is-pulled-right" @click="save">Save</button>
@@ -31,6 +39,7 @@
     import AInput from '../elements/inputs/a-input';
     import ATextarea from '../elements/inputs/a-textarea';
     import ATreeSelect from '../elements/inputs/a-tree-select';
+    import ASwitch from '../elements/inputs/a-switch';
 
     import site_structure from "../../mixins/app/site_structure";
 
@@ -49,6 +58,7 @@
                 form: {
                     locale: 'en',
                     id: null,
+                    active: true,
                     controller: CONTROLLER_OPTIONS[0].value,
                     template: TEMPLATE_OPTIONS[0].value,
                     alias: null,
@@ -68,9 +78,6 @@
                 template_options: TEMPLATE_OPTIONS
             }
         },
-        created() {
-            this.init()
-        },
         props: {
             values: {
                 required: false,
@@ -85,19 +92,19 @@
             save() {
                 this.$emit('save', this.form)
             },
-            init() {
-                for (let name in this.values) {
-                    if (this.form[name] !== undefined) {
-                        this.form[name] = this.values[name];
-                    }
-                }
-            }
         },
         watch: {
             errors(errorsList) {
                 for (let name in errorsList) {
                     if (this.inputErrors[name] !== undefined) {
-                        this.inputErrors[name] = errorsList[name][0];
+                        this.$set(this.inputErrors, name, errorsList[name][0]);
+                    }
+                }
+            },
+            values(form) {
+                for (let name in form) {
+                    if (this.form[name] !== undefined) {
+                        this.$set(this.form, name, form[name])
                     }
                 }
             }
@@ -107,7 +114,8 @@
             AEditor,
             AInput,
             ATextarea,
-            ATreeSelect
+            ATreeSelect,
+            ASwitch,
         }
     }
 </script>

@@ -17,6 +17,7 @@ class CreateStructuresTable extends Migration
         Schema::create('structures', static function (Blueprint $table) {
             $table->id();
             $table->string('alias')->unique();
+            $table->boolean('active')->default(true)->index();
             $table->enum('template', ['default']);
             $table->enum('controller', ['page', 'list', 'gallery']);
             NestedSet::columns($table);

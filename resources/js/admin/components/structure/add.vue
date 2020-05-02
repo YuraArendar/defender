@@ -5,7 +5,7 @@
                 Add new item
             </div>
 
-            <edit-form :values="form" @save="save"></edit-form>
+            <edit-form :values="form" :errors="errors" @save="save"></edit-form>
         </div>
     </div>
 </template>
@@ -20,7 +20,8 @@
         name: "add",
         data() {
             return {
-                form: null
+                form: null,
+                errors: {}
             }
         },
         components: {
@@ -39,7 +40,7 @@
                         this.$router.push({name: 'edit_structure', params: {id: response.data.id}})
                     })
                     .catch(error => {
-                        console.log(error);
+                        this.errors = error.response.data.errors;
                     })
             }
         }

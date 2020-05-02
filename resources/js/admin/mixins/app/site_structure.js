@@ -14,6 +14,9 @@ export default {
     computed: {
         structure() {
             return this.$store.state.app.site_structure
+        },
+        activeStructure() {
+            return this.$store.state.app.active_structure
         }
     }
 }

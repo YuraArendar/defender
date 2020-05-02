@@ -51,6 +51,9 @@
             error(text) {
                 this.errorText = text;
             },
+            value(newValue) {
+                this.text = newValue;
+            }
         }
     }
 </script>

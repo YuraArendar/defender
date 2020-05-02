@@ -5,7 +5,7 @@
                 Edit "{{name}}"
             </div>
 
-            <edit-form v-if="form !== null" :values="form" @save="save" :errors="errors"></edit-form>
+            <edit-form :values="form" @save="save" :errors="errors"></edit-form>
         </div>
     </div>
 </template>

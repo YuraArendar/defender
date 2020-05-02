@@ -11,7 +11,7 @@
                 </button>
             </span>
         </a>
-        <ul v-if="folder.children" class="menu-list">
+        <ul v-if="hasChildren" class="menu-list">
             <folder v-for="(child, index) in folder.children" :key="child.id" :order="index"
                     :count="folder.children.length" :folder="child"/>
         </ul>
@@ -67,6 +67,9 @@
             },
             isSortable() {
                 return this.getTreeComponent().$props.sortable && this.count > 0
+            },
+            hasChildren() {
+                return this.folder.children && this.folder.children.length > 0
             }
         }
     }
