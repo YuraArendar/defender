@@ -19,35 +19,22 @@
                     <div class="navbar-start">
                         <router-link class="navbar-item" :to="{name: 'dashboard'}">Dashboard</router-link>
                         <router-link class="navbar-item" :to="{name: 'index_structure'}">Structure</router-link>
-
-
-                        <div class="navbar-item has-dropdown is-hoverable">
-                            <a class="navbar-link">
-                                More
-                            </a>
-
-                            <div class="navbar-dropdown">
-                                <a class="navbar-item">
-                                    About
-                                </a>
-                                <a class="navbar-item">
-                                    Jobs
-                                </a>
-                                <a class="navbar-item">
-                                    Contact
-                                </a>
-                                <hr class="navbar-divider">
-                                <a class="navbar-item">
-                                    Report an issue
-                                </a>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="navbar-end">
-                        <div class="navbar-item">
-                            <div class="buttons">
-                                <router-link class="button is-warning" :to="{name: 'logout'}">Logout</router-link>
+                        <LocalChanger/>
+                        <div class="navbar-item is-hoverable has-dropdown">
+                            <a class="navbar-link">
+                                <font-awesome-icon icon="user"/>&nbsp;&nbsp;{{$store.state.user.username}}
+                            </a>
+                            <div class="navbar-dropdown is-right">
+                                <a class="navbar-item">
+                                    Overview
+                                </a>
+                                <hr class="navbar-divider">
+                                <div class="navbar-item">
+                                    <router-link class="is-link" :to="{name: 'logout'}">{{$t('logout')}}&nbsp;&nbsp;&nbsp;<font-awesome-icon icon="sign-out-alt"/></router-link>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -66,6 +53,7 @@
 
 <script>
     import breadcrumbs from '../../elements/bradcrumbs/breadcrumbs';
+    import LocalChanger from '../../elements/lang/locale-changer';
 
     export default {
         mounted() {
@@ -89,7 +77,8 @@
             }
         },
         components: {
-            breadcrumbs
+            breadcrumbs,
+            LocalChanger,
         }
     }
 </script>

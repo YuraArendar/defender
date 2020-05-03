@@ -3,6 +3,8 @@ import VueRouter from 'vue-router';
 import VueAxios from 'vue-axios';
 import axios from 'axios';
 import Vuex from 'vuex';
+import VueI18n from 'vue-i18n';
+import VueCookie from 'vue-cookies';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -19,9 +21,19 @@ Vue.config.productionTip = false
 Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(VueAxios, axios);
+Vue.use(VueI18n);
+Vue.use(VueCookie);
 
 import {routes} from './routes';
 import storage from './store';
+import {messages} from "./lang";
+
+const i18n = new VueI18n({
+    locale: 'en',
+    messages
+});
+
+Vue.$cookies.config('7d');
 
 const router = new VueRouter({
     routes
@@ -32,6 +44,7 @@ const store = new Vuex.Store(storage);
 new Vue({
     router,
     store,
+    i18n,
     el: '#app',
     components: {
         App
