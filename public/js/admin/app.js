@@ -12328,6 +12328,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixins_api_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/api/user */ "./resources/js/admin/mixins/api/user.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _store_user_mutations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store/user/mutations */ "./resources/js/admin/store/user/mutations.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _store_app_mutations__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../store/app/mutations */ "./resources/js/admin/store/app/mutations.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -12341,10 +12344,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   mixins: [_mixins_api_user__WEBPACK_IMPORTED_MODULE_0__["default"]],
   created: function created() {
     var _this = this;
+
+    if (this.$cookies.get('locale')) {
+      this.$i18n.locale = this.$cookies.get('locale');
+    }
+
+    if (this.$cookies.get('content_language')) {
+      this[_store_app_mutations__WEBPACK_IMPORTED_MODULE_4__["SET_CONTENT_LANGUAGE"]](this.$cookies.get('content_language'));
+    }
 
     this.$http.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -12369,7 +12382,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     }
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])('user', [_store_user_mutations__WEBPACK_IMPORTED_MODULE_2__["SET_USER_NAME"], _store_user_mutations__WEBPACK_IMPORTED_MODULE_2__["SER_USER_EMAIL"]]))
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])('user', [_store_user_mutations__WEBPACK_IMPORTED_MODULE_2__["SET_USER_NAME"], _store_user_mutations__WEBPACK_IMPORTED_MODULE_2__["SER_USER_EMAIL"]]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])('app', [_store_app_mutations__WEBPACK_IMPORTED_MODULE_4__["SET_CONTENT_LANGUAGE"]]))
 });
 
 /***/ }),
@@ -12821,7 +12834,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     onSelect: function onSelect(item) {
       this.selectedItemId = item.id;
-      this.text = item.name;
+      this.text = item.name ? item.name : item.id;
       this.triggerDropdown();
       this.$emit('change', item.id);
     },
@@ -12875,7 +12888,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.selectedItem === null) {
         this.text = this.defaultText;
       } else {
-        this.text = this.selectedItem.name;
+        this.text = this.selectedItem.name ? this.selectedItem.name : this.selectedItem.id;
       }
     }
   },
@@ -12922,21 +12935,28 @@ __webpack_require__.r(__webpack_exports__);
         locale: 'uk',
         name: 'Українська'
       }],
-      isOpen: false
+      isOpen: false,
+      selected: 'en'
     };
   },
   created: function created() {
-    if (this.$cookies.get('locale')) {
-      this.$i18n.locale = this.$cookies.get('locale');
-    }
-
+    this.selected = this.locale;
     this.closeByClickOutside();
+  },
+  props: {
+    locale: {
+      type: String
+    }
+  },
+  model: {
+    prop: 'locale',
+    event: 'change'
   },
   methods: {
     onChange: function onChange(lang) {
-      this.$i18n.locale = lang.locale;
-      this.$cookies.set('locale', lang.locale);
       this.triggerOpen();
+      this.selected = lang.locale;
+      this.$emit('change', lang.locale);
     },
     triggerOpen: function triggerOpen() {
       this.isOpen = !this.isOpen;
@@ -12949,6 +12969,11 @@ __webpack_require__.r(__webpack_exports__);
           _this.isOpen = false;
         }
       });
+    }
+  },
+  watch: {
+    locale: function locale(newLocale) {
+      this.selected = newLocale;
     }
   }
 });
@@ -13327,6 +13352,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -13369,6 +13395,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _edit_form__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./edit-form */ "./resources/js/admin/components/structure/edit-form.vue");
 /* harmony import */ var _mixins_api_structure__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../mixins/api/structure */ "./resources/js/admin/mixins/api/structure.js");
 /* harmony import */ var _mixins_app_site_structure__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../mixins/app/site_structure */ "./resources/js/admin/mixins/app/site_structure.js");
+/* harmony import */ var _elements_lang_locale_changer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../elements/lang/locale-changer */ "./resources/js/admin/components/elements/lang/locale-changer.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _store_app_mutations__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../store/app/mutations */ "./resources/js/admin/store/app/mutations.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -13381,6 +13416,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
+
+
 
 
 
@@ -13397,9 +13435,10 @@ __webpack_require__.r(__webpack_exports__);
     this.setActiveStructure(null);
   },
   components: {
-    EditForm: _edit_form__WEBPACK_IMPORTED_MODULE_0__["default"]
+    EditForm: _edit_form__WEBPACK_IMPORTED_MODULE_0__["default"],
+    LocaleChanger: _elements_lang_locale_changer__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
-  methods: {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapMutations"])('app', [_store_app_mutations__WEBPACK_IMPORTED_MODULE_5__["SET_CONTENT_LANGUAGE"]]), {
     save: function save(form) {
       var _this = this;
 
@@ -13419,8 +13458,17 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         _this.errors = error.response.data.errors;
       });
+    },
+    changeContentLocale: function changeContentLocale(lang) {
+      var _this2 = this;
+
+      this.$cookies.set('content_language', lang);
+      this[_store_app_mutations__WEBPACK_IMPORTED_MODULE_5__["SET_CONTENT_LANGUAGE"]](lang);
+      this.getStructureTree().then(function (tree) {
+        _this2.setSiteStructure(tree.data);
+      });
     }
-  }
+  })
 });
 
 /***/ }),
@@ -13441,6 +13489,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _elements_inputs_a_tree_select__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../elements/inputs/a-tree-select */ "./resources/js/admin/components/elements/inputs/a-tree-select.vue");
 /* harmony import */ var _elements_inputs_a_switch__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../elements/inputs/a-switch */ "./resources/js/admin/components/elements/inputs/a-switch.vue");
 /* harmony import */ var _mixins_app_site_structure__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../mixins/app/site_structure */ "./resources/js/admin/mixins/app/site_structure.js");
+/* harmony import */ var _mixins_app_common__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../mixins/app/common */ "./resources/js/admin/mixins/app/common.js");
 //
 //
 //
@@ -13476,6 +13525,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 
@@ -13498,7 +13548,7 @@ var TEMPLATE_OPTIONS = [{
   value: 'default'
 }];
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mixins: [_mixins_app_site_structure__WEBPACK_IMPORTED_MODULE_6__["default"]],
+  mixins: [_mixins_app_site_structure__WEBPACK_IMPORTED_MODULE_6__["default"], _mixins_app_common__WEBPACK_IMPORTED_MODULE_7__["default"]],
   name: "edit-form",
   data: function data() {
     return {
@@ -13525,6 +13575,9 @@ var TEMPLATE_OPTIONS = [{
       template_options: TEMPLATE_OPTIONS
     };
   },
+  created: function created() {
+    this.form.locale = this.content_language;
+  },
   props: {
     values: {
       required: false,
@@ -13538,6 +13591,13 @@ var TEMPLATE_OPTIONS = [{
   methods: {
     save: function save() {
       this.$emit('save', this.form);
+    }
+  },
+  computed: {
+    language: function language() {
+      var language = this.$store.state.app.content_language;
+      this.form.locale = language;
+      return language;
     }
   },
   watch: {
@@ -13579,6 +13639,16 @@ var TEMPLATE_OPTIONS = [{
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _edit_form__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./edit-form */ "./resources/js/admin/components/structure/edit-form.vue");
 /* harmony import */ var _mixins_api_structure__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../mixins/api/structure */ "./resources/js/admin/mixins/api/structure.js");
+/* harmony import */ var _elements_lang_locale_changer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../elements/lang/locale-changer */ "./resources/js/admin/components/elements/lang/locale-changer.vue");
+/* harmony import */ var _store_app_mutations__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../store/app/mutations */ "./resources/js/admin/store/app/mutations.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _mixins_app_site_structure__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../mixins/app/site_structure */ "./resources/js/admin/mixins/app/site_structure.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -13591,6 +13661,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
+
+
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -13602,20 +13676,22 @@ __webpack_require__.r(__webpack_exports__);
       errors: {}
     };
   },
-  mixins: [_mixins_api_structure__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  mixins: [_mixins_api_structure__WEBPACK_IMPORTED_MODULE_1__["default"], _mixins_app_site_structure__WEBPACK_IMPORTED_MODULE_5__["default"]],
   name: "edit",
   components: {
-    EditForm: _edit_form__WEBPACK_IMPORTED_MODULE_0__["default"]
+    EditForm: _edit_form__WEBPACK_IMPORTED_MODULE_0__["default"],
+    LocaleChanger: _elements_lang_locale_changer__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   beforeRouteUpdate: function beforeRouteUpdate(to, from, next) {
     this.loadData(to.params.id);
+    this.id = parseInt(to.params.id);
     next();
   },
   created: function created() {
     this.id = this.$route.params.id;
     this.loadData(this.id);
   },
-  methods: {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapMutations"])('app', [_store_app_mutations__WEBPACK_IMPORTED_MODULE_3__["SET_CONTENT_LANGUAGE"]]), {
     loadData: function loadData(id) {
       var _this = this;
 
@@ -13629,12 +13705,27 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       this.updateStructure(this.id, form).then(function (response) {
-        console.log(response);
+        _this2.name = response.data.name;
+
+        _this2.getStructureTree().then(function (tree) {
+          _this2.setSiteStructure(tree.data);
+        });
       })["catch"](function (error) {
         _this2.errors = error.response.data.errors;
       });
+    },
+    changeContentLocale: function changeContentLocale(lang) {
+      var _this3 = this;
+
+      this.$cookies.set('content_language', lang);
+      this[_store_app_mutations__WEBPACK_IMPORTED_MODULE_3__["SET_CONTENT_LANGUAGE"]](lang);
+      this.getStructureTree().then(function (tree) {
+        _this3.setSiteStructure(tree.data);
+
+        _this3.loadData(_this3.id);
+      });
     }
-  }
+  })
 });
 
 /***/ }),
@@ -18603,10 +18694,7 @@ var render = function() {
         },
         [
           _c("img", {
-            attrs: {
-              src: "/images/flags/" + _vm.$i18n.locale + ".png",
-              alt: ""
-            }
+            attrs: { src: "/images/flags/" + _vm.selected + ".png", alt: "" }
           })
         ]
       ),
@@ -18618,7 +18706,7 @@ var render = function() {
           attrs: { id: "dropdown-lang-list" }
         },
         _vm._l(_vm.langs, function(lang) {
-          return lang.locale !== _vm.$i18n.locale
+          return lang.locale !== _vm.selected
             ? _c(
                 "a",
                 {
@@ -18682,7 +18770,9 @@ var render = function() {
         }
       },
       [
-        _c("span", [_vm._v(_vm._s(_vm.folder.name))]),
+        _c("span", [
+          _vm._v(_vm._s(_vm.folder.name ? _vm.folder.name : _vm.folder.id))
+        ]),
         _vm._v(" "),
         _vm.isSortable
           ? _c("span", { staticClass: "is-pulled-right up-down-container" }, [
@@ -19006,7 +19096,15 @@ var render = function() {
               "div",
               { staticClass: "navbar-end" },
               [
-                _c("LocalChanger"),
+                _c("LocalChanger", {
+                  model: {
+                    value: _vm.$i18n.locale,
+                    callback: function($$v) {
+                      _vm.$set(_vm.$i18n, "locale", $$v)
+                    },
+                    expression: "$i18n.locale"
+                  }
+                }),
                 _vm._v(" "),
                 _c(
                   "div",
@@ -19146,9 +19244,19 @@ var render = function() {
       "div",
       { staticClass: "panel" },
       [
-        _c("div", { staticClass: "panel-heading" }, [
-          _vm._v("\n            Add new item\n        ")
-        ]),
+        _c(
+          "div",
+          { staticClass: "panel-heading" },
+          [
+            _vm._v("\n            Add new item "),
+            _c("locale-changer", {
+              staticClass: "is-pulled-right",
+              attrs: { locale: _vm.$store.state.app.content_language },
+              on: { change: _vm.changeContentLocale }
+            })
+          ],
+          1
+        ),
         _vm._v(" "),
         _c("edit-form", {
           attrs: { values: _vm.form, errors: _vm.errors },
@@ -19368,9 +19476,19 @@ var render = function() {
       "div",
       { staticClass: "panel" },
       [
-        _c("div", { staticClass: "panel-heading" }, [
-          _vm._v('\n            Edit "' + _vm._s(_vm.name) + '"\n        ')
-        ]),
+        _c(
+          "div",
+          { staticClass: "panel-heading" },
+          [
+            _vm._v('\n            Edit "' + _vm._s(_vm.name) + '" '),
+            _c("locale-changer", {
+              staticClass: "is-pulled-right",
+              attrs: { locale: _vm.$store.state.app.content_language },
+              on: { change: _vm.changeContentLocale }
+            })
+          ],
+          1
+        ),
         _vm._v(" "),
         _c("edit-form", {
           attrs: { values: _vm.form, errors: _vm.errors },
@@ -37141,7 +37259,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _this.$http.get('/api/structures');
+                return _this.$http.get("/api/structures?locale=".concat(_this.$store.state.app.content_language));
 
               case 2:
                 return _context.abrupt("return", _context.sent);
@@ -37163,7 +37281,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return _this2.$http.get("/api/structures/".concat(id));
+                return _this2.$http.get("/api/structures/".concat(id, "?locale=").concat(_this2.$store.state.app.content_language));
 
               case 2:
                 return _context2.abrupt("return", _context2.sent);
@@ -37309,6 +37427,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/admin/mixins/app/common.js":
+/*!*************************************************!*\
+  !*** ./resources/js/admin/mixins/app/common.js ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  computed: {
+    content_language: function content_language() {
+      return this.$store.state.app.content_language;
     }
   }
 });
@@ -37493,7 +37630,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   state: {
     api_key: localStorage.getItem('api_key') || null,
     active_structure: null,
-    site_structure: null
+    site_structure: null,
+    content_language: 'en'
   },
   mutations: (_mutations = {}, _defineProperty(_mutations, _mutations__WEBPACK_IMPORTED_MODULE_1__["SET_API_KEY"], function (state, key) {
     localStorage.setItem('api_key', key);
@@ -37502,6 +37640,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     state.active_structure = id;
   }), _defineProperty(_mutations, _mutations__WEBPACK_IMPORTED_MODULE_1__["SET_SITE_STRUCTURE"], function (state, tree) {
     state.site_structure = tree;
+  }), _defineProperty(_mutations, _mutations__WEBPACK_IMPORTED_MODULE_1__["SET_CONTENT_LANGUAGE"], function (state, locale) {
+    state.content_language = locale;
   }), _mutations),
   actions: _defineProperty({}, _actions__WEBPACK_IMPORTED_MODULE_2__["LOGIN"], function (context, credentials) {
     return new Promise(function (resolve, reject) {
@@ -37529,7 +37669,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /*!***************************************************!*\
   !*** ./resources/js/admin/store/app/mutations.js ***!
   \***************************************************/
-/*! exports provided: SET_API_KEY, SET_ACTIVE_STRUCTURE, SET_SITE_STRUCTURE */
+/*! exports provided: SET_API_KEY, SET_ACTIVE_STRUCTURE, SET_SITE_STRUCTURE, SET_CONTENT_LANGUAGE */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -37537,9 +37677,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_API_KEY", function() { return SET_API_KEY; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_ACTIVE_STRUCTURE", function() { return SET_ACTIVE_STRUCTURE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_SITE_STRUCTURE", function() { return SET_SITE_STRUCTURE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_CONTENT_LANGUAGE", function() { return SET_CONTENT_LANGUAGE; });
 var SET_API_KEY = 'set_api_key';
 var SET_ACTIVE_STRUCTURE = 'set_active_structure';
 var SET_SITE_STRUCTURE = 'set_site_structure';
+var SET_CONTENT_LANGUAGE = 'set_content_language';
 
 /***/ }),
 

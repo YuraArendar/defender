@@ -42,6 +42,7 @@
     import ASwitch from '../elements/inputs/a-switch';
 
     import site_structure from "../../mixins/app/site_structure";
+    import common from "../../mixins/app/common";
 
     const CONTROLLER_OPTIONS = [
         {name: 'Page', value: 'page'},
@@ -51,7 +52,7 @@
     const TEMPLATE_OPTIONS = [{name: 'Default', value: 'default'}];
 
     export default {
-        mixins: [site_structure],
+        mixins: [site_structure, common],
         name: "edit-form",
         data() {
             return {
@@ -78,6 +79,9 @@
                 template_options: TEMPLATE_OPTIONS
             }
         },
+        created() {
+            this.form.locale = this.content_language;
+        },
         props: {
             values: {
                 required: false,
@@ -93,6 +97,13 @@
                 this.$emit('save', this.form)
             },
         },
+        computed: {
+            language() {
+                let language = this.$store.state.app.content_language;
+                this.form.locale = language;
+                return language;
+            }
+        },
         watch: {
             errors(errorsList) {
                 for (let name in errorsList) {
@@ -107,7 +118,7 @@
                         this.$set(this.form, name, form[name])
                     }
                 }
-            }
+            },
         },
         components: {
             ASelect,

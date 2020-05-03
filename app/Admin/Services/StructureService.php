@@ -4,6 +4,7 @@ namespace App\Admin\Services;
 
 use App\Admin\Contracts\EntitiesOperationsContractor;
 use App\Models\Structure;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Collection;
 
 /**
@@ -40,7 +41,21 @@ class StructureService implements EntitiesOperationsContractor
     public function update(int $id, array $parameters): Structure
     {
         $structure = Structure::findOrFail($id);
-        $structure->update($parameters);
+
+        foreach ($parameters as $key => $value) {
+            if (property_exists($structure, $key) && $structure->$key === $value) {
+                unset($parameters[$key]);
+            }
+        }
+
+        try {
+            $structure->update($parameters);
+        } catch (QueryException $exception) {
+            if (strpos($exception->getMessage(), '1062 Duplicate entry') !== false) {
+                abort(422, json_encode(['errors' => ['alias' => [trans('validation.unique', ['attribute' => 'alias'])]]]));
+            }
+        }
+
         Structure::fixTree();
 
         return $structure;

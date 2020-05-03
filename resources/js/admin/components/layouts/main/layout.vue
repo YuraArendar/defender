@@ -22,7 +22,8 @@
                     </div>
 
                     <div class="navbar-end">
-                        <LocalChanger/>
+                        <LocalChanger v-model="$i18n.locale"/>
+
                         <div class="navbar-item is-hoverable has-dropdown">
                             <a class="navbar-link">
                                 <font-awesome-icon icon="user"/>&nbsp;&nbsp;{{$store.state.user.username}}
@@ -74,7 +75,7 @@
                         });
                     });
                 }
-            }
+            },
         },
         components: {
             breadcrumbs,

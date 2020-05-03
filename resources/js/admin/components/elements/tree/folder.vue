@@ -1,7 +1,7 @@
 <template>
     <li>
         <a @click.prevent="onClick" :class="{'is-active' : active}">
-            <span>{{folder.name}}</span>
+            <span>{{folder.name ? folder.name : folder.id}}</span>
             <span v-if="isSortable" class="is-pulled-right up-down-container">
                 <button v-if="order > 0" class="button is-small is-success" @click.prevent.stop="up">
                     <font-awesome-icon icon="angle-up"/>

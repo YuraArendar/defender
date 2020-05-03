@@ -78,7 +78,7 @@
             },
             onSelect(item) {
                 this.selectedItemId = item.id;
-                this.text = item.name;
+                this.text = item.name ? item.name : item.id;
                 this.triggerDropdown();
                 this.$emit('change', item.id);
             },
@@ -129,7 +129,7 @@
                 if (this.selectedItem === null) {
                     this.text = this.defaultText;
                 } else {
-                    this.text = this.selectedItem.name;
+                    this.text = this.selectedItem.name ? this.selectedItem.name : this.selectedItem.id;
                 }
             },
         },

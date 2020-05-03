@@ -2,7 +2,7 @@
     <div>
         <div class="panel">
             <div class="panel-heading">
-                Add new item
+                Add new item <locale-changer class="is-pulled-right" :locale="$store.state.app.content_language" @change="changeContentLocale"/>
             </div>
 
             <edit-form :values="form" :errors="errors" @save="save"></edit-form>
@@ -14,6 +14,9 @@
     import EditForm from './edit-form';
     import structure from "../../mixins/api/structure";
     import site_structure from "../../mixins/app/site_structure";
+    import LocaleChanger from '../elements/lang/locale-changer';
+    import {mapMutations} from "vuex";
+    import {SET_CONTENT_LANGUAGE} from "../../store/app/mutations";
 
     export default {
         mixins: [structure, site_structure],
@@ -28,9 +31,11 @@
             this.setActiveStructure(null);
         },
         components: {
-            EditForm
+            EditForm,
+            LocaleChanger,
         },
         methods: {
+            ...mapMutations('app', [SET_CONTENT_LANGUAGE]),
             save(form) {
                 this.createNewItem(form)
                     .then(response => {
@@ -45,6 +50,14 @@
                     .catch(error => {
                         this.errors = error.response.data.errors;
                     })
+            },
+            changeContentLocale(lang) {
+                this.$cookies.set('content_language', lang);
+                this[SET_CONTENT_LANGUAGE](lang);
+                this.getStructureTree()
+                    .then(tree => {
+                        this.setSiteStructure(tree.data);
+                    });
             }
         }
     }
