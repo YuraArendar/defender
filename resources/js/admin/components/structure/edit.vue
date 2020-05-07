@@ -17,6 +17,7 @@
     import {SET_CONTENT_LANGUAGE} from "../../store/app/mutations";
     import {mapMutations} from "vuex";
     import site_structure from "../../mixins/app/site_structure";
+    import {SUCCESS_TOAST} from "../../options/toast";
 
     export default {
         data() {
@@ -60,6 +61,7 @@
                         this.getStructureTree()
                             .then(tree => {
                                 this.setSiteStructure(tree.data);
+                                this.$toasted.success('Saved', SUCCESS_TOAST);
                             });
                     })
                     .catch(error => {

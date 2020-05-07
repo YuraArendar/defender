@@ -1,8 +1,10 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700');
+@import "~@fortawesome/fontawesome-free/css/all.css";
 
 // Variables
 @import 'variables';
 
 @import '~bulma';
 @import "~bulma-switch";
+@import "~cxlt-vue2-toastr/src/assets/toastr.css";

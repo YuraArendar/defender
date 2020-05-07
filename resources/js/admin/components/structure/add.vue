@@ -17,6 +17,7 @@
     import LocaleChanger from '../elements/lang/locale-changer';
     import {mapMutations} from "vuex";
     import {SET_CONTENT_LANGUAGE} from "../../store/app/mutations";
+    import {SUCCESS_TOAST} from "../../options/toast";
 
     export default {
         mixins: [structure, site_structure],
@@ -43,6 +44,7 @@
                             .then(tree => {
                                 this.setSiteStructure(tree.data);
                                 this.setActiveStructure(response.data.id);
+                                this.$toasted.success('Saved', SUCCESS_TOAST);
                             });
 
                         this.$router.push({name: 'edit_structure', params: {id: response.data.id}})

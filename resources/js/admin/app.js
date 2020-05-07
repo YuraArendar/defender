@@ -5,6 +5,7 @@ import axios from 'axios';
 import Vuex from 'vuex';
 import VueI18n from 'vue-i18n';
 import VueCookie from 'vue-cookies';
+import VueToasted from 'vue-toasted';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -16,13 +17,16 @@ library.add(fas);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(VueAxios, axios);
 Vue.use(VueI18n);
 Vue.use(VueCookie);
+Vue.use(VueToasted, {
+    iconPack : 'fontawesome' // set your iconPack, defaults to material. material|fontawesome|custom-class
+});
 
 import {routes} from './routes';
 import storage from './store';
