@@ -57,7 +57,7 @@
         data() {
             return {
                 form: {
-                    locale: 'en',
+                    locale: this.$store.state.app.content_language,
                     id: null,
                     active: true,
                     controller: CONTROLLER_OPTIONS[0].value,
@@ -78,9 +78,6 @@
                 controller_options: CONTROLLER_OPTIONS,
                 template_options: TEMPLATE_OPTIONS
             }
-        },
-        created() {
-            this.form.locale = this.content_language;
         },
         props: {
             values: {

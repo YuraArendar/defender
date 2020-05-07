@@ -13557,7 +13557,7 @@ var TEMPLATE_OPTIONS = [{
   data: function data() {
     return {
       form: {
-        locale: 'en',
+        locale: this.$store.state.app.content_language,
         id: null,
         active: true,
         controller: CONTROLLER_OPTIONS[0].value,
@@ -13578,9 +13578,6 @@ var TEMPLATE_OPTIONS = [{
       controller_options: CONTROLLER_OPTIONS,
       template_options: TEMPLATE_OPTIONS
     };
-  },
-  created: function created() {
-    this.form.locale = this.content_language;
   },
   props: {
     values: {
