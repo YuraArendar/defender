@@ -8,19 +8,11 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Collection;
 
 /**
- * Class StructureService
+ * Class StructureOperationsService
  * @package App\Admin\Services
  */
-class StructureService implements EntitiesOperationsContractor
+class StructureOperationsService implements EntitiesOperationsContractor
 {
-    /**
-     * @return Collection
-     */
-    public function all(): Collection
-    {
-        return Structure::defaultOrder()->get()->toTree();
-    }
-
     /**
      * @param array $parameters
      * @return Structure
@@ -63,15 +55,6 @@ class StructureService implements EntitiesOperationsContractor
 
     /**
      * @param int $id
-     * @return Structure
-     */
-    public function show(int $id): Structure
-    {
-        return Structure::withTranslation()->findOrFail($id);
-    }
-
-    /**
-     * @param int $id
      * @return Collection
      */
     public function destroy(int $id): Collection
@@ -79,7 +62,7 @@ class StructureService implements EntitiesOperationsContractor
         Structure::destroy($id);
         Structure::fixTree();
 
-        return $this->all();
+        return Structure::defaultOrder()->get()->toTree();
     }
 
     /**

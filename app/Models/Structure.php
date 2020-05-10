@@ -49,6 +49,8 @@ use Kalnoy\Nestedset\NodeTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Structure whereTranslation($translationField, $value, $locale = null, $method = 'whereHas', $operator = '=')
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Structure whereTranslationLike($translationField, $value, $locale = null)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Structure withTranslation()
+ * @property-read \App\Models\StructureMeta $meta
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Structure whereActive($value)
  */
 class Structure extends Model
 {
@@ -56,4 +58,9 @@ class Structure extends Model
 
     protected $fillable = ['alias', 'template', 'controller', 'parent_id', 'active'];
     public $translatedAttributes = ['name', 'content'];
+
+    public function meta()
+    {
+        return $this->hasOne(StructureMeta::class);
+    }
 }

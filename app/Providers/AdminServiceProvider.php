@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
+use App\Admin\Contracts\EntitiesDataContractor;
 use App\Admin\Contracts\EntitiesOperationsContractor;
 use App\Admin\Contracts\EntityRequestOperationsContractor;
-use App\Http\Requests\StructureRequest;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -36,9 +36,15 @@ class AdminServiceProvider extends ServiceProvider
 
     private function prepareControllerBindings(): void
     {
-        foreach (config('admin.controllers_contracts_binding') as $controller => $service) {
+        foreach (config('admin.controllers_contracts_operations_binding') as $controller => $service) {
             $this->app->when($controller)
                 ->needs(EntitiesOperationsContractor::class)
+                ->give($service);
+        }
+
+        foreach (config('admin.controllers_contracts_data_binding') as $controller => $service) {
+            $this->app->when($controller)
+                ->needs(EntitiesDataContractor::class)
                 ->give($service);
         }
     }

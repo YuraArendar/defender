@@ -12,32 +12,21 @@ use Illuminate\Support\Collection;
 interface EntitiesOperationsContractor
 {
     /**
-     * @return Collection
-     */
-    public function all(): Collection;
-
-    /**
      * @param array $parameters
-     * @return Model
+     * @return mixed
      */
     public function store(array $parameters);
 
     /**
      * @param int $id
      * @param array $parameters
-     * @return Model
+     * @return mixed
      */
     public function update(int $id, array $parameters);
 
     /**
      * @param int $id
-     * @return Model
+     * @return mixed
      */
-    public function show(int $id);
-
-    /**
-     * @param int $id
-     * @return Collection
-     */
-    public function destroy(int $id): Collection;
+    public function destroy(int $id);
 }

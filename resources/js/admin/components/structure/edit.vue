@@ -6,9 +6,9 @@
             </div>
             <div class="tabs">
                 <ul>
-                    <li class="is-active"><router-link class="is-link" :to="{name: 'edit_structure'}">{{$t('edit')}}<font-awesome-icon icon="sign-out-alt"/></router-link></li>
-                    <li><a><router-link class="is-link" :to="{name: 'edit_structure'}">{{$t('meta')}}<font-awesome-icon icon="sign-out-alt"/></router-link></a></li>
-                    <li><a><router-link class="is-link" :to="{name: 'edit_structure'}">{{$t('content')}}<font-awesome-icon icon="sign-out-alt"/></router-link></a></li>
+                    <li :class="{'is-active': $route.name === 'edit_structure'}"><router-link class="is-link" :to="{name: 'edit_structure', params: {id: $route.params.id}}"><font-awesome-icon icon="edit"/>&nbsp;&nbsp;{{$t('edit')}}</router-link></li>
+                    <li :class="{'is-active': $route.name === 'meta_structure'}"><a><router-link class="is-link" :to="{name: 'meta_structure', params: {id: $route.params.id}}"><font-awesome-icon icon="globe"/>&nbsp;&nbsp;{{$t('meta')}}</router-link></a></li>
+                    <li :class="{'is-active': $route.name === 'content_structure'}"><a><router-link class="is-link" :to="{name: 'content_structure', params: {id: $route.params.id}}"><font-awesome-icon icon="book"/>&nbsp;&nbsp;{{$t('content')}}</router-link></a></li>
                 </ul>
             </div>
 

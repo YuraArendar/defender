@@ -25,6 +25,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StructureTranslation whereStructureId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StructureTranslation whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $locale
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StructureTranslation whereLocale($value)
  */
 class StructureTranslation extends Model
 {

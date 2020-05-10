@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Admin\Contracts\EntitiesDataContractor;
 use App\Admin\Contracts\EntitiesOperationsContractor;
 use App\Admin\Contracts\EntityRequestOperationsContractor;
 use Illuminate\Http\JsonResponse;
@@ -18,13 +19,20 @@ abstract class BaseOperationsController extends Controller
     protected $entitiesOperations;
 
     /**
+     * @var EntitiesDataContractor
+     */
+    private $entitiesData;
+
+    /**
      * BaseOperationsController constructor.
      * @param EntitiesOperationsContractor $entitiesOperations
+     * @param EntitiesDataContractor $entitiesData
      */
-    public function __construct(EntitiesOperationsContractor $entitiesOperations)
+    public function __construct(EntitiesOperationsContractor $entitiesOperations, EntitiesDataContractor $entitiesData)
     {
 
         $this->entitiesOperations = $entitiesOperations;
+        $this->entitiesData = $entitiesData;
     }
 
     /**
@@ -34,7 +42,7 @@ abstract class BaseOperationsController extends Controller
      */
     public function index(): JsonResponse
     {
-        return response()->json($this->entitiesOperations->all());
+        return response()->json($this->entitiesData->all());
     }
 
     /**
@@ -56,7 +64,7 @@ abstract class BaseOperationsController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        return response()->json($this->entitiesOperations->show($id));
+        return response()->json($this->entitiesData->show($id));
     }
 
     /**
