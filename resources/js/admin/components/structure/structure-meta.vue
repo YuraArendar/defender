@@ -76,7 +76,6 @@
             loadData(id) {
                 this.getMeta(id)
                     .then(response => {
-                        console.log(response);
                         if (response.data.id) {
                             this.id = response.data.id;
                         }
@@ -121,6 +120,15 @@
                 if (this.form.follow) {
                     this.form.follow = false;
                 }
+            },
+            changeLanguage(language) {
+                this.form.locale = language;
+                this.loadData(this.id);
+            }
+        },
+        watch: {
+            content_language(language) {
+                this.changeLanguage(language);
             }
         },
         components: {

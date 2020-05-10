@@ -143,13 +143,14 @@
                         this.values(response.data);
                     })
             },
-        },
-        computed: {
-            language() {
-                let language = this.$store.state.app.content_language;
+            changeLanguage(language) {
                 this.form.locale = language;
                 this.loadData(this.id);
-                return language;
+            }
+        },
+        watch: {
+            content_language(language) {
+                this.changeLanguage(language);
             }
         },
         components: {

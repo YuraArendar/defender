@@ -13625,14 +13625,15 @@ var TEMPLATE_OPTIONS = [{
       this.getStructure(id).then(function (response) {
         _this3.values(response.data);
       });
-    }
-  },
-  computed: {
-    language: function language() {
-      var language = this.$store.state.app.content_language;
+    },
+    changeLanguage: function changeLanguage(language) {
       this.form.locale = language;
       this.loadData(this.id);
-      return language;
+    }
+  },
+  watch: {
+    content_language: function content_language(language) {
+      this.changeLanguage(language);
     }
   },
   components: {
@@ -13830,8 +13831,6 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.getMeta(id).then(function (response) {
-        console.log(response);
-
         if (response.data.id) {
           _this.id = response.data.id;
         }
@@ -13876,6 +13875,15 @@ __webpack_require__.r(__webpack_exports__);
       if (this.form.follow) {
         this.form.follow = false;
       }
+    },
+    changeLanguage: function changeLanguage(language) {
+      this.form.locale = language;
+      this.loadData(this.id);
+    }
+  },
+  watch: {
+    content_language: function content_language(language) {
+      this.changeLanguage(language);
     }
   },
   components: {
