@@ -92,11 +92,11 @@
             next();
         },
         created() {
-            this.id = this.$route.params.id;
+            this.id = parseInt(this.$route.params.id);
+
             if (this.id) {
                 this.loadData(this.id);
             }
-
         },
         methods: {
             save() {
@@ -142,20 +142,6 @@
                     .then(response => {
                         this.values(response.data);
                     })
-            },
-            errors(errorsList) {
-                for (let name in errorsList) {
-                    if (this.inputErrors[name] !== undefined) {
-                        this.$set(this.inputErrors, name, errorsList[name][0]);
-                    }
-                }
-            },
-            values(form) {
-                for (let name in form) {
-                    if (this.form[name] !== undefined) {
-                        this.$set(this.form, name, form[name])
-                    }
-                }
             },
         },
         computed: {

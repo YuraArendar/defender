@@ -12328,9 +12328,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixins_api_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/api/user */ "./resources/js/admin/mixins/api/user.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _store_user_mutations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store/user/mutations */ "./resources/js/admin/store/user/mutations.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _store_app_mutations__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../store/app/mutations */ "./resources/js/admin/store/app/mutations.js");
+/* harmony import */ var _store_app_mutations__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../store/app/mutations */ "./resources/js/admin/store/app/mutations.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -12345,7 +12343,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   mixins: [_mixins_api_user__WEBPACK_IMPORTED_MODULE_0__["default"]],
   created: function created() {
@@ -12356,7 +12353,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     if (this.$cookies.get('content_language')) {
-      this[_store_app_mutations__WEBPACK_IMPORTED_MODULE_4__["SET_CONTENT_LANGUAGE"]](this.$cookies.get('content_language'));
+      this[_store_app_mutations__WEBPACK_IMPORTED_MODULE_3__["SET_CONTENT_LANGUAGE"]](this.$cookies.get('content_language'));
     }
 
     this.$http.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -12382,7 +12379,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     }
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])('user', [_store_user_mutations__WEBPACK_IMPORTED_MODULE_2__["SET_USER_NAME"], _store_user_mutations__WEBPACK_IMPORTED_MODULE_2__["SER_USER_EMAIL"]]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])('app', [_store_app_mutations__WEBPACK_IMPORTED_MODULE_4__["SET_CONTENT_LANGUAGE"]]))
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])('user', [_store_user_mutations__WEBPACK_IMPORTED_MODULE_2__["SET_USER_NAME"], _store_user_mutations__WEBPACK_IMPORTED_MODULE_2__["SER_USER_EMAIL"]]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])('app', [_store_app_mutations__WEBPACK_IMPORTED_MODULE_3__["SET_CONTENT_LANGUAGE"]]))
 });
 
 /***/ }),
@@ -12665,6 +12662,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     change: function change() {
+      this.checked = !this.checked;
       this.$emit('change', this.checked);
     }
   },
@@ -13570,7 +13568,7 @@ var TEMPLATE_OPTIONS = [{
     next();
   },
   created: function created() {
-    this.id = this.$route.params.id;
+    this.id = parseInt(this.$route.params.id);
 
     if (this.id) {
       this.loadData(this.id);
@@ -13627,20 +13625,6 @@ var TEMPLATE_OPTIONS = [{
       this.getStructure(id).then(function (response) {
         _this3.values(response.data);
       });
-    },
-    errors: function errors(errorsList) {
-      for (var name in errorsList) {
-        if (this.inputErrors[name] !== undefined) {
-          this.$set(this.inputErrors, name, errorsList[name][0]);
-        }
-      }
-    },
-    values: function values(form) {
-      for (var name in form) {
-        if (this.form[name] !== undefined) {
-          this.$set(this.form, name, form[name]);
-        }
-      }
     }
   },
   computed: {
@@ -13764,11 +13748,142 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _elements_inputs_a_input__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../elements/inputs/a-input */ "./resources/js/admin/components/elements/inputs/a-input.vue");
+/* harmony import */ var _elements_inputs_a_textarea__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../elements/inputs/a-textarea */ "./resources/js/admin/components/elements/inputs/a-textarea.vue");
+/* harmony import */ var _elements_inputs_a_switch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../elements/inputs/a-switch */ "./resources/js/admin/components/elements/inputs/a-switch.vue");
+/* harmony import */ var _mixins_api_structure_meta__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../mixins/api/structure_meta */ "./resources/js/admin/mixins/api/structure_meta.js");
+/* harmony import */ var _mixins_app_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../mixins/app/common */ "./resources/js/admin/mixins/app/common.js");
+/* harmony import */ var _options_toast__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../options/toast */ "./resources/js/admin/options/toast.js");
 //
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mixins: [_mixins_api_structure_meta__WEBPACK_IMPORTED_MODULE_3__["default"], _mixins_app_common__WEBPACK_IMPORTED_MODULE_4__["default"]],
+  data: function data() {
+    return {
+      id: null,
+      form: {
+        locale: this.$store.state.app.content_language,
+        follow: false,
+        nofollow: false,
+        index: false,
+        noindex: false,
+        title: null,
+        description: null,
+        structure_id: null
+      },
+      inputErrors: {
+        title: null,
+        description: null
+      }
+    };
+  },
+  created: function created() {
+    if (this.$route.params.id) {
+      this.form.structure_id = parseInt(this.$route.params.id);
+      this.loadData(this.$route.params.id);
+    }
+  },
+  methods: {
+    save: function save() {
+      if (this.id) {
+        this.update();
+      } else {
+        this.create();
+      }
+    },
+    loadData: function loadData(id) {
+      var _this = this;
+
+      this.getMeta(id).then(function (response) {
+        console.log(response);
+
+        if (response.data.id) {
+          _this.id = response.data.id;
+        }
+
+        _this.values(response.data);
+      });
+    },
+    create: function create() {
+      var _this2 = this;
+
+      this.createMeta(this.form).then(function (response) {
+        _this2.$toasted.success('Saved', _options_toast__WEBPACK_IMPORTED_MODULE_5__["SUCCESS_TOAST"]);
+      })["catch"](function (error) {
+        _this2.errors(error.response.data.errors);
+      });
+    },
+    update: function update() {
+      var _this3 = this;
+
+      this.updateMeta(this.id, this.form).then(function (response) {
+        _this3.$toasted.success('Saved', _options_toast__WEBPACK_IMPORTED_MODULE_5__["SUCCESS_TOAST"]);
+      })["catch"](function (error) {
+        _this3.errors(error.response.data.errors);
+      });
+    },
+    indexChange: function indexChange() {
+      if (this.form.noindex) {
+        this.form.noindex = false;
+      }
+    },
+    noindexChange: function noindexChange() {
+      if (this.form.index) {
+        this.form.index = false;
+      }
+    },
+    followChange: function followChange() {
+      if (this.form.nofollow) {
+        this.form.nofollow = false;
+      }
+    },
+    nofollowChange: function nofollowChange() {
+      if (this.form.follow) {
+        this.form.follow = false;
+      }
+    }
+  },
+  components: {
+    ASwitch: _elements_inputs_a_switch__WEBPACK_IMPORTED_MODULE_2__["default"],
+    ATextarea: _elements_inputs_a_textarea__WEBPACK_IMPORTED_MODULE_1__["default"],
+    AInput: _elements_inputs_a_input__WEBPACK_IMPORTED_MODULE_0__["default"]
+  }
+});
 
 /***/ }),
 
@@ -18483,37 +18598,35 @@ var render = function() {
         }
       ],
       staticClass: "switch is-primary is-rtl",
-      attrs: { id: "switchColorSuccess", type: "checkbox" },
+      attrs: { type: "checkbox" },
       domProps: {
         checked: Array.isArray(_vm.checked)
           ? _vm._i(_vm.checked, null) > -1
           : _vm.checked
       },
       on: {
-        change: [
-          function($event) {
-            var $$a = _vm.checked,
-              $$el = $event.target,
-              $$c = $$el.checked ? true : false
-            if (Array.isArray($$a)) {
-              var $$v = null,
-                $$i = _vm._i($$a, $$v)
-              if ($$el.checked) {
-                $$i < 0 && (_vm.checked = $$a.concat([$$v]))
-              } else {
-                $$i > -1 &&
-                  (_vm.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-              }
+        click: _vm.change,
+        change: function($event) {
+          var $$a = _vm.checked,
+            $$el = $event.target,
+            $$c = $$el.checked ? true : false
+          if (Array.isArray($$a)) {
+            var $$v = null,
+              $$i = _vm._i($$a, $$v)
+            if ($$el.checked) {
+              $$i < 0 && (_vm.checked = $$a.concat([$$v]))
             } else {
-              _vm.checked = $$c
+              $$i > -1 &&
+                (_vm.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
             }
-          },
-          _vm.change
-        ]
+          } else {
+            _vm.checked = $$c
+          }
+        }
       }
     }),
     _vm._v(" "),
-    _c("label", { attrs: { for: "switchColorSuccess" } }, [
+    _c("label", { on: { click: _vm.change } }, [
       _c("b", [_vm._v(_vm._s(_vm.name))])
     ])
   ])
@@ -19672,7 +19785,133 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("h1", [_vm._v("meta")])
+  return _c(
+    "div",
+    { staticClass: "form-group" },
+    [
+      _c("a-input", {
+        attrs: { name: "Title", error: _vm.inputErrors.title },
+        on: {
+          onfocus: function($event) {
+            _vm.inputErrors.title = ""
+          }
+        },
+        model: {
+          value: _vm.form.title,
+          callback: function($$v) {
+            _vm.$set(_vm.form, "title", $$v)
+          },
+          expression: "form.title"
+        }
+      }),
+      _vm._v(" "),
+      _c("a-textarea", {
+        attrs: { name: "Description", error: _vm.inputErrors.description },
+        on: {
+          onfocus: function($event) {
+            _vm.inputErrors.description = ""
+          }
+        },
+        model: {
+          value: _vm.form.description,
+          callback: function($$v) {
+            _vm.$set(_vm.form, "description", $$v)
+          },
+          expression: "form.description"
+        }
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "columns" }, [
+        _c(
+          "div",
+          { staticClass: "column" },
+          [
+            _c("a-switch", {
+              attrs: { name: "index" },
+              on: { change: _vm.indexChange },
+              model: {
+                value: _vm.form.index,
+                callback: function($$v) {
+                  _vm.$set(_vm.form, "index", $$v)
+                },
+                expression: "form.index"
+              }
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "column" },
+          [
+            _c("a-switch", {
+              attrs: { name: "noindex" },
+              on: { change: _vm.noindexChange },
+              model: {
+                value: _vm.form.noindex,
+                callback: function($$v) {
+                  _vm.$set(_vm.form, "noindex", $$v)
+                },
+                expression: "form.noindex"
+              }
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "column" },
+          [
+            _c("a-switch", {
+              attrs: { name: "follow" },
+              on: { change: _vm.followChange },
+              model: {
+                value: _vm.form.follow,
+                callback: function($$v) {
+                  _vm.$set(_vm.form, "follow", $$v)
+                },
+                expression: "form.follow"
+              }
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "column" },
+          [
+            _c("a-switch", {
+              attrs: { name: "nofollow" },
+              on: { change: _vm.nofollowChange },
+              model: {
+                value: _vm.form.nofollow,
+                callback: function($$v) {
+                  _vm.$set(_vm.form, "nofollow", $$v)
+                },
+                expression: "form.nofollow"
+              }
+            })
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "field form-buttons" }, [
+        _c(
+          "button",
+          {
+            staticClass: "button is-primary is-pulled-right",
+            on: { click: _vm.save }
+          },
+          [_vm._v("Save")]
+        )
+      ])
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -37718,6 +37957,96 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
+/***/ "./resources/js/admin/mixins/api/structure_meta.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/admin/mixins/api/structure_meta.js ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  methods: {
+    createMeta: function createMeta(request) {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _this.$http.post('/api/structures-meta', request);
+
+              case 2:
+                return _context.abrupt("return", _context.sent);
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    updateMeta: function updateMeta(id, request) {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return _this2.$http.patch("/api/structures-meta/".concat(id), request);
+
+              case 2:
+                return _context2.abrupt("return", _context2.sent);
+
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    getMeta: function getMeta(id) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return _this3.$http.get("/api/structures-meta/".concat(id, "?locale=").concat(_this3.$store.state.app.content_language));
+
+              case 2:
+                return _context3.abrupt("return", _context3.sent);
+
+              case 3:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/admin/mixins/api/user.js":
 /*!***********************************************!*\
   !*** ./resources/js/admin/mixins/api/user.js ***!
@@ -37774,6 +38103,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
+  methods: {
+    errors: function errors(errorsList) {
+      for (var name in errorsList) {
+        if (this.inputErrors[name] !== undefined) {
+          this.$set(this.inputErrors, name, errorsList[name][0]);
+        }
+      }
+    },
+    values: function values(form) {
+      for (var name in form) {
+        if (this.form[name] !== undefined) {
+          this.$set(this.form, name, form[name]);
+        }
+      }
+    }
+  },
   computed: {
     content_language: function content_language() {
       return this.$store.state.app.content_language;

@@ -3,7 +3,7 @@
 namespace App\Admin\Services;
 
 use App\Admin\Contracts\EntitiesDataContractor;
-use App\Models\StructureMeta;
+use App\Models\Structure;
 use Illuminate\Support\Collection;
 
 /**
@@ -14,7 +14,7 @@ class StructureMetaDataService implements EntitiesDataContractor
 {
     public function show(int $id)
     {
-        return StructureMeta::findOrFail($id);
+        return Structure::findOrFail($id)->meta;
     }
 
     public function all(): Collection

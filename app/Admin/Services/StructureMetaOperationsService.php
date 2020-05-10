@@ -3,6 +3,7 @@
 namespace App\Admin\Services;
 
 use App\Admin\Contracts\EntitiesOperationsContractor;
+use App\Models\Structure;
 use App\Models\StructureMeta;
 
 /**
@@ -27,12 +28,11 @@ class StructureMetaOperationsService implements EntitiesOperationsContractor
      */
     public function update(int $id, array $parameters): StructureMeta
     {
+        $structure = Structure::findOrFail($id);
 
-        $meta = StructureMeta::findOrFail($id);
+        $structure->meta->update($parameters);
 
-        $meta->update($parameters);
-
-        return $meta;
+        return $structure->meta;
     }
 
     /**
@@ -41,7 +41,6 @@ class StructureMetaOperationsService implements EntitiesOperationsContractor
      */
     public function destroy(int $id): bool
     {
-        StructureMeta::destroy($id);
         return true;
     }
 }

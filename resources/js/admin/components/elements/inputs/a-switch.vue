@@ -1,7 +1,7 @@
 <template>
     <div class="field">
-        <input id="switchColorSuccess" type="checkbox" class="switch is-primary is-rtl" v-model="checked" @change="change">
-        <label for="switchColorSuccess"><b>{{name}}</b></label>
+        <input type="checkbox" class="switch is-primary is-rtl" v-model="checked" @click="change">
+        <label @click="change"><b>{{name}}</b></label>
     </div>
 </template>
 
@@ -28,6 +28,7 @@
         },
         methods: {
             change() {
+                this.checked = !this.checked;
                 this.$emit('change', this.checked);
             },
         },

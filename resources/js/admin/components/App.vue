@@ -6,7 +6,6 @@
     import user from '../mixins/api/user';
     import {mapMutations} from "vuex";
     import {SER_USER_EMAIL, SET_USER_NAME} from "../store/user/mutations";
-    import Vue from "vue";
     import {SET_CONTENT_LANGUAGE} from "../store/app/mutations";
 
     export default {

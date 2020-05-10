@@ -28,6 +28,7 @@ class MetaStructureRequest extends FormRequest implements EntityRequestOperation
             'title' => 'required|max:255',
             'description' => 'required|max:255',
             'locale' => 'required|size:2',
+            'structure_id' => 'required|integer',
         ];
     }
 }
