@@ -4,78 +4,53 @@
             <div class="panel-heading">
                 Edit "{{name}}" <locale-changer class="is-pulled-right" :locale="$store.state.app.content_language" @change="changeContentLocale"/>
             </div>
+            <div class="tabs">
+                <ul>
+                    <li class="is-active"><router-link class="is-link" :to="{name: 'edit_structure'}">{{$t('edit')}}<font-awesome-icon icon="sign-out-alt"/></router-link></li>
+                    <li><a><router-link class="is-link" :to="{name: 'edit_structure'}">{{$t('meta')}}<font-awesome-icon icon="sign-out-alt"/></router-link></a></li>
+                    <li><a><router-link class="is-link" :to="{name: 'edit_structure'}">{{$t('content')}}<font-awesome-icon icon="sign-out-alt"/></router-link></a></li>
+                </ul>
+            </div>
 
-            <edit-form :values="form" @save="save" :errors="errors"></edit-form>
+            <router-view></router-view>
+
         </div>
     </div>
 </template>
 
 <script>
-    import EditForm from './edit-form';
-    import structure from "../../mixins/api/structure";
     import LocaleChanger from '../elements/lang/locale-changer';
     import {SET_CONTENT_LANGUAGE} from "../../store/app/mutations";
     import {mapMutations} from "vuex";
     import site_structure from "../../mixins/app/site_structure";
-    import {SUCCESS_TOAST} from "../../options/toast";
 
     export default {
-        data() {
-            return {
-                name: null,
-                form: null,
-                id: 0,
-                errors: {}
-            }
-        },
-        mixins: [structure, site_structure],
+        mixins: [site_structure],
         name: "edit",
         components: {
-            EditForm,
             LocaleChanger
-        },
-        beforeRouteUpdate(to, from, next) {
-            this.loadData(to.params.id);
-            this.id = parseInt(to.params.id);
-            next();
-        },
-        created() {
-            this.id = this.$route.params.id;
-            this.loadData(this.id);
         },
         methods: {
             ...mapMutations('app', [SET_CONTENT_LANGUAGE]),
-            loadData(id) {
-                this.form = null;
-                this.getStructure(id)
-                    .then(response => {
-                        this.name = response.data.name;
-                        this.form = response.data;
-                    })
-            },
-            save(form) {
-                this.updateStructure(this.id, form)
-                    .then(response => {
-                        this.name = response.data.name;
-
-                        this.getStructureTree()
-                            .then(tree => {
-                                this.setSiteStructure(tree.data);
-                                this.$toasted.success('Saved', SUCCESS_TOAST);
-                            });
-                    })
-                    .catch(error => {
-                        this.errors = error.response.data.errors;
-                    })
-            },
             changeContentLocale(lang) {
                 this.$cookies.set('content_language', lang);
                 this[SET_CONTENT_LANGUAGE](lang);
-                this.getStructureTree()
-                    .then(tree => {
-                        this.setSiteStructure(tree.data);
-                        this.loadData(this.id)
-                    });
+            }
+        },
+        computed: {
+            name() {
+                let active = this.$store.state.app.active_structure;
+                let structure = this.$store.state.app.site_structure;
+
+                if (active && structure) {
+                    let current = this.findStructureById(structure, active);
+
+                    if (current) {
+                        return current.name || current.id;
+                    }
+                }
+
+                return '';
             }
         }
     }

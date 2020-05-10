@@ -13398,7 +13398,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _elements_lang_locale_changer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../elements/lang/locale-changer */ "./resources/js/admin/components/elements/lang/locale-changer.vue");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _store_app_mutations__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../store/app/mutations */ "./resources/js/admin/store/app/mutations.js");
-/* harmony import */ var _options_toast__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../options/toast */ "./resources/js/admin/options/toast.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -13417,7 +13416,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-
 
 
 
@@ -13441,35 +13439,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     LocaleChanger: _elements_lang_locale_changer__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapMutations"])('app', [_store_app_mutations__WEBPACK_IMPORTED_MODULE_5__["SET_CONTENT_LANGUAGE"]]), {
-    save: function save(form) {
-      var _this = this;
-
-      this.createNewItem(form).then(function (response) {
-        _this.getStructureTree().then(function (tree) {
-          _this.setSiteStructure(tree.data);
-
-          _this.setActiveStructure(response.data.id);
-
-          _this.$toasted.success('Saved', _options_toast__WEBPACK_IMPORTED_MODULE_6__["SUCCESS_TOAST"]);
-        });
-
-        _this.$router.push({
-          name: 'edit_structure',
-          params: {
-            id: response.data.id
-          }
-        });
-      })["catch"](function (error) {
-        _this.errors = error.response.data.errors;
-      });
-    },
     changeContentLocale: function changeContentLocale(lang) {
-      var _this2 = this;
+      var _this = this;
 
       this.$cookies.set('content_language', lang);
       this[_store_app_mutations__WEBPACK_IMPORTED_MODULE_5__["SET_CONTENT_LANGUAGE"]](lang);
       this.getStructureTree().then(function (tree) {
-        _this2.setSiteStructure(tree.data);
+        _this.setSiteStructure(tree.data);
       });
     }
   })
@@ -13493,7 +13469,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _elements_inputs_a_tree_select__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../elements/inputs/a-tree-select */ "./resources/js/admin/components/elements/inputs/a-tree-select.vue");
 /* harmony import */ var _elements_inputs_a_switch__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../elements/inputs/a-switch */ "./resources/js/admin/components/elements/inputs/a-switch.vue");
 /* harmony import */ var _mixins_app_site_structure__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../mixins/app/site_structure */ "./resources/js/admin/mixins/app/site_structure.js");
-/* harmony import */ var _mixins_app_common__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../mixins/app/common */ "./resources/js/admin/mixins/app/common.js");
+/* harmony import */ var _mixins_api_structure__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../mixins/api/structure */ "./resources/js/admin/mixins/api/structure.js");
+/* harmony import */ var _mixins_app_common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../mixins/app/common */ "./resources/js/admin/mixins/app/common.js");
+/* harmony import */ var _options_toast__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../options/toast */ "./resources/js/admin/options/toast.js");
 //
 //
 //
@@ -13529,6 +13507,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
+
 
 
 
@@ -13552,7 +13532,7 @@ var TEMPLATE_OPTIONS = [{
   value: 'default'
 }];
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mixins: [_mixins_app_site_structure__WEBPACK_IMPORTED_MODULE_6__["default"], _mixins_app_common__WEBPACK_IMPORTED_MODULE_7__["default"]],
+  mixins: [_mixins_app_site_structure__WEBPACK_IMPORTED_MODULE_6__["default"], _mixins_app_common__WEBPACK_IMPORTED_MODULE_8__["default"], _mixins_api_structure__WEBPACK_IMPORTED_MODULE_7__["default"]],
   name: "edit-form",
   data: function data() {
     return {
@@ -13575,33 +13555,79 @@ var TEMPLATE_OPTIONS = [{
         content: null,
         parent_id: null
       },
+      id: null,
       controller_options: CONTROLLER_OPTIONS,
       template_options: TEMPLATE_OPTIONS
     };
   },
-  props: {
-    values: {
-      required: false,
-      type: Object
-    },
-    errors: {
-      required: false,
-      type: Object
+  beforeRouteUpdate: function beforeRouteUpdate(to, from, next) {
+    this.loadData(to.params.id);
+
+    if (to.params.id) {
+      this.id = parseInt(to.params.id);
+    }
+
+    next();
+  },
+  created: function created() {
+    this.id = this.$route.params.id;
+
+    if (this.id) {
+      this.loadData(this.id);
     }
   },
   methods: {
     save: function save() {
-      this.$emit('save', this.form);
-    }
-  },
-  computed: {
-    language: function language() {
-      var language = this.$store.state.app.content_language;
-      this.form.locale = language;
-      return language;
-    }
-  },
-  watch: {
+      if (this.id) {
+        this.update();
+      } else {
+        this.create();
+      }
+    },
+    update: function update() {
+      var _this = this;
+
+      this.updateStructure(this.id, this.form).then(function (response) {
+        _this.name = response.data.name;
+
+        _this.getStructureTree().then(function (tree) {
+          _this.setSiteStructure(tree.data);
+
+          _this.$toasted.success('Saved', _options_toast__WEBPACK_IMPORTED_MODULE_9__["SUCCESS_TOAST"]);
+        });
+      })["catch"](function (error) {
+        _this.errors(error.response.data.errors);
+      });
+    },
+    create: function create() {
+      var _this2 = this;
+
+      this.createNewItem(this.form).then(function (response) {
+        _this2.getStructureTree().then(function (tree) {
+          _this2.setSiteStructure(tree.data);
+
+          _this2.setActiveStructure(response.data.id);
+
+          _this2.$toasted.success('Saved', _options_toast__WEBPACK_IMPORTED_MODULE_9__["SUCCESS_TOAST"]);
+        });
+
+        _this2.$router.push({
+          name: 'edit_structure',
+          params: {
+            id: response.data.id
+          }
+        });
+      })["catch"](function (error) {
+        _this2.errors(error.response.data.errors);
+      });
+    },
+    loadData: function loadData(id) {
+      var _this3 = this;
+
+      this.getStructure(id).then(function (response) {
+        _this3.values(response.data);
+      });
+    },
     errors: function errors(errorsList) {
       for (var name in errorsList) {
         if (this.inputErrors[name] !== undefined) {
@@ -13615,6 +13641,14 @@ var TEMPLATE_OPTIONS = [{
           this.$set(this.form, name, form[name]);
         }
       }
+    }
+  },
+  computed: {
+    language: function language() {
+      var language = this.$store.state.app.content_language;
+      this.form.locale = language;
+      this.loadData(this.id);
+      return language;
     }
   },
   components: {
@@ -13638,13 +13672,10 @@ var TEMPLATE_OPTIONS = [{
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _edit_form__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./edit-form */ "./resources/js/admin/components/structure/edit-form.vue");
-/* harmony import */ var _mixins_api_structure__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../mixins/api/structure */ "./resources/js/admin/mixins/api/structure.js");
-/* harmony import */ var _elements_lang_locale_changer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../elements/lang/locale-changer */ "./resources/js/admin/components/elements/lang/locale-changer.vue");
-/* harmony import */ var _store_app_mutations__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../store/app/mutations */ "./resources/js/admin/store/app/mutations.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _mixins_app_site_structure__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../mixins/app/site_structure */ "./resources/js/admin/mixins/app/site_structure.js");
-/* harmony import */ var _options_toast__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../options/toast */ "./resources/js/admin/options/toast.js");
+/* harmony import */ var _elements_lang_locale_changer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../elements/lang/locale-changer */ "./resources/js/admin/components/elements/lang/locale-changer.vue");
+/* harmony import */ var _store_app_mutations__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../store/app/mutations */ "./resources/js/admin/store/app/mutations.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _mixins_app_site_structure__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../mixins/app/site_structure */ "./resources/js/admin/mixins/app/site_structure.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -13663,74 +13694,46 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-
-
-
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      name: null,
-      form: null,
-      id: 0,
-      errors: {}
-    };
-  },
-  mixins: [_mixins_api_structure__WEBPACK_IMPORTED_MODULE_1__["default"], _mixins_app_site_structure__WEBPACK_IMPORTED_MODULE_5__["default"]],
+  mixins: [_mixins_app_site_structure__WEBPACK_IMPORTED_MODULE_3__["default"]],
   name: "edit",
   components: {
-    EditForm: _edit_form__WEBPACK_IMPORTED_MODULE_0__["default"],
-    LocaleChanger: _elements_lang_locale_changer__WEBPACK_IMPORTED_MODULE_2__["default"]
+    LocaleChanger: _elements_lang_locale_changer__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  beforeRouteUpdate: function beforeRouteUpdate(to, from, next) {
-    this.loadData(to.params.id);
-    this.id = parseInt(to.params.id);
-    next();
-  },
-  created: function created() {
-    this.id = this.$route.params.id;
-    this.loadData(this.id);
-  },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapMutations"])('app', [_store_app_mutations__WEBPACK_IMPORTED_MODULE_3__["SET_CONTENT_LANGUAGE"]]), {
-    loadData: function loadData(id) {
-      var _this = this;
-
-      this.form = null;
-      this.getStructure(id).then(function (response) {
-        _this.name = response.data.name;
-        _this.form = response.data;
-      });
-    },
-    save: function save(form) {
-      var _this2 = this;
-
-      this.updateStructure(this.id, form).then(function (response) {
-        _this2.name = response.data.name;
-
-        _this2.getStructureTree().then(function (tree) {
-          _this2.setSiteStructure(tree.data);
-
-          _this2.$toasted.success('Saved', _options_toast__WEBPACK_IMPORTED_MODULE_6__["SUCCESS_TOAST"]);
-        });
-      })["catch"](function (error) {
-        _this2.errors = error.response.data.errors;
-      });
-    },
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapMutations"])('app', [_store_app_mutations__WEBPACK_IMPORTED_MODULE_1__["SET_CONTENT_LANGUAGE"]]), {
     changeContentLocale: function changeContentLocale(lang) {
-      var _this3 = this;
-
       this.$cookies.set('content_language', lang);
-      this[_store_app_mutations__WEBPACK_IMPORTED_MODULE_3__["SET_CONTENT_LANGUAGE"]](lang);
-      this.getStructureTree().then(function (tree) {
-        _this3.setSiteStructure(tree.data);
-
-        _this3.loadData(_this3.id);
-      });
+      this[_store_app_mutations__WEBPACK_IMPORTED_MODULE_1__["SET_CONTENT_LANGUAGE"]](lang);
     }
-  })
+  }),
+  computed: {
+    name: function name() {
+      var active = this.$store.state.app.active_structure;
+      var structure = this.$store.state.app.site_structure;
+
+      if (active && structure) {
+        var current = this.findStructureById(structure, active);
+
+        if (current) {
+          return current.name || current.id;
+        }
+      }
+
+      return '';
+    }
+  }
 });
 
 /***/ }),
@@ -19263,10 +19266,7 @@ var render = function() {
           1
         ),
         _vm._v(" "),
-        _c("edit-form", {
-          attrs: { values: _vm.form, errors: _vm.errors },
-          on: { save: _vm.save }
-        })
+        _c("edit-form")
       ],
       1
     )
@@ -19495,10 +19495,77 @@ var render = function() {
           1
         ),
         _vm._v(" "),
-        _c("edit-form", {
-          attrs: { values: _vm.form, errors: _vm.errors },
-          on: { save: _vm.save }
-        })
+        _c("div", { staticClass: "tabs" }, [
+          _c("ul", [
+            _c(
+              "li",
+              { staticClass: "is-active" },
+              [
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "is-link",
+                    attrs: { to: { name: "edit_structure" } }
+                  },
+                  [
+                    _vm._v(_vm._s(_vm.$t("edit"))),
+                    _c("font-awesome-icon", { attrs: { icon: "sign-out-alt" } })
+                  ],
+                  1
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("li", [
+              _c(
+                "a",
+                [
+                  _c(
+                    "router-link",
+                    {
+                      staticClass: "is-link",
+                      attrs: { to: { name: "edit_structure" } }
+                    },
+                    [
+                      _vm._v(_vm._s(_vm.$t("meta"))),
+                      _c("font-awesome-icon", {
+                        attrs: { icon: "sign-out-alt" }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c(
+                "a",
+                [
+                  _c(
+                    "router-link",
+                    {
+                      staticClass: "is-link",
+                      attrs: { to: { name: "edit_structure" } }
+                    },
+                    [
+                      _vm._v(_vm._s(_vm.$t("content"))),
+                      _c("font-awesome-icon", {
+                        attrs: { icon: "sign-out-alt" }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("router-view")
       ],
       1
     )
@@ -37177,10 +37244,10 @@ var messages = {
 /*!******************************************************!*\
   !*** ./resources/js/admin/lang/translations/en.json ***!
   \******************************************************/
-/*! exports provided: logout, default */
+/*! exports provided: logout, edit, meta, content, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"logout\":\"Logout\"}");
+module.exports = JSON.parse("{\"logout\":\"Logout\",\"edit\":\"Edit\",\"meta\":\"Meta tags\",\"content\":\"Content\"}");
 
 /***/ }),
 
@@ -37188,10 +37255,10 @@ module.exports = JSON.parse("{\"logout\":\"Logout\"}");
 /*!******************************************************!*\
   !*** ./resources/js/admin/lang/translations/ru.json ***!
   \******************************************************/
-/*! exports provided: logout, default */
+/*! exports provided: logout, edit, meta, content, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"logout\":\"Выйти\"}");
+module.exports = JSON.parse("{\"logout\":\"Выйти\",\"edit\":\"Редактировать\",\"meta\":\"Мета теги\",\"content\":\"Контент\"}");
 
 /***/ }),
 
@@ -37199,10 +37266,10 @@ module.exports = JSON.parse("{\"logout\":\"Выйти\"}");
 /*!******************************************************!*\
   !*** ./resources/js/admin/lang/translations/uk.json ***!
   \******************************************************/
-/*! exports provided: logout, default */
+/*! exports provided: logout, edit, meta, content, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"logout\":\"Вийти\"}");
+module.exports = JSON.parse("{\"logout\":\"Вийти\",\"edit\":\"Редагування\",\"meta\":\"Мета теги\",\"content\":\"Контент\"}");
 
 /***/ }),
 
@@ -37495,12 +37562,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      found: null
+    };
+  },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])('app', [_store_app_mutations__WEBPACK_IMPORTED_MODULE_1__["SET_SITE_STRUCTURE"], _store_app_mutations__WEBPACK_IMPORTED_MODULE_1__["SET_ACTIVE_STRUCTURE"]]), {
     setSiteStructure: function setSiteStructure(tree) {
       this[_store_app_mutations__WEBPACK_IMPORTED_MODULE_1__["SET_SITE_STRUCTURE"]](tree);
     },
     setActiveStructure: function setActiveStructure(id) {
       this[_store_app_mutations__WEBPACK_IMPORTED_MODULE_1__["SET_ACTIVE_STRUCTURE"]](parseInt(id));
+    },
+    findStructureById: function findStructureById(tree, id) {
+      for (var i in tree) {
+        if (id === tree[i].id) {
+          this.found = tree[i];
+        } else if (tree[i].children && tree[i].children.length > 0) {
+          this.findStructureById(tree[i].children, id);
+        }
+      }
+
+      return this.found;
     }
   }),
   computed: {
@@ -37606,6 +37689,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_structure_structure__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/structure/structure */ "./resources/js/admin/components/structure/structure.vue");
 /* harmony import */ var _components_structure_add__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/structure/add */ "./resources/js/admin/components/structure/add.vue");
 /* harmony import */ var _components_structure_edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/structure/edit */ "./resources/js/admin/components/structure/edit.vue");
+/* harmony import */ var _components_structure_edit_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/structure/edit-form */ "./resources/js/admin/components/structure/edit-form.vue");
+
 
 
 
@@ -37622,8 +37707,12 @@ __webpack_require__.r(__webpack_exports__);
     component: _components_structure_add__WEBPACK_IMPORTED_MODULE_1__["default"]
   }, {
     path: ':id/edit',
-    name: 'edit_structure',
-    component: _components_structure_edit__WEBPACK_IMPORTED_MODULE_2__["default"]
+    component: _components_structure_edit__WEBPACK_IMPORTED_MODULE_2__["default"],
+    children: [{
+      path: '/',
+      name: 'edit_structure',
+      component: _components_structure_edit_form__WEBPACK_IMPORTED_MODULE_3__["default"]
+    }]
   }]
 });
 

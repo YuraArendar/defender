@@ -2,6 +2,11 @@ import {mapMutations} from "vuex";
 import {SET_ACTIVE_STRUCTURE, SET_SITE_STRUCTURE} from "../../store/app/mutations";
 
 export default {
+    data() {
+        return {
+            found: null
+        }
+    },
     methods: {
         ...mapMutations('app', [SET_SITE_STRUCTURE, SET_ACTIVE_STRUCTURE]),
         setSiteStructure(tree) {
@@ -9,6 +14,17 @@ export default {
         },
         setActiveStructure(id) {
             this[SET_ACTIVE_STRUCTURE](parseInt(id));
+        },
+        findStructureById(tree, id) {
+            for (let i in tree) {
+                if (id === tree[i].id) {
+                    this.found = tree[i];
+                } else if (tree[i].children && tree[i].children.length > 0) {
+                    this.findStructureById(tree[i].children, id);
+                }
+            }
+
+            return this.found;
         }
     },
     computed: {

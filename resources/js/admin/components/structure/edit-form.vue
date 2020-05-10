@@ -42,7 +42,9 @@
     import ASwitch from '../elements/inputs/a-switch';
 
     import site_structure from "../../mixins/app/site_structure";
+    import structure from "../../mixins/api/structure";
     import common from "../../mixins/app/common";
+    import {SUCCESS_TOAST} from "../../options/toast";
 
     const CONTROLLER_OPTIONS = [
         {name: 'Page', value: 'page'},
@@ -52,7 +54,7 @@
     const TEMPLATE_OPTIONS = [{name: 'Default', value: 'default'}];
 
     export default {
-        mixins: [site_structure, common],
+        mixins: [site_structure, common, structure],
         name: "edit-form",
         data() {
             return {
@@ -75,33 +77,72 @@
                     content: null,
                     parent_id: null,
                 },
+                id: null,
                 controller_options: CONTROLLER_OPTIONS,
                 template_options: TEMPLATE_OPTIONS
             }
         },
-        props: {
-            values: {
-                required: false,
-                type: Object
-            },
-            errors: {
-                required: false,
-                type: Object
+        beforeRouteUpdate(to, from, next) {
+            this.loadData(to.params.id);
+
+            if (to.params.id) {
+                this.id = parseInt(to.params.id);
             }
+
+            next();
+        },
+        created() {
+            this.id = this.$route.params.id;
+            if (this.id) {
+                this.loadData(this.id);
+            }
+
         },
         methods: {
             save() {
-                this.$emit('save', this.form)
+                if (this.id) {
+                    this.update();
+                } else {
+                    this.create();
+                }
             },
-        },
-        computed: {
-            language() {
-                let language = this.$store.state.app.content_language;
-                this.form.locale = language;
-                return language;
-            }
-        },
-        watch: {
+            update() {
+                this.updateStructure(this.id, this.form)
+                    .then(response => {
+                        this.name = response.data.name;
+
+                        this.getStructureTree()
+                            .then(tree => {
+                                this.setSiteStructure(tree.data);
+                                this.$toasted.success('Saved', SUCCESS_TOAST);
+                            });
+                    })
+                    .catch(error => {
+                        this.errors(error.response.data.errors);
+                    })
+            },
+            create() {
+                this.createNewItem(this.form)
+                    .then(response => {
+                        this.getStructureTree()
+                            .then(tree => {
+                                this.setSiteStructure(tree.data);
+                                this.setActiveStructure(response.data.id);
+                                this.$toasted.success('Saved', SUCCESS_TOAST);
+                            });
+
+                        this.$router.push({name: 'edit_structure', params: {id: response.data.id}})
+                    })
+                    .catch(error => {
+                        this.errors(error.response.data.errors);
+                    })
+            },
+            loadData(id) {
+                this.getStructure(id)
+                    .then(response => {
+                        this.values(response.data);
+                    })
+            },
             errors(errorsList) {
                 for (let name in errorsList) {
                     if (this.inputErrors[name] !== undefined) {
@@ -116,6 +157,14 @@
                     }
                 }
             },
+        },
+        computed: {
+            language() {
+                let language = this.$store.state.app.content_language;
+                this.form.locale = language;
+                this.loadData(this.id);
+                return language;
+            }
         },
         components: {
             ASelect,

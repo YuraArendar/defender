@@ -1,3 +1,6 @@
 {
-    "logout": "Logout"
+    "logout": "Logout",
+    "edit": "Edit",
+    "meta": "Meta tags",
+    "content": "Content"
 }
