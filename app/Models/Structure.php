@@ -51,6 +51,8 @@ use Kalnoy\Nestedset\NodeTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Structure withTranslation()
  * @property-read \App\Models\StructureMeta $meta
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Structure whereActive($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Content[] $contents
+ * @property-read int|null $contents_count
  */
 class Structure extends Model
 {
@@ -62,5 +64,15 @@ class Structure extends Model
     public function meta()
     {
         return $this->hasOne(StructureMeta::class);
+    }
+
+    public function content()
+    {
+        $this->hasOne(Content::class)->orderBy('position')->first();
+    }
+
+    public function contents()
+    {
+        return $this->hasMany(Content::class)->orderBy('position');
     }
 }

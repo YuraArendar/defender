@@ -19,6 +19,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StructureMetaTranslation whereStructureMetaId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StructureMetaTranslation whereTitle($value)
  * @mixin \Eloquent
+ * @property int $id
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StructureMetaTranslation whereId($value)
  */
 class StructureMetaTranslation extends Model
 {
