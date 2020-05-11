@@ -5,6 +5,10 @@ namespace App\Http\Requests\Admin;
 use App\Admin\Contracts\EntityRequestOperationsContractor;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class ContentRequest
+ * @package App\Http\Requests\Admin
+ */
 class ContentRequest extends FormRequest implements EntityRequestOperationsContractor
 {
     /**
@@ -24,14 +28,13 @@ class ContentRequest extends FormRequest implements EntityRequestOperationsContr
      */
     public function rules(): array
     {
-        $id = $this->route()->parameter('structure');
-        $aliasRule = self::ALIAS_RULE . ($id === null ? '' : ',id,:structure');
+        $id = $this->route()->parameter('content');
+        $aliasRule = self::ALIAS_RULE . ($id === null ? '' : ',id,:content');
 
         return [
             'alias' => $aliasRule,
             'name' => 'required|max:255',
             'template' => 'required|max:12',
-            'controller' => 'required|max:12',
             'locale' => 'required|size:2',
         ];
     }

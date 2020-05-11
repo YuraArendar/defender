@@ -5,6 +5,10 @@ namespace App\Http\Requests\Admin;
 use App\Admin\Contracts\EntityRequestOperationsContractor;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class StructureRequest
+ * @package App\Http\Requests\Admin
+ */
 class StructureRequest extends FormRequest implements EntityRequestOperationsContractor
 {
     /**
