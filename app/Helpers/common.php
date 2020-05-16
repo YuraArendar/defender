@@ -9,6 +9,7 @@ if (!function_exists('is_admin_part')) {
      */
     function is_admin_path(): bool
     {
+        return true;
         return request()->server->get('HTTP_HOST') === 'admin.' . env('APP_HOST');
     }
 }

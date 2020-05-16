@@ -17630,3 +17630,11 @@ label.panel-block:hover {
   background: #ff3860;
 }
 
+.has-padding-15 {
+  padding: 15px;
+}
+
+.form-buttons {
+  min-height: 40px;
+}
+

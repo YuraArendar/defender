@@ -27,6 +27,8 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @property string $locale
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StructureTranslation whereLocale($value)
+ * @property string|null $image
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StructureTranslation whereImage($value)
  */
 class StructureTranslation extends Model
 {

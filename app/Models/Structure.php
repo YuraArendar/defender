@@ -59,16 +59,11 @@ class Structure extends Model
     use NodeTrait, Translatable;
 
     protected $fillable = ['alias', 'template', 'controller', 'parent_id', 'active'];
-    public $translatedAttributes = ['name', 'content'];
+    public $translatedAttributes = ['name', 'content', 'image'];
 
     public function meta()
     {
         return $this->hasOne(StructureMeta::class);
-    }
-
-    public function content()
-    {
-        $this->hasOne(Content::class)->orderBy('position')->first();
     }
 
     public function contents()

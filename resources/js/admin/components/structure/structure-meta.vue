@@ -1,5 +1,5 @@
 <template>
-    <div class="form-group">
+    <div class="has-padding-15">
         <a-input v-model="form.title" :name="'Title'" :error="inputErrors.title"
                  @onfocus="inputErrors.title = ''"></a-input>
         <a-textarea v-model="form.description" :name="'Description'" :error="inputErrors.description"

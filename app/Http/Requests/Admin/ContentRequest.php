@@ -36,6 +36,7 @@ class ContentRequest extends FormRequest implements EntityRequestOperationsContr
             'name' => 'required|max:255',
             'template' => 'required|max:12',
             'locale' => 'required|size:2',
+            'structure_id' => 'required|integer|min:1',
         ];
     }
 }

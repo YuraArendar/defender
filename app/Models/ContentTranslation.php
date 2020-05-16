@@ -21,10 +21,12 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ContentTranslation whereLocale($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ContentTranslation whereName($value)
  * @mixin \Eloquent
+ * @property string|null $image
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ContentTranslation whereImage($value)
  */
 class ContentTranslation extends Model
 {
     public $timestamps = false;
 
-    protected $fillable =  ['name', 'content'];
+    protected $fillable =  ['name', 'content', 'image'];
 }

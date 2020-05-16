@@ -14,6 +14,10 @@ Route::middleware(['auth:api', 'locale'])->prefix('api')->group(static function 
     Route::resource('structures-meta', 'StructureMetaController')->except(['edit', 'create', 'index', 'destroy']);
 
     Route::resource('content', 'ContentController')->except(['edit', 'create']);
+
+    Route::patch('content/{content}/active', 'ContentController@active');
+    Route::patch('content/{content}/{structure}/up', 'ContentController@up');
+    Route::patch('content/{content}/{structure}/down', 'ContentController@down');
 });
 
 

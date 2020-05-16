@@ -4,6 +4,7 @@ import EditStructure from "../../components/structure/edit";
 import FormEdit from "../../components/structure/edit-form";
 import Meta from "../../components/structure/structure-meta";
 import Content from "../../components/structure/structure-content";
+import AddContent from "../../components/content/edit-form";
 
 export default {
     path: 'structure',
@@ -37,6 +38,11 @@ export default {
                     path: 'content',
                     name: 'content_structure',
                     component: Content
+                },
+                {
+                    path: 'add-content',
+                    name: 'add_content',
+                    component: AddContent
                 }
             ]
         },

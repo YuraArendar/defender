@@ -18,6 +18,7 @@ class CreateStructureTranslationsTable extends Migration
             $table->unsignedBigInteger('structure_id')->index();
             $table->string('locale', 2)->index();
             $table->string('name');
+            $table->string('image')->nullable();
             $table->text('content')->nullable();
 
             $table->unique(['structure_id','locale']);

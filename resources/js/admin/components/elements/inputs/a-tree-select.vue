@@ -70,6 +70,7 @@
         },
         created() {
             this.selectedItemId = this.value;
+            this.initText(this.value);
             this.closeByClickOutside()
         },
         methods: {
@@ -115,22 +116,27 @@
 
                 this.selectedItem = null;
             },
+            initText(value) {
+                this.searchById(this.tree, parseInt(value));
+
+                if (this.selectedItem === null) {
+                    this.text = this.defaultText;
+                } else {
+                    this.text = this.selectedItem.name ? this.selectedItem.name : this.selectedItem.id;
+                }
+            }
         },
         watch: {
             tree(newValue) {
                 this.for_render = newValue;
+                this.initText(this.selectedItemId);
             },
             error(text) {
                 this.errorText = text;
             },
             value(newValue) {
                 this.selectedItemId = newValue;
-                this.searchById(this.tree, parseInt(newValue));
-                if (this.selectedItem === null) {
-                    this.text = this.defaultText;
-                } else {
-                    this.text = this.selectedItem.name ? this.selectedItem.name : this.selectedItem.id;
-                }
+                this.initText(newValue);
             },
         },
         components: {

@@ -1,5 +1,5 @@
 <template>
-    <div class="form-group">
+    <div class="has-padding-15">
         <a-switch :name="'Active'" v-model="form.active"/>
 
         <a-input v-model="form.name" :name="'Name'" :error="inputErrors.name"
@@ -68,6 +68,7 @@
                     name: null,
                     content: null,
                     parent_id: null,
+                    image: null,
                 },
                 inputErrors: {
                     controller: null,
@@ -76,6 +77,7 @@
                     name: null,
                     content: null,
                     parent_id: null,
+                    image: null,
                 },
                 id: null,
                 controller_options: CONTROLLER_OPTIONS,
@@ -165,11 +167,5 @@
 </script>
 
 <style type="text/css">
-    .form-group {
-        padding: 15px;
-    }
 
-    .form-buttons {
-        min-height: 40px;
-    }
 </style>

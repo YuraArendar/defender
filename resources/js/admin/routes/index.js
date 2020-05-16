@@ -4,6 +4,7 @@ import Main from '../components/layouts/main/layout';
 import Dashboard from '../components/dashboard/dashboard';
 
 import structure from './structure';
+import content from "./content";
 
 export const routes = [
     {
@@ -27,6 +28,9 @@ export const routes = [
             },
             {
                 ...structure
+            },
+            {
+                ...content
             }
         ]
     },

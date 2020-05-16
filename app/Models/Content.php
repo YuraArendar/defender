@@ -5,6 +5,7 @@ namespace App\Models;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\Content
@@ -51,8 +52,8 @@ class Content extends Model
 {
     use Translatable;
 
-    protected $fillable = ['alias', 'template', 'active', 'structure_id', 'publish_at'];
-    public $translatedAttributes = ['name', 'content'];
+    protected $fillable = ['alias', 'template', 'active', 'structure_id', 'publish_at', 'position'];
+    public $translatedAttributes = ['name', 'content', 'image'];
 
     public function structure()
     {
@@ -66,5 +67,36 @@ class Content extends Model
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('active', true);
+    }
+
+    /**
+     * @param string $date
+     * @return string
+     */
+    public function getCreatedAtAttribute(string $date): string
+    {
+        return Carbon::parse($date)->format('Y-m-d H:i:s');
+    }
+
+    /**
+     * @param string $date
+     * @return string
+     */
+    public function getUpdatedAtAttribute(string $date): string
+    {
+        return Carbon::parse($date)->format('Y-m-d H:i:s');
+    }
+
+    /**
+     * @param string $date
+     * @return string
+     */
+    public function getPublishAtAttribute(?string $date): ?string
+    {
+        if ($date === null) {
+            return null;
+        }
+
+        return Carbon::parse($date)->format('Y-m-d H:i:s');
     }
 }

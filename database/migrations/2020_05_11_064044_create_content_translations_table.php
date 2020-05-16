@@ -18,6 +18,7 @@ class CreateContentTranslationsTable extends Migration
             $table->unsignedBigInteger('content_id')->index();
             $table->string('locale', 2)->index();
             $table->string('name');
+            $table->string('image')->nullable();
             $table->text('content')->nullable();
 
             $table->unique(['content_id','locale']);

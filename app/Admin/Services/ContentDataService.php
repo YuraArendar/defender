@@ -17,7 +17,13 @@ class ContentDataService implements EntitiesDataContractor
      */
     public function all(): Collection
     {
-        return Content::all();
+        $request = request();
+
+        $structureId = $request->get('structure_id');
+        $orderBy = $request->get('orderBy');
+        $way = $request->get('way');
+
+        return Content::where('structure_id', $structureId)->orderBy($orderBy, $way)->get();
     }
 
     /**
