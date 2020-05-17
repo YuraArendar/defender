@@ -44,7 +44,8 @@ class ContentOperationsService implements EntitiesOperationsContractor
             $content->update($parameters);
         } catch (QueryException $exception) {
             if (strpos($exception->getMessage(), '1062 Duplicate entry') !== false) {
-                abort(422, json_encode([
+                abort(422, json_encode(
+                        [
                             'errors' =>
                                 [
                                     'alias' =>
