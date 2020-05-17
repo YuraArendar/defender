@@ -48,11 +48,13 @@
                         <a-switch @change="setActive($event, item.id)" name="" v-model="item.active"></a-switch>
                     </td>
                     <td v-if="orderBy.position" class="has-text-centered">
-                        <button v-if="item.id !== pagination.lastId" @click="downPosition(item.id)" class="button is-small is-primary">
+                        <button v-if="item.id !== pagination.lastId" @click="downPosition(item.id)"
+                                class="button is-small is-primary">
                             <font-awesome-icon icon="angle-down"/>
                         </button>
 
-                        <button v-if="item.id !== pagination.firstId" @click="upPosition(item.id)" class="button is-small is-success">
+                        <button v-if="item.id !== pagination.firstId" @click="upPosition(item.id)"
+                                class="button is-small is-success">
                             <font-awesome-icon icon="angle-up"/>
                         </button>
                     </td>

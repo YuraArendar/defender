@@ -1,6 +1,6 @@
 <template>
     <nav v-if="show" class="pagination" role="navigation" aria-label="pagination">
-        <a  v-if="showPrevious" class="pagination-previous" @click="previous">Previous</a>
+        <a v-if="showPrevious" class="pagination-previous" @click="previous">Previous</a>
         <a v-if="showNext" class="pagination-next" @click="next">Next page</a>
         <ul class="pagination-list">
             <li v-if="showFirstPage">
@@ -10,7 +10,8 @@
                 <span class="pagination-ellipsis">&hellip;</span>
             </li>
             <li v-if="showPrevious">
-                <a class="pagination-link" :aria-label="`Goto page ${previousPage}`" @click="previous">{{previousPage}}</a>
+                <a class="pagination-link" :aria-label="`Goto page ${previousPage}`"
+                   @click="previous">{{previousPage}}</a>
             </li>
             <li>
                 <a class="pagination-link is-current" :aria-label="`Page ${currentPage}`" aria-current="page">{{currentPage}}</a>
@@ -86,7 +87,7 @@
             }
         },
         computed: {
-            show () {
+            show() {
                 return this.totalItems > this.perPage;
             },
             showPrevious() {

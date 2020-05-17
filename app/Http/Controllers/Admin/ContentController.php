@@ -59,8 +59,8 @@ class ContentController extends BaseOperationsController
                 'firstItem' => $this->entitiesData->fistListId($structureId),
                 'lastItem' => $this->entitiesData->lastListId($structureId),
                 'perPage' => $pagination->perPage(),
-                'total' => $pagination->total()
-            ]
+                'total' => $pagination->total(),
+            ],
         ]);
     }
 }

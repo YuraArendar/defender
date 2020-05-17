@@ -21,6 +21,7 @@ class ContentOperationsService implements EntitiesOperationsContractor
     {
         $position = Content::where('structure_id', $parameters['structure_id'])->max('position');
         $parameters['position'] = ++$position;
+
         return Content::create($parameters);
     }
 
@@ -43,7 +44,17 @@ class ContentOperationsService implements EntitiesOperationsContractor
             $content->update($parameters);
         } catch (QueryException $exception) {
             if (strpos($exception->getMessage(), '1062 Duplicate entry') !== false) {
-                abort(422, json_encode(['errors' => ['alias' => [trans('validation.unique', ['attribute' => 'alias'])]]]));
+                abort(422, json_encode([
+                            'errors' =>
+                                [
+                                    'alias' =>
+                                        [
+                                            trans('validation.unique', ['attribute' => 'alias']),
+                                        ],
+                                ],
+                        ]
+                    )
+                );
             }
         }
 
