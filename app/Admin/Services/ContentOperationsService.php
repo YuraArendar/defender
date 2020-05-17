@@ -76,9 +76,9 @@ class ContentOperationsService implements EntitiesOperationsContractor
     /**
      * @param int $contentId
      * @param int $structureId
-     * @return Collection
+     * @return bool
      */
-    public function up(int $contentId, int $structureId): Collection
+    public function up(int $contentId, int $structureId): bool
     {
         $item = Content::findOrFail($contentId);
         $topItem = Content::where('structure_id', $structureId)
@@ -89,16 +89,16 @@ class ContentOperationsService implements EntitiesOperationsContractor
         $item->position++;
         $topItem->position--;
         $item->save();
-        $topItem->save();
-        return Content::where('structure_id', $structureId)->orderByDesc('position')->get();
+
+        return $topItem->save();
     }
 
     /**
      * @param int $contentId
      * @param int $structureId
-     * @return Collection
+     * @return bool
      */
-    public function down(int $contentId, int $structureId): Collection
+    public function down(int $contentId, int $structureId): bool
     {
         $item = Content::findOrFail($contentId);
         $bottomItem = Content::where('structure_id', $structureId)
@@ -109,7 +109,7 @@ class ContentOperationsService implements EntitiesOperationsContractor
         $item->position--;
         $bottomItem->position++;
         $item->save();
-        $bottomItem->save();
-        return Content::where('structure_id', $structureId)->orderByDesc('position')->get();
+
+        return $bottomItem->save();
     }
 }

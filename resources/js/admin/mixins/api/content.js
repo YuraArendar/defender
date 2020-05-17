@@ -7,6 +7,10 @@ export default {
             return await this.$http.get(`/api/content?locale=${this.$store.state.app.content_language}` +
                 `&structure_id=${structureId}&orderBy=${orderBy}&way=${way}`)
         },
+        async getPaginatedContentList(structureId, orderBy, way, page, perPage) {
+            return await this.$http.get(`/api/content/${structureId}/pagination?locale=${this.$store.state.app.content_language}` +
+                `&orderBy=${orderBy}&way=${way}&page=${page}&perPage=${perPage}`)
+        },
         async updateActiveStatus(contentId, active) {
             return await this.$http.patch(`/api/content/${contentId}/active`, {active})
         },

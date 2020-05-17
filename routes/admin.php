@@ -18,6 +18,7 @@ Route::middleware(['auth:api', 'locale'])->prefix('api')->group(static function 
     Route::patch('content/{content}/active', 'ContentController@active');
     Route::patch('content/{content}/{structure}/up', 'ContentController@up');
     Route::patch('content/{content}/{structure}/down', 'ContentController@down');
+    Route::get('content/{structure}/pagination', 'ContentController@pagination');
 });
 
 

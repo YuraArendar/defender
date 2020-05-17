@@ -48,11 +48,11 @@
                         <a-switch @change="setActive($event, item.id)" name="" v-model="item.active"></a-switch>
                     </td>
                     <td v-if="orderBy.position" class="has-text-centered">
-                        <button v-if="index < list.length - 1" @click="downPosition(item.id)" class="button is-small is-primary">
+                        <button v-if="item.id !== pagination.lastId" @click="downPosition(item.id)" class="button is-small is-primary">
                             <font-awesome-icon icon="angle-down"/>
                         </button>
 
-                        <button v-if="index > 0" @click="upPosition(item.id)" class="button is-small is-success">
+                        <button v-if="item.id !== pagination.firstId" @click="upPosition(item.id)" class="button is-small is-success">
                             <font-awesome-icon icon="angle-up"/>
                         </button>
                     </td>
@@ -62,13 +62,19 @@
                 </tr>
                 </tbody>
             </table>
+
+            <pagination @paginate="paginate" :total="pagination.total"/>
+
         </div>
     </div>
 
 </template>
 
 <script>
+    const PER_PAGE_DEFAULT = 10;
+
     import ASwitch from '../../components/elements/inputs/a-switch';
+    import Pagination from '../../components/elements/pagination/pagination';
 
     import content from "../../mixins/api/content";
 
@@ -83,17 +89,28 @@
                     updated_at: null,
                 },
                 structure_id: null,
+                pagination: {
+                    total: 0,
+                    current: 1,
+                    perPage: PER_PAGE_DEFAULT,
+                    firstId: 0,
+                    lastId: 0,
+                }
             }
         },
         created() {
             this.structure_id = parseInt(this.$route.params.id);
-            this.loadContent(this.structure_id, 'position', 'desc');
+            this.pagination.perPage = parseInt(this.$cookies.get('perPage')) || PER_PAGE_DEFAULT;
+            this.loadContent(this.structure_id, this.order, this.way);
         },
         methods: {
             loadContent(structureId, orderBy, way) {
-                this.getContentList(structureId, orderBy, way)
+                this.getPaginatedContentList(structureId, orderBy, way, this.pagination.current, this.pagination.perPage)
                     .then(response => {
-                        this.list = response.data;
+                        this.pagination.total = response.data.pagination.total;
+                        this.pagination.firstId = response.data.pagination.firstItem;
+                        this.pagination.lastId = response.data.pagination.lastItem;
+                        this.list = response.data.items;
                     })
             },
             setActive(value, id) {
@@ -104,9 +121,11 @@
                 this.orderBy.updated_at = null;
                 this.orderBy.created_at = null;
 
-                this.getContentList(this.structure_id, 'position', 'desc')
+                this.getPaginatedContentList(this.structure_id, this.order, this.way, this.pagination.current, this.pagination.perPage)
                     .then(response => {
-                        this.list = response.data;
+                        this.pagination.firstId = response.data.pagination.firstItem;
+                        this.pagination.lastId = response.data.pagination.lastItem;
+                        this.list = response.data.items;
                     });
             },
             orderByUpdated() {
@@ -115,9 +134,11 @@
 
                 this.orderBy.updated_at = this.orderBy.updated_at === 'desc' ? 'asc' : 'desc';
 
-                this.getContentList(this.structure_id, 'updated_at', this.orderBy.updated_at)
+                this.getPaginatedContentList(this.structure_id, this.order, this.way, this.pagination.current, this.pagination.perPage)
                     .then(response => {
-                        this.list = response.data;
+                        this.pagination.firstId = response.data.pagination.firstItem;
+                        this.pagination.lastId = response.data.pagination.lastItem;
+                        this.list = response.data.items;
                     })
             },
             orderByCreated() {
@@ -126,26 +147,86 @@
 
                 this.orderBy.created_at = this.orderBy.created_at === 'desc' ? 'asc' : 'desc';
 
-                this.getContentList(this.structure_id, 'created_at', this.orderBy.created_at)
+                this.getPaginatedContentList(this.structure_id, this.order, this.way, this.pagination.current, this.pagination.perPage)
                     .then(response => {
-                        this.list = response.data;
+                        this.pagination.firstId = response.data.pagination.firstItem;
+                        this.pagination.lastId = response.data.pagination.lastItem;
+                        this.list = response.data.items;
                     })
             },
             upPosition(contentId) {
                 this.up(contentId, this.structure_id)
                     .then(response => {
-                        this.list = response.data;
+                        if (response.data) {
+                            this.getPaginatedContentList(this.structure_id, this.order, this.way, this.pagination.current, this.pagination.perPage)
+                                .then(responseContent => {
+                                    this.pagination.firstId = responseContent.data.pagination.firstItem;
+                                    this.pagination.lastId = responseContent.data.pagination.lastItem;
+                                    this.list = responseContent.data.items;
+                                });
+                        }
                     })
             },
             downPosition(contentId) {
                 this.down(contentId, this.structure_id)
                     .then(response => {
-                        this.list = response.data;
+                        if (response.data) {
+                            this.getPaginatedContentList(this.structure_id, this.order, this.way, this.pagination.current, this.pagination.perPage)
+                                .then(responseContent => {
+                                    this.pagination.firstId = responseContent.data.pagination.firstItem;
+                                    this.pagination.lastId = responseContent.data.pagination.lastItem;
+                                    this.list = responseContent.data.items;
+                                });
+                        }
                     })
+            },
+            paginate(page, perPage) {
+                this.pagination.current = page;
+                this.pagination.perPage = perPage;
+
+                this.getPaginatedContentList(this.structure_id, this.order, this.way, this.pagination.current, this.pagination.perPage)
+                    .then(responseContent => {
+                        this.pagination.firstId = responseContent.data.pagination.firstItem;
+                        this.pagination.lastId = responseContent.data.pagination.lastItem;
+                        this.list = responseContent.data.items;
+                    });
+            }
+        },
+        computed: {
+            order() {
+                if (this.orderBy.position) {
+                    return 'position';
+                }
+
+                if (this.orderBy.updated_at) {
+                    return 'updated_at';
+                }
+
+                if (this.orderBy.created_at) {
+                    return 'created_at';
+                }
+
+                return 'position';
+            },
+            way() {
+                if (this.orderBy.position) {
+                    return 'desc';
+                }
+
+                if (this.orderBy.updated_at) {
+                    return this.orderBy.updated_at;
+                }
+
+                if (this.orderBy.created_at) {
+                    return this.orderBy.created_at;
+                }
+
+                return 'desc';
             }
         },
         components: {
-            ASwitch
+            ASwitch,
+            Pagination
         }
     }
 </script>

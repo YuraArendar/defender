@@ -21,7 +21,7 @@ abstract class BaseOperationsController extends Controller
     /**
      * @var EntitiesDataContractor
      */
-    private $entitiesData;
+    protected $entitiesData;
 
     /**
      * BaseOperationsController constructor.

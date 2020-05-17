@@ -13134,6 +13134,136 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/admin/components/elements/pagination/pagination.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/admin/components/elements/pagination/pagination.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var PER_PAGE_DEFAULT = 10;
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "pagination",
+  data: function data() {
+    return {
+      currentPage: 1,
+      perPage: PER_PAGE_DEFAULT,
+      firstPage: 1,
+      totalItems: 0
+    };
+  },
+  created: function created() {
+    this.setPerPage();
+  },
+  props: {
+    total: {
+      required: true,
+      type: Number
+    }
+  },
+  methods: {
+    paginate: function paginate(page) {
+      this.currentPage = page;
+      this.$emit('paginate', page, this.perPage);
+    },
+    next: function next() {
+      this.currentPage = this.nextPage;
+      this.$emit('paginate', this.currentPage, this.perPage);
+    },
+    previous: function previous() {
+      this.currentPage = this.previousPage;
+      this.$emit('paginate', this.currentPage, this.perPage);
+    },
+    first: function first() {
+      this.currentPage = this.firstPage;
+      this.$emit('paginate', this.currentPage, this.perPage);
+    },
+    last: function last() {
+      this.currentPage = this.lastPage;
+      this.$emit('paginate', this.currentPage, this.perPage);
+    },
+    setPerPage: function setPerPage() {
+      if (this.$cookies.get('perPage')) {
+        this.perPage = parseInt(this.$cookies.get('perPage'));
+      } else {
+        this.perPage = PER_PAGE_DEFAULT;
+        this.$cookies.set('perPage', this.perPage);
+      }
+    }
+  },
+  watch: {
+    total: function total(_total) {
+      this.totalItems = _total;
+    }
+  },
+  computed: {
+    show: function show() {
+      return this.totalItems > this.perPage;
+    },
+    showPrevious: function showPrevious() {
+      return this.currentPage > this.firstPage;
+    },
+    showNext: function showNext() {
+      return this.currentPage < this.lastPage;
+    },
+    showFirstPage: function showFirstPage() {
+      return this.currentPage > this.firstPage + 1;
+    },
+    showLastPage: function showLastPage() {
+      return this.lastPage > this.currentPage + 1;
+    },
+    showDotsBefore: function showDotsBefore() {
+      return this.currentPage - this.firstPage > 2;
+    },
+    showDotsAfter: function showDotsAfter() {
+      return this.lastPage - this.currentPage > 2;
+    },
+    lastPage: function lastPage() {
+      return Math.ceil(this.total / this.perPage);
+    },
+    previousPage: function previousPage() {
+      return this.currentPage - 1;
+    },
+    nextPage: function nextPage() {
+      return this.currentPage + 1;
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/admin/components/elements/tree/folder.vue?vue&type=script&lang=js&":
 /*!*************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/admin/components/elements/tree/folder.vue?vue&type=script&lang=js& ***!
@@ -13916,7 +14046,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_elements_inputs_a_switch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/elements/inputs/a-switch */ "./resources/js/admin/components/elements/inputs/a-switch.vue");
-/* harmony import */ var _mixins_api_content__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../mixins/api/content */ "./resources/js/admin/mixins/api/content.js");
+/* harmony import */ var _components_elements_pagination_pagination__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/elements/pagination/pagination */ "./resources/js/admin/components/elements/pagination/pagination.vue");
+/* harmony import */ var _mixins_api_content__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../mixins/api/content */ "./resources/js/admin/mixins/api/content.js");
 //
 //
 //
@@ -13986,10 +14117,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+var PER_PAGE_DEFAULT = 10;
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mixins: [_mixins_api_content__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  mixins: [_mixins_api_content__WEBPACK_IMPORTED_MODULE_2__["default"]],
   data: function data() {
     return {
       list: [],
@@ -13998,19 +14134,30 @@ __webpack_require__.r(__webpack_exports__);
         created_at: null,
         updated_at: null
       },
-      structure_id: null
+      structure_id: null,
+      pagination: {
+        total: 0,
+        current: 1,
+        perPage: PER_PAGE_DEFAULT,
+        firstId: 0,
+        lastId: 0
+      }
     };
   },
   created: function created() {
     this.structure_id = parseInt(this.$route.params.id);
-    this.loadContent(this.structure_id, 'position', 'desc');
+    this.pagination.perPage = parseInt(this.$cookies.get('perPage')) || PER_PAGE_DEFAULT;
+    this.loadContent(this.structure_id, this.order, this.way);
   },
   methods: {
     loadContent: function loadContent(structureId, orderBy, way) {
       var _this = this;
 
-      this.getContentList(structureId, orderBy, way).then(function (response) {
-        _this.list = response.data;
+      this.getPaginatedContentList(structureId, orderBy, way, this.pagination.current, this.pagination.perPage).then(function (response) {
+        _this.pagination.total = response.data.pagination.total;
+        _this.pagination.firstId = response.data.pagination.firstItem;
+        _this.pagination.lastId = response.data.pagination.lastItem;
+        _this.list = response.data.items;
       });
     },
     setActive: function setActive(value, id) {
@@ -14022,8 +14169,10 @@ __webpack_require__.r(__webpack_exports__);
       this.orderBy.position = true;
       this.orderBy.updated_at = null;
       this.orderBy.created_at = null;
-      this.getContentList(this.structure_id, 'position', 'desc').then(function (response) {
-        _this2.list = response.data;
+      this.getPaginatedContentList(this.structure_id, this.order, this.way, this.pagination.current, this.pagination.perPage).then(function (response) {
+        _this2.pagination.firstId = response.data.pagination.firstItem;
+        _this2.pagination.lastId = response.data.pagination.lastItem;
+        _this2.list = response.data.items;
       });
     },
     orderByUpdated: function orderByUpdated() {
@@ -14032,8 +14181,10 @@ __webpack_require__.r(__webpack_exports__);
       this.orderBy.position = false;
       this.orderBy.created_at = null;
       this.orderBy.updated_at = this.orderBy.updated_at === 'desc' ? 'asc' : 'desc';
-      this.getContentList(this.structure_id, 'updated_at', this.orderBy.updated_at).then(function (response) {
-        _this3.list = response.data;
+      this.getPaginatedContentList(this.structure_id, this.order, this.way, this.pagination.current, this.pagination.perPage).then(function (response) {
+        _this3.pagination.firstId = response.data.pagination.firstItem;
+        _this3.pagination.lastId = response.data.pagination.lastItem;
+        _this3.list = response.data.items;
       });
     },
     orderByCreated: function orderByCreated() {
@@ -14042,27 +14193,85 @@ __webpack_require__.r(__webpack_exports__);
       this.orderBy.position = false;
       this.orderBy.updated_at = null;
       this.orderBy.created_at = this.orderBy.created_at === 'desc' ? 'asc' : 'desc';
-      this.getContentList(this.structure_id, 'created_at', this.orderBy.created_at).then(function (response) {
-        _this4.list = response.data;
+      this.getPaginatedContentList(this.structure_id, this.order, this.way, this.pagination.current, this.pagination.perPage).then(function (response) {
+        _this4.pagination.firstId = response.data.pagination.firstItem;
+        _this4.pagination.lastId = response.data.pagination.lastItem;
+        _this4.list = response.data.items;
       });
     },
     upPosition: function upPosition(contentId) {
       var _this5 = this;
 
       this.up(contentId, this.structure_id).then(function (response) {
-        _this5.list = response.data;
+        if (response.data) {
+          _this5.getPaginatedContentList(_this5.structure_id, _this5.order, _this5.way, _this5.pagination.current, _this5.pagination.perPage).then(function (responseContent) {
+            _this5.pagination.firstId = responseContent.data.pagination.firstItem;
+            _this5.pagination.lastId = responseContent.data.pagination.lastItem;
+            _this5.list = responseContent.data.items;
+          });
+        }
       });
     },
     downPosition: function downPosition(contentId) {
       var _this6 = this;
 
       this.down(contentId, this.structure_id).then(function (response) {
-        _this6.list = response.data;
+        if (response.data) {
+          _this6.getPaginatedContentList(_this6.structure_id, _this6.order, _this6.way, _this6.pagination.current, _this6.pagination.perPage).then(function (responseContent) {
+            _this6.pagination.firstId = responseContent.data.pagination.firstItem;
+            _this6.pagination.lastId = responseContent.data.pagination.lastItem;
+            _this6.list = responseContent.data.items;
+          });
+        }
+      });
+    },
+    paginate: function paginate(page, perPage) {
+      var _this7 = this;
+
+      this.pagination.current = page;
+      this.pagination.perPage = perPage;
+      this.getPaginatedContentList(this.structure_id, this.order, this.way, this.pagination.current, this.pagination.perPage).then(function (responseContent) {
+        _this7.pagination.firstId = responseContent.data.pagination.firstItem;
+        _this7.pagination.lastId = responseContent.data.pagination.lastItem;
+        _this7.list = responseContent.data.items;
       });
     }
   },
+  computed: {
+    order: function order() {
+      if (this.orderBy.position) {
+        return 'position';
+      }
+
+      if (this.orderBy.updated_at) {
+        return 'updated_at';
+      }
+
+      if (this.orderBy.created_at) {
+        return 'created_at';
+      }
+
+      return 'position';
+    },
+    way: function way() {
+      if (this.orderBy.position) {
+        return 'desc';
+      }
+
+      if (this.orderBy.updated_at) {
+        return this.orderBy.updated_at;
+      }
+
+      if (this.orderBy.created_at) {
+        return this.orderBy.created_at;
+      }
+
+      return 'desc';
+    }
+  },
   components: {
-    ASwitch: _components_elements_inputs_a_switch__WEBPACK_IMPORTED_MODULE_0__["default"]
+    ASwitch: _components_elements_inputs_a_switch__WEBPACK_IMPORTED_MODULE_0__["default"],
+    Pagination: _components_elements_pagination_pagination__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
 });
 
@@ -19412,6 +19621,146 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/admin/components/elements/pagination/pagination.vue?vue&type=template&id=2dd34d3c&scoped=true&":
+/*!***************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/admin/components/elements/pagination/pagination.vue?vue&type=template&id=2dd34d3c&scoped=true& ***!
+  \***************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.show
+    ? _c(
+        "nav",
+        {
+          staticClass: "pagination",
+          attrs: { role: "navigation", "aria-label": "pagination" }
+        },
+        [
+          _vm.showPrevious
+            ? _c(
+                "a",
+                {
+                  staticClass: "pagination-previous",
+                  on: { click: _vm.previous }
+                },
+                [_vm._v("Previous")]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.showNext
+            ? _c(
+                "a",
+                { staticClass: "pagination-next", on: { click: _vm.next } },
+                [_vm._v("Next page")]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _c("ul", { staticClass: "pagination-list" }, [
+            _vm.showFirstPage
+              ? _c("li", [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "pagination-link",
+                      attrs: { "aria-label": "Goto first page" },
+                      on: { click: _vm.first }
+                    },
+                    [_vm._v(_vm._s(_vm.firstPage))]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.showDotsBefore
+              ? _c("li", [
+                  _c("span", { staticClass: "pagination-ellipsis" }, [
+                    _vm._v("…")
+                  ])
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.showPrevious
+              ? _c("li", [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "pagination-link",
+                      attrs: { "aria-label": "Goto page " + _vm.previousPage },
+                      on: { click: _vm.previous }
+                    },
+                    [_vm._v(_vm._s(_vm.previousPage))]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c("li", [
+              _c(
+                "a",
+                {
+                  staticClass: "pagination-link is-current",
+                  attrs: {
+                    "aria-label": "Page " + _vm.currentPage,
+                    "aria-current": "page"
+                  }
+                },
+                [_vm._v(_vm._s(_vm.currentPage))]
+              )
+            ]),
+            _vm._v(" "),
+            _vm.showNext
+              ? _c("li", [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "pagination-link",
+                      attrs: { "aria-label": "Goto page " + _vm.nextPage },
+                      on: { click: _vm.next }
+                    },
+                    [_vm._v(_vm._s(_vm.nextPage))]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.showDotsAfter
+              ? _c("li", [
+                  _c("span", { staticClass: "pagination-ellipsis" }, [
+                    _vm._v("…")
+                  ])
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.showLastPage
+              ? _c("li", [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "pagination-link",
+                      attrs: { "aria-label": "Goto page " + _vm.lastPage },
+                      on: { click: _vm.last }
+                    },
+                    [_vm._v(_vm._s(_vm.lastPage))]
+                  )
+                ])
+              : _vm._e()
+          ])
+        ]
+      )
+    : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/admin/components/elements/tree/folder.vue?vue&type=template&id=b262141c&scoped=true&":
 /*!*****************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/admin/components/elements/tree/folder.vue?vue&type=template&id=b262141c&scoped=true& ***!
@@ -20298,212 +20647,224 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "table-container has-padding-15" }, [
-      _c(
-        "div",
-        { staticClass: "actions-block" },
-        [
-          _c(
-            "router-link",
-            {
-              staticClass: "button is-primary",
-              attrs: {
-                to: {
-                  name: "add_content",
-                  params: { id: _vm.$route.params.id }
-                }
-              }
-            },
-            [_vm._v("\n                Add new article\n            ")]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "buttons has-addons order-block is-pulled-right" },
-            [
-              _c("b", { staticClass: "order-by-text" }, [_vm._v("Order By:")]),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  class: [
-                    "button",
-                    { "is-success": _vm.orderBy.position },
-                    { "is-selected": _vm.orderBy.position }
-                  ],
-                  attrs: { disabled: _vm.orderBy.position },
-                  on: { click: _vm.orderByPosition }
-                },
-                [_vm._v("\n                    Position\n                ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  class: [
-                    "button",
-                    { "is-success": _vm.orderBy.created_at },
-                    { "is-selected": _vm.orderBy.created_at }
-                  ],
-                  on: { click: _vm.orderByCreated }
-                },
-                [
-                  _vm._v(
-                    "\n                    Created Date  \n                    "
-                  ),
-                  _vm.orderBy.created_at
-                    ? _c("font-awesome-icon", {
-                        attrs: {
-                          icon:
-                            _vm.orderBy.created_at === "asc"
-                              ? "arrow-up"
-                              : "arrow-down"
-                        }
-                      })
-                    : _vm._e()
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  class: [
-                    "button",
-                    { "is-success": _vm.orderBy.updated_at },
-                    { "is-selected": _vm.orderBy.updated_at }
-                  ],
-                  on: { click: _vm.orderByUpdated }
-                },
-                [
-                  _vm._v(
-                    "\n                    Updated Date  \n                    "
-                  ),
-                  _vm.orderBy.updated_at
-                    ? _c("font-awesome-icon", {
-                        attrs: {
-                          icon:
-                            _vm.orderBy.updated_at === "asc"
-                              ? "arrow-up"
-                              : "arrow-down"
-                        }
-                      })
-                    : _vm._e()
-                ],
-                1
-              )
-            ]
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("table", { staticClass: "table is-striped" }, [
-        _c("thead", [
-          _c("tr", [
-            _c("th", [_vm._v("id")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Name")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Active")]),
-            _vm._v(" "),
-            _vm.orderBy.position
-              ? _c("th", [_vm._v("Change position")])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("th", [_vm._v("Updated")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Created")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Publish At")])
-          ])
-        ]),
-        _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "table-container has-padding-15" },
+      [
         _c(
-          "tbody",
-          _vm._l(_vm.list, function(item, index) {
-            return _c("tr", [
-              _c("td", [_vm._v(_vm._s(item.id))]),
+          "div",
+          { staticClass: "actions-block" },
+          [
+            _c(
+              "router-link",
+              {
+                staticClass: "button is-primary",
+                attrs: {
+                  to: {
+                    name: "add_content",
+                    params: { id: _vm.$route.params.id }
+                  }
+                }
+              },
+              [_vm._v("\n                Add new article\n            ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "buttons has-addons order-block is-pulled-right" },
+              [
+                _c("b", { staticClass: "order-by-text" }, [
+                  _vm._v("Order By:")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    class: [
+                      "button",
+                      { "is-success": _vm.orderBy.position },
+                      { "is-selected": _vm.orderBy.position }
+                    ],
+                    attrs: { disabled: _vm.orderBy.position },
+                    on: { click: _vm.orderByPosition }
+                  },
+                  [_vm._v("\n                    Position\n                ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    class: [
+                      "button",
+                      { "is-success": _vm.orderBy.created_at },
+                      { "is-selected": _vm.orderBy.created_at }
+                    ],
+                    on: { click: _vm.orderByCreated }
+                  },
+                  [
+                    _vm._v(
+                      "\n                    Created Date  \n                    "
+                    ),
+                    _vm.orderBy.created_at
+                      ? _c("font-awesome-icon", {
+                          attrs: {
+                            icon:
+                              _vm.orderBy.created_at === "asc"
+                                ? "arrow-up"
+                                : "arrow-down"
+                          }
+                        })
+                      : _vm._e()
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    class: [
+                      "button",
+                      { "is-success": _vm.orderBy.updated_at },
+                      { "is-selected": _vm.orderBy.updated_at }
+                    ],
+                    on: { click: _vm.orderByUpdated }
+                  },
+                  [
+                    _vm._v(
+                      "\n                    Updated Date  \n                    "
+                    ),
+                    _vm.orderBy.updated_at
+                      ? _c("font-awesome-icon", {
+                          attrs: {
+                            icon:
+                              _vm.orderBy.updated_at === "asc"
+                                ? "arrow-up"
+                                : "arrow-down"
+                          }
+                        })
+                      : _vm._e()
+                  ],
+                  1
+                )
+              ]
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("table", { staticClass: "table is-striped" }, [
+          _c("thead", [
+            _c("tr", [
+              _c("th", [_vm._v("id")]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(item.name || item.id))]),
+              _c("th", [_vm._v("Name")]),
               _vm._v(" "),
-              _c(
-                "td",
-                [
-                  _c("a-switch", {
-                    attrs: { name: "" },
-                    on: {
-                      change: function($event) {
-                        return _vm.setActive($event, item.id)
-                      }
-                    },
-                    model: {
-                      value: item.active,
-                      callback: function($$v) {
-                        _vm.$set(item, "active", $$v)
-                      },
-                      expression: "item.active"
-                    }
-                  })
-                ],
-                1
-              ),
+              _c("th", [_vm._v("Active")]),
               _vm._v(" "),
               _vm.orderBy.position
-                ? _c("td", { staticClass: "has-text-centered" }, [
-                    index < _vm.list.length - 1
-                      ? _c(
-                          "button",
-                          {
-                            staticClass: "button is-small is-primary",
-                            on: {
-                              click: function($event) {
-                                return _vm.downPosition(item.id)
-                              }
-                            }
-                          },
-                          [
-                            _c("font-awesome-icon", {
-                              attrs: { icon: "angle-down" }
-                            })
-                          ],
-                          1
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    index > 0
-                      ? _c(
-                          "button",
-                          {
-                            staticClass: "button is-small is-success",
-                            on: {
-                              click: function($event) {
-                                return _vm.upPosition(item.id)
-                              }
-                            }
-                          },
-                          [
-                            _c("font-awesome-icon", {
-                              attrs: { icon: "angle-up" }
-                            })
-                          ],
-                          1
-                        )
-                      : _vm._e()
-                  ])
+                ? _c("th", [_vm._v("Change position")])
                 : _vm._e(),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(item.updated_at))]),
+              _c("th", [_vm._v("Updated")]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(item.created_at))]),
+              _c("th", [_vm._v("Created")]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(item.publish_at))])
+              _c("th", [_vm._v("Publish At")])
             ])
-          }),
-          0
-        )
-      ])
-    ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.list, function(item, index) {
+              return _c("tr", [
+                _c("td", [_vm._v(_vm._s(item.id))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(item.name || item.id))]),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  [
+                    _c("a-switch", {
+                      attrs: { name: "" },
+                      on: {
+                        change: function($event) {
+                          return _vm.setActive($event, item.id)
+                        }
+                      },
+                      model: {
+                        value: item.active,
+                        callback: function($$v) {
+                          _vm.$set(item, "active", $$v)
+                        },
+                        expression: "item.active"
+                      }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _vm.orderBy.position
+                  ? _c("td", { staticClass: "has-text-centered" }, [
+                      item.id !== _vm.pagination.lastId
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "button is-small is-primary",
+                              on: {
+                                click: function($event) {
+                                  return _vm.downPosition(item.id)
+                                }
+                              }
+                            },
+                            [
+                              _c("font-awesome-icon", {
+                                attrs: { icon: "angle-down" }
+                              })
+                            ],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      item.id !== _vm.pagination.firstId
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "button is-small is-success",
+                              on: {
+                                click: function($event) {
+                                  return _vm.upPosition(item.id)
+                                }
+                              }
+                            },
+                            [
+                              _c("font-awesome-icon", {
+                                attrs: { icon: "angle-up" }
+                              })
+                            ],
+                            1
+                          )
+                        : _vm._e()
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(item.updated_at))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(item.created_at))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(item.publish_at))])
+              ])
+            }),
+            0
+          )
+        ]),
+        _vm._v(" "),
+        _c("pagination", {
+          attrs: { total: _vm.pagination.total },
+          on: { paginate: _vm.paginate }
+        })
+      ],
+      1
+    )
   ])
 }
 var staticRenderFns = []
@@ -37779,6 +38140,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/admin/components/elements/pagination/pagination.vue":
+/*!**************************************************************************!*\
+  !*** ./resources/js/admin/components/elements/pagination/pagination.vue ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _pagination_vue_vue_type_template_id_2dd34d3c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./pagination.vue?vue&type=template&id=2dd34d3c&scoped=true& */ "./resources/js/admin/components/elements/pagination/pagination.vue?vue&type=template&id=2dd34d3c&scoped=true&");
+/* harmony import */ var _pagination_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pagination.vue?vue&type=script&lang=js& */ "./resources/js/admin/components/elements/pagination/pagination.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _pagination_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _pagination_vue_vue_type_template_id_2dd34d3c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _pagination_vue_vue_type_template_id_2dd34d3c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "2dd34d3c",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/admin/components/elements/pagination/pagination.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/admin/components/elements/pagination/pagination.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************!*\
+  !*** ./resources/js/admin/components/elements/pagination/pagination.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_pagination_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../../node_modules/vue-loader/lib??vue-loader-options!./pagination.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/admin/components/elements/pagination/pagination.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_pagination_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/admin/components/elements/pagination/pagination.vue?vue&type=template&id=2dd34d3c&scoped=true&":
+/*!*********************************************************************************************************************!*\
+  !*** ./resources/js/admin/components/elements/pagination/pagination.vue?vue&type=template&id=2dd34d3c&scoped=true& ***!
+  \*********************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_pagination_vue_vue_type_template_id_2dd34d3c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../node_modules/vue-loader/lib??vue-loader-options!./pagination.vue?vue&type=template&id=2dd34d3c&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/admin/components/elements/pagination/pagination.vue?vue&type=template&id=2dd34d3c&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_pagination_vue_vue_type_template_id_2dd34d3c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_pagination_vue_vue_type_template_id_2dd34d3c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/admin/components/elements/tree/folder.vue":
 /*!****************************************************************!*\
   !*** ./resources/js/admin/components/elements/tree/folder.vue ***!
@@ -38745,7 +39175,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    updateActiveStatus: function updateActiveStatus(contentId, active) {
+    getPaginatedContentList: function getPaginatedContentList(structureId, orderBy, way, page, perPage) {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
@@ -38754,9 +39184,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
-                return _this3.$http.patch("/api/content/".concat(contentId, "/active"), {
-                  active: active
-                });
+                return _this3.$http.get("/api/content/".concat(structureId, "/pagination?locale=").concat(_this3.$store.state.app.content_language) + "&orderBy=".concat(orderBy, "&way=").concat(way, "&page=").concat(page, "&perPage=").concat(perPage));
 
               case 2:
                 return _context3.abrupt("return", _context3.sent);
@@ -38769,7 +39197,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
-    up: function up(contentId, structureId) {
+    updateActiveStatus: function updateActiveStatus(contentId, active) {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
@@ -38778,8 +39206,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.next = 2;
-                return _this4.$http.patch("/api/content/".concat(contentId, "/").concat(structureId, "/up"), {
-                  locale: _this4.$store.state.app.content_language
+                return _this4.$http.patch("/api/content/".concat(contentId, "/active"), {
+                  active: active
                 });
 
               case 2:
@@ -38793,7 +39221,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4);
       }))();
     },
-    down: function down(contentId, structureId) {
+    up: function up(contentId, structureId) {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
@@ -38802,7 +39230,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context5.prev = _context5.next) {
               case 0:
                 _context5.next = 2;
-                return _this5.$http.patch("/api/content/".concat(contentId, "/").concat(structureId, "/down"), {
+                return _this5.$http.patch("/api/content/".concat(contentId, "/").concat(structureId, "/up"), {
                   locale: _this5.$store.state.app.content_language
                 });
 
@@ -38815,6 +39243,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee5);
+      }))();
+    },
+    down: function down(contentId, structureId) {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _context6.next = 2;
+                return _this6.$http.patch("/api/content/".concat(contentId, "/").concat(structureId, "/down"), {
+                  locale: _this6.$store.state.app.content_language
+                });
+
+              case 2:
+                return _context6.abrupt("return", _context6.sent);
+
+              case 3:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
       }))();
     }
   }
