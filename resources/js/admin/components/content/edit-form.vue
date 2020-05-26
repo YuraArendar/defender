@@ -75,9 +75,21 @@
             }
         },
         created() {
-            this.form.structure_id = parseInt(this.$route.params.id);
+            this.init();
         },
         methods: {
+            init() {
+                let structureId = this.$route.params.id || this.$route.params.structureId;
+                let contentId = parseInt(this.$route.params.contentId) || null;
+                console.log(structureId, contentId);
+                this.form.structure_id = parseInt(structureId);
+                this.form.id = contentId;
+                this.id = contentId;
+
+                if (this.id) {
+                    this.loadData();
+                }
+            },
             save() {
                 if (this.id) {
                     this.update();
@@ -85,8 +97,20 @@
                     this.create();
                 }
             },
+            loadData() {
+                this.getContentById(this.id)
+                    .then(response => {
+                        this.values(response.data);
+                    })
+            },
             update() {
-
+                this.updateContent(this.id, this.form)
+                    .then(response => {
+                        this.$toasted.success('Saved', SUCCESS_TOAST);
+                    })
+                    .catch(error => {
+                        this.errors(error.response.data.errors);
+                    })
             },
             create() {
                 this.addNewArticle(this.form)

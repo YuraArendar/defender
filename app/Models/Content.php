@@ -60,6 +60,11 @@ class Content extends Model
         return $this->belongsTo(Structure::class);
     }
 
+    public function meta()
+    {
+        return $this->hasOne(ContentMeta::class);
+    }
+
     /**
      * @param Builder $query
      * @return Builder

@@ -43,7 +43,7 @@
                 <tbody>
                 <tr v-for="(item, index) in list">
                     <td>{{item.id}}</td>
-                    <td>{{item.name || item.id}}</td>
+                    <td><router-link class="is-link" :to="{name: 'edit_content', params: {structureId: structure_id, contentId: item.id}}">{{item.name || item.id}}</router-link></td>
                     <td>
                         <a-switch @change="setActive($event, item.id)" name="" v-model="item.active"></a-switch>
                     </td>
@@ -79,9 +79,10 @@
     import Pagination from '../../components/elements/pagination/pagination';
 
     import content from "../../mixins/api/content";
+    import common from "../../mixins/app/common";
 
     export default {
-        mixins: [content],
+        mixins: [content, common],
         data() {
             return {
                 list: [],
@@ -192,6 +193,14 @@
                         this.pagination.lastId = responseContent.data.pagination.lastItem;
                         this.list = responseContent.data.items;
                     });
+            },
+            changeLanguage() {
+                this.getPaginatedContentList(this.structure_id, this.order, this.way, this.pagination.current, this.pagination.perPage)
+                    .then(responseContent => {
+                        this.pagination.firstId = responseContent.data.pagination.firstItem;
+                        this.pagination.lastId = responseContent.data.pagination.lastItem;
+                        this.list = responseContent.data.items;
+                    });
             }
         },
         computed: {
@@ -224,6 +233,11 @@
                 }
 
                 return 'desc';
+            },
+        },
+        watch: {
+            content_language(language) {
+                this.changeLanguage();
             }
         },
         components: {

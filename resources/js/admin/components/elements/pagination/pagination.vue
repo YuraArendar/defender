@@ -1,31 +1,44 @@
 <template>
-    <nav v-if="show" class="pagination" role="navigation" aria-label="pagination">
-        <a v-if="showPrevious" class="pagination-previous" @click="previous">Previous</a>
-        <a v-if="showNext" class="pagination-next" @click="next">Next page</a>
-        <ul class="pagination-list">
-            <li v-if="showFirstPage">
-                <a class="pagination-link" :aria-label="`Goto first page`" @click="first">{{firstPage}}</a>
-            </li>
-            <li v-if="showDotsBefore">
-                <span class="pagination-ellipsis">&hellip;</span>
-            </li>
-            <li v-if="showPrevious">
-                <a class="pagination-link" :aria-label="`Goto page ${previousPage}`"
-                   @click="previous">{{previousPage}}</a>
-            </li>
-            <li>
-                <a class="pagination-link is-current" :aria-label="`Page ${currentPage}`" aria-current="page">{{currentPage}}</a>
-            </li>
-            <li v-if="showNext">
-                <a class="pagination-link" :aria-label="`Goto page ${nextPage}`" @click="next">{{nextPage}}</a>
-            </li>
-            <li v-if="showDotsAfter">
-                <span class="pagination-ellipsis">&hellip;</span>
-            </li>
-            <li v-if="showLastPage">
-                <a class="pagination-link" :aria-label="`Goto page ${lastPage}`" @click="last">{{lastPage}}</a>
-            </li>
-        </ul>
+    <nav >
+        <div class="container columns">
+            <div class="column">
+                <ul v-if="show" class="pagination-list">
+                    <li v-if="showFirstPage">
+                        <a class="pagination-link" :aria-label="`Goto first page`" @click="first">{{firstPage}}</a>
+                    </li>
+                    <li v-if="showDotsBefore">
+                        <span class="pagination-ellipsis">&hellip;</span>
+                    </li>
+                    <li v-if="showPrevious">
+                        <a class="pagination-link" :aria-label="`Goto page ${previousPage}`"
+                           @click="previous">{{previousPage}}</a>
+                    </li>
+                    <li>
+                        <a class="pagination-link is-current" :aria-label="`Page ${currentPage}`" aria-current="page">{{currentPage}}</a>
+                    </li>
+                    <li v-if="showNext">
+                        <a class="pagination-link" :aria-label="`Goto page ${nextPage}`" @click="next">{{nextPage}}</a>
+                    </li>
+                    <li v-if="showDotsAfter">
+                        <span class="pagination-ellipsis">&hellip;</span>
+                    </li>
+                    <li v-if="showLastPage">
+                        <a class="pagination-link" :aria-label="`Goto page ${lastPage}`" @click="last">{{lastPage}}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="column">
+                <div class="buttons has-addons per-page-block is-pulled-right">
+                    <button v-for="count in perPageValues" @click="changePerPage(count)"
+                            :class="['button', {'is-link': perPage === count}, {'is-selected': perPage === count}]">
+                        {{count}}
+                    </button>
+                </div>
+                <a v-if="showPrevious && show" class="pagination-previous" @click="previous">Previous</a>
+                <a v-if="showNext && show" class="pagination-next" @click="next">Next page</a>
+            </div>
+        </div>
+
     </nav>
 </template>
 
@@ -39,7 +52,8 @@
                 currentPage: 1,
                 perPage: PER_PAGE_DEFAULT,
                 firstPage: 1,
-                totalItems: 0
+                totalItems: 0,
+                perPageValues: [2, 10, 50, 100]
             }
         },
         created() {
@@ -75,10 +89,20 @@
             setPerPage() {
                 if (this.$cookies.get('perPage')) {
                     this.perPage = parseInt(this.$cookies.get('perPage'));
+
+                    if (!this.perPageValues.includes(this.perPage)) {
+                        this.perPage = PER_PAGE_DEFAULT;
+                        this.$cookies.set('perPage', this.perPage);
+                    }
                 } else {
                     this.perPage = PER_PAGE_DEFAULT;
                     this.$cookies.set('perPage', this.perPage);
                 }
+            },
+            changePerPage(perPage) {
+                this.perPage = perPage;
+                this.$cookies.set('perPage', this.perPage);
+                this.paginate(1);
             }
         },
         watch: {
@@ -122,5 +146,8 @@
 </script>
 
 <style scoped>
-
+    .per-page-block {
+        display: inline-block;
+        margin-top: 0.2em;
+    }
 </style>

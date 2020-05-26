@@ -4,7 +4,6 @@ namespace App\Admin\Services;
 
 use App\Admin\Contracts\EntitiesOperationsContractor;
 use App\Models\Content;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\QueryException;
 
 /**

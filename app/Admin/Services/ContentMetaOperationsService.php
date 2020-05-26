@@ -3,32 +3,33 @@
 namespace App\Admin\Services;
 
 use App\Admin\Contracts\EntitiesOperationsContractor;
-use App\Models\Structure;
-use App\Models\StructureMeta;
+use App\Models\Content;
+use App\Models\ContentMeta;
 
 /**
- * Class StructureMetaOperationsService
+ * Class ContentMetaOperationsService
  * @package App\Admin\Services
  */
-class StructureMetaOperationsService implements EntitiesOperationsContractor
+class ContentMetaOperationsService implements EntitiesOperationsContractor
 {
     /**
      * @param array $parameters
-     * @return StructureMeta
+     * @return ContentMeta
      */
-    public function store(array $parameters): StructureMeta
+    public function store(array $parameters): ContentMeta
     {
-        return StructureMeta::create($parameters);
+        return ContentMeta::create($parameters);
     }
 
     /**
      * @param int $id
      * @param array $parameters
-     * @return StructureMeta
+     * @return ContentMeta
      */
-    public function update(int $id, array $parameters): StructureMeta
+    public function update(int $id, array $parameters): ContentMeta
     {
-        $meta = StructureMeta::findOrFail($id);
+        $meta = ContentMeta::findOrFail($id);
+
         $meta->update($parameters);
 
         return $meta;

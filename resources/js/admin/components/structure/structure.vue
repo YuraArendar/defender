@@ -44,17 +44,11 @@
                     .then(response => {
                        this.rebuildStructure()
                     })
-                    .catch(error => {
-                        console.log(error)
-                    })
             },
             down(node) {
                 this.moveDown(node.id)
                     .then(response => {
                         this.rebuildStructure()
-                    })
-                    .catch(error => {
-                        console.log(error)
                     })
             },
             rebuildStructure() {
@@ -65,9 +59,6 @@
                         if (this.$route.name === 'edit_structure') {
                             this.setActiveStructure(this.$route.params.id);
                         }
-                    })
-                    .catch(error => {
-                        console.log(error)
                     })
             }
         },

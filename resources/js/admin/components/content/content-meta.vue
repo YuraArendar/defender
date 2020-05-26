@@ -34,12 +34,12 @@
     import ATextarea from '../elements/inputs/a-textarea';
     import ASwitch from '../elements/inputs/a-switch';
 
-    import structure_meta from "../../mixins/api/structure_meta";
+    import content_meta from "../../mixins/api/content_meta";
     import common from "../../mixins/app/common";
     import {SUCCESS_TOAST} from "../../options/toast";
 
     export default {
-        mixins: [structure_meta, common],
+        mixins: [content_meta, common],
         data() {
             return {
                 id: null,
@@ -51,7 +51,7 @@
                     noindex: false,
                     title: null,
                     description: null,
-                    structure_id: null
+                    content_id: null
                 },
                 inputErrors: {
                     title: null,
@@ -60,9 +60,9 @@
             }
         },
         created() {
-            if (this.$route.params.id) {
-                this.form.structure_id = parseInt(this.$route.params.id);
-                this.loadData(this.$route.params.id);
+            if (this.$route.params.contentId) {
+                this.form.content_id = parseInt(this.$route.params.contentId);
+                this.loadData(this.$route.params.contentId);
             }
         },
         methods: {

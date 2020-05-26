@@ -8,19 +8,16 @@
             </div>
             <div class="tabs">
                 <ul>
-                    <li :class="{'is-active': $route.name === 'edit_structure'}">
-                        <router-link class="is-link" :to="{name: 'edit_structure', params: {id: $route.params.id}}">
+                    <li :class="{'is-active': $route.name === 'edit_content'}">
+                        <router-link class="is-link" :to="{name: 'edit_content',
+                        params: {structureId: $route.params.structureId, contentId: $route.params.contentId}}">
                             <font-awesome-icon icon="edit"/>&nbsp;&nbsp;{{$t('edit')}}
                         </router-link>
                     </li>
-                    <li :class="{'is-active': $route.name === 'meta_structure'}">
-                        <router-link class="is-link" :to="{name: 'meta_structure', params: {id: $route.params.id}}">
+                    <li :class="{'is-active': $route.name === 'meta_content'}">
+                        <router-link class="is-link" :to="{name: 'meta_content',
+                        params: {structureId: $route.params.structureId, contentId: $route.params.contentId}}">
                             <font-awesome-icon icon="globe"/>&nbsp;&nbsp;{{$t('meta')}}
-                        </router-link>
-                    </li>
-                    <li v-if="showContentLink" :class="{'is-active': ['content_structure', 'add_content'].includes($route.name)}">
-                        <router-link class="is-link" :to="{name: 'content_structure', params: {id: $route.params.id}}">
-                            <font-awesome-icon icon="book"/>&nbsp;&nbsp;{{$t('content')}}
                         </router-link>
                     </li>
                 </ul>
@@ -33,19 +30,20 @@
 </template>
 
 <script>
-    import LocaleChanger from '../elements/lang/locale-changer';
-    import {SET_CONTENT_LANGUAGE} from "../../store/app/mutations";
+    import LocaleChanger from "../elements/lang/locale-changer";
     import {mapMutations} from "vuex";
+    import {SET_CONTENT_LANGUAGE} from "../../store/app/mutations";
+
     import site_structure from "../../mixins/app/site_structure";
 
     export default {
         mixins: [site_structure],
+        name: "edit",
         data() {
             return {
                 currentStructure: null
             }
         },
-        name: "edit",
         components: {
             LocaleChanger
         },
@@ -74,9 +72,6 @@
 
                 return '';
             },
-            showContentLink() {
-                return this.currentStructure !== null && ['gallery', 'list'].includes(this.currentStructure.controller)
-            }
         }
     }
 </script>
