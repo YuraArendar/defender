@@ -25,8 +25,8 @@ class CreateContentsTable extends Migration
             $table->index('created_at');
             $table->index('updated_at');
             $table->index(['structure_id', 'active', 'publish_at', 'position'], 'active_content');
-            $table->index(['structure_id', 'active', 'publish_at', 'created_at'], 'content_by_date');
-            $table->index(['structure_id', 'active', 'publish_at', 'updated_at'], 'content_by_date');
+            $table->index(['structure_id', 'active', 'publish_at', 'created_at'], 'content_by_created_date');
+            $table->index(['structure_id', 'active', 'publish_at', 'updated_at'], 'content_by_updated_date');
         });
     }
 
