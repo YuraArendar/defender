@@ -22,3 +22,5 @@ Route::middleware(['auth:api', 'locale'])->prefix('api')->group(static function 
 
     Route::resource('content-meta', 'ContentMetaController')->except(['edit', 'create', 'index', 'destroy']);
 });
+
+//test changes
